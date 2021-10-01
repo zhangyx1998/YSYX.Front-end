@@ -1,0 +1,11 @@
+# Deploy
+config.json
+# IDE/Editor Configurations
+.vscode
+# NPM related
+package-lock.json
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local

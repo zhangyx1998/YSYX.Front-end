@@ -1,0 +1,39 @@
+.button {
+    cursor: pointer;
+    user-select: none;
+}
+
+.button.disabled {
+    cursor: not-allowed;
+    filter: saturate(0);
+}
+
+
+/* seamless */
+
+.button-seamless {
+    align-items: center;
+    /* line-height: 100%; */
+    border-radius: 0.2em;
+    padding: 0 0.5em;
+    background: none;
+    transition: 200ms;
+}
+
+.button-seamless:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+
+/* top-right corner floating button */
+
+.cross-button {
+    position: absolute;
+    right: 0.6rem;
+    top: 0.6rem;
+    padding: 0.2rem;
+    margin: 0 !important;
+    font-size: 1.5rem;
+    border-radius: 0.8em;
+    backdrop-filter: blur(10px);
+}
