@@ -1,8 +1,9 @@
-import { assert } from '/util/diagnostics';
 import { sha256 } from '/util/crypto.js'
 import { digVal } from '/util/object.js';
+import { Callable } from '/util/Callable.js';
 
-export class Session {
+export class Session extends Callable {
+	static get _name_() { return 'Session'; }
 	static data = {
 		login: false,
 		ID: '',
@@ -17,12 +18,11 @@ export class Session {
 			.then(res => res.json())
 			.then(res => {
 				if (digVal(res, 'login')) {
-					Session.data.ID = ID;
-					Session.call('login');
+					Session.call('login', res);
 				} else {
-					Session.data.ID = '';
 					Session.call('logout');
 				}
+				return res;
 			});
 	}
 	// Convenience API
@@ -58,54 +58,21 @@ export class Session {
 		// 	return res;
 		// })
 	}
-	// callback handler
-	static #callback = {};
-	/**
-	 * Register a new callback fn
-	 * @param {string} event 
-	 * @param {function} callback 
-	 */
-	static on(event, callback) {
-		event = event.toLowerCase();
-		if (event in this.#callback) {
-			assert(Array.isArray(this.#callback[event]));
-			this.#callback[event].push(callback);
-		} else {
-			this.#callback[event] = [callback];
-		}
-	}
-	/**
-	 * Dispatch a event specified by event.
-	 * @param {string} event 
-	 * @param  {...any} args 
-	 */
-	static call(event, ...args) {
-		event = event.toLowerCase();
-		console.log(`[Session] event '${event}' dispatched.`);
-		if (event in this.#callback) {
-			for (const callback of this.#callback[event]) {
-				try {
-					callback(...args);
-				} catch (e) {
-					console.log(`[Session callback] ${e}`);
-				}
-			}
-		}
-	}
 }
 
 Session.on('init', () => {
 	Session
 		.post('state')
 		.then(res => res.json())
-		.then(({ login }) => {
-			Session.call(login ? 'login' : 'logout')
-		}
-		);
+		.then(res => {
+			const { login } = res;
+			Session.call(login ? 'login' : 'logout', res);
+		});
 });
 
-Session.on('login', () => {
-	Session.login = true;
+Session.on('login', ({ ID }) => {
+	Session.data.ID = ID;
+	Session.data.login = true;
 	Session
 		.post('UserProfile')
 		.then(res => res.json())
@@ -115,11 +82,8 @@ Session.on('login', () => {
 });
 
 Session.on('logout', () => {
-	Session.login = false;
-});
-
-
-Session.on('Profile', data => {
-	console.log(data)
-	Session.data.Profile = Object.assign({}, data);
+	Session.data.login = false;
+	Session.data.ID = '';
+	Session.data.Profile = {};
+	Session.call('Profile', {});
 });
