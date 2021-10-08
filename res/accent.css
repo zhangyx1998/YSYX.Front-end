@@ -2,6 +2,7 @@
 	--accent: #1b4a81;
 	--accent-bright: #2d7ad2;
 	--accent-dark: #263240;
+	--accent-light: hsl(212, 50%, 90%);
 	--red: #900000;
 	--gray: #666666;
 }

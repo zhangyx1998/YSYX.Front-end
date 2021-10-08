@@ -1,7 +1,7 @@
 import { withCtx } from '@vue/runtime-core';
 import { Callable } from '/util/Callable.js';
 export class Popup extends Callable {
-	static get _name_() { return 'Popup'; }
+	static get _name_() { return 'View.Popup'; }
 	static #stack = [];
 	static get ID() {
 		if (this.#stack.length > 0)
@@ -35,20 +35,27 @@ export class Popup extends Callable {
 		const ID = this.ID;
 		for (const el of this.#list) {
 			el.show = el.ID === ID;
-		}
+		};
+		this.call('change');
 	}
 }
 
 export class AppView extends Callable {
-	static get _name_() { return 'View.App'; }
+	static get _name_() { return 'View.AppView'; }
 	static #view = '';
-	// static set module(module) {
-	// 	this.#module = module;
-	// 	this.call('viewChange', this.module);
-	// }
-	// static get module() { return this.#module; }
-	// History API
-	// static stepForward(path) {
-	// 	;
-	// }
+	static #appList = {};
+	static register(moduleName, module) {
+		this.#appList[moduleName] = module;
+	}
+	static navigate(moduleName) {
+		// if ()
+	}
+}
+
+export class InfoBubble extends Callable {
+	static #infoQueue = [];
+	static get TIMEOUT() { return 3000; }
+	static push(el) {
+		// const 
+	}
 }

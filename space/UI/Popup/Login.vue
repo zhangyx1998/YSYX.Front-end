@@ -13,12 +13,19 @@ import Button from "../Common/Button.vue";
                 placeholder="Password"
                 type="password"
             />
-            <Button
-                type="seamless"
-                icon="codicon codicon-account"
-                name="Login"
-                @click="login()"
-            />
+			<div style="display: flex; justify-content: end; font-size: 0.9em">
+				<Button
+					type="seamless"
+					icon=""
+					name="Apply"
+				/>
+				<Button
+					type="seamless"
+					icon="codicon codicon-account"
+					name="Login"
+					@click="login()"
+				/>
+			</div>
         </div>
     </div>
 </template>

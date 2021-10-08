@@ -14,7 +14,7 @@ import Button from "./Common/Button.vue";
                 opacity: 0.5;
             "
         ></span>
-        <span style="margin-left: 0; display: flex; color: var(--accent-dark)">
+        <span style="margin-left: 0; display: flex; color: var(--accent-dark); font-weight: 400; opacity: 0.8">
             <span zh-cn>个人空间</span>
             <span en-us>User Space</span>
         </span>
