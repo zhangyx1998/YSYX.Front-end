@@ -25,7 +25,7 @@ import Button from "../Common/Button.vue";
 
 <script>
 import { Session } from "/space/Session.js";
-import { View } from "/space/View.js";
+import { Popup, AppView } from "/space/View.js";
 export default {
     data() {
         return {
@@ -43,7 +43,7 @@ export default {
                 ({ login }) => {
                     this.pend = false;
                     if (login) {
-                        View.Popup.close(this);
+                        Popup.close(this);
                     } else {
                         alert("login failed");
                     }
@@ -53,9 +53,9 @@ export default {
     },
     created() {
         window.LoginPopup = this;
-		View.Popup.register(this);
+		Popup.register(this);
         Session.on("logout", () => {
-			View.Popup.show(this);
+			Popup.show(this);
         });
     },
 };

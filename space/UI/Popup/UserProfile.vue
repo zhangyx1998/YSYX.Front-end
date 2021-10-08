@@ -14,7 +14,7 @@ import Button from "../Common/Button.vue";
                 type="seamless"
                 icon=""
                 name="close"
-                @click="View.Popup.close(this)"
+                @click="Popup.close(this)"
             />
             <Button
                 type="seamless"
@@ -28,7 +28,7 @@ import Button from "../Common/Button.vue";
 
 <script>
 import { Session } from "/space/Session.js";
-import { View } from "/space/View.js";
+import { Popup, AppView } from "/space/View.js";
 export default {
     data() {
         return {
@@ -50,8 +50,8 @@ export default {
     created() {
         // Window management
         window.UserProfilePopup = this;
-        View.Popup.register(this);
-        View.Popup.on("UserProfile", () => View.Popup.show(this));
+        Popup.register(this);
+        Popup.on("UserProfile", () => Popup.show(this));
         // Data management
         Session.on("Profile", (Profile) => {
             this.Profile = Profile;

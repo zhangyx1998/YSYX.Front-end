@@ -23,14 +23,14 @@ import Button from "./Common/Button.vue";
             type="seamless"
             icon="codicon codicon-account"
             :name="displayName()"
-            @click="View.Popup.call('UserProfile')"
+            @click="Popup.call('UserProfile')"
         />
     </div>
 </template>
 
 <script>
 import { Session } from "/space/Session.js";
-import { View } from "/space/View.js"
+import { Popup, AppView } from "/space/View.js"
 export default {
     data() {
         return {
