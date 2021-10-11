@@ -43,12 +43,11 @@ export class Popup extends Callable {
 export class AppView extends Callable {
 	static get _name_() { return 'View.AppView'; }
 	static #view = '';
+	static get module() { return this.#view; };
 	static #appList = {};
-	static register(moduleName, module) {
-		this.#appList[moduleName] = module;
-	}
-	static navigate(moduleName) {
-		// if ()
+	static navigate(module) {
+		this.#view = module;
+		this.call('change');
 	}
 }
 

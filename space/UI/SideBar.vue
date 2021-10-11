@@ -1,5 +1,5 @@
 <script setup>
-import SideBarEntry from "./SideBar/Entry.vue";
+import Entry from "./SideBar/Entry.vue";
 </script>
 
 <template>
@@ -10,10 +10,10 @@ import SideBarEntry from "./SideBar/Entry.vue";
 			style="width: 100%"
 		>
 			<div class="roleWrapper" v-if="role.show">
-				<div class="roleName" en-us>{{ role["en-us"] }}</div>
-				<div class="roleName" zh-cn>{{ role["zh-cn"] }}</div>
+				<div class="roleName" en-US>{{ role["en-US"] }}</div>
+				<div class="roleName" zh-CN>{{ role["zh-CN"] }}</div>
 				<span v-for="(el, moduleID) in LUT" :key="moduleID">
-					<SideBarEntry
+					<Entry
 						v-if="el.show && (el.role === roleName)"
 						:MODULE_ID="moduleID"
 					/>
@@ -33,18 +33,18 @@ export default {
 			roles: {
 				WebAdmin: {
 					show: false,
-					"zh-cn": "站点管理",
-					"en-us": "Site Admin",
+					"zh-CN": "站点管理",
+					"en-US": "Site Admin",
 				},
 				TAssistant: {
 					show: false,
-					"zh-cn": "项目管理",
-					"en-us": "Project Admin",
+					"zh-CN": "项目管理",
+					"en-US": "Project Admin",
 				},
 				Participant: {
 					show: false,
-					"zh-cn": "参与项目",
-					"en-us": "Participant",
+					"zh-CN": "参与项目",
+					"en-US": "Participant",
 				},
 			},
 		};
@@ -60,7 +60,6 @@ export default {
 		window.SideBar = this;
 		Session.on("login", () => {
 			Session.post("Modules")
-				.then((res) => res.json())
 				.then(({ Modules }) => {
 					for (const module in this.LUT) {
 						const show = Modules.indexOf(module) >= 0;
@@ -78,8 +77,8 @@ export const LUT = {
 		role: "Participant",
 		icon: "far fa-compass",
 		name: {
-			"zh-cn": "项目规划",
-			"en-us": "Study Plan",
+			"zh-CN": "项目规划",
+			"en-US": "Study Plan",
 		},
 		show: false,
 	},
@@ -87,8 +86,8 @@ export const LUT = {
 		role: "Participant",
 		icon: "fas fa-tasks",
 		name: {
-			"zh-cn": "进度记录",
-			"en-us": "Prog. Report",
+			"zh-CN": "进度记录",
+			"en-US": "Prog. Report",
 		},
 		show: false,
 	},
@@ -96,8 +95,8 @@ export const LUT = {
 		role: "TAssistant",
 		icon: "fas fa-chalkboard-teacher",
 		name: {
-			"zh-cn": "讲座管理",
-			"en-us": "Lecture Mgn",
+			"zh-CN": "讲座管理",
+			"en-US": "Lecture Mgn",
 		},
 		show: false,
 	},
@@ -105,8 +104,8 @@ export const LUT = {
 		role: "TAssistant",
 		icon: "fab fa-buffer",
 		name: {
-			"zh-cn": "待处理请求",
-			"en-us": "Pending Req.",
+			"zh-CN": "待处理请求",
+			"en-US": "Pending Req.",
 		},
 		show: false,
 	},
@@ -114,8 +113,8 @@ export const LUT = {
 		role: "TAssistant",
 		icon: "fas fa-calendar-check",
 		name: {
-			"zh-cn": "学生进度检查",
-			"en-us": "Prog. Inspect",
+			"zh-CN": "学生进度检查",
+			"en-US": "Prog. Inspect",
 		},
 		show: false,
 	},
@@ -123,8 +122,8 @@ export const LUT = {
 		role: "TAssistant",
 		icon: "fas fa-users",
 		name: {
-			"zh-cn": "我的分组",
-			"en-us": "Assign Group",
+			"zh-CN": "我的分组",
+			"en-US": "Assign Group",
 		},
 		show: false,
 	},
@@ -132,8 +131,8 @@ export const LUT = {
 		role: "TAssistant",
 		icon: "fas fa-file-import",
 		name: {
-			"zh-cn": "待审核申请",
-			"en-us": "Pending App.",
+			"zh-CN": "待审核申请",
+			"en-US": "Pending App.",
 		},
 		show: false,
 	},
@@ -141,8 +140,8 @@ export const LUT = {
 		role: "WebAdmin",
 		icon: "fas fa-chart-pie",
 		name: {
-			"zh-cn": "统计分析",
-			"en-us": "Site analytics",
+			"zh-CN": "统计分析",
+			"en-US": "Site analytics",
 		},
 		show: false,
 	},
@@ -150,8 +149,8 @@ export const LUT = {
 		role: "WebAdmin",
 		icon: "fas fa-users-cog",
 		name: {
-			"zh-cn": "权限管理",
-			"en-us": "Priv. manage",
+			"zh-CN": "权限管理",
+			"en-US": "Priv. manage",
 		},
 		show: false,
 	},
@@ -177,7 +176,7 @@ export const LUT = {
 }
 
 .roleWrapper div {
-	padding: 0.5em var(--Padding);
+	padding: 0.5em var(--padding);
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -189,25 +188,26 @@ export const LUT = {
 	font-size: 0.9em;
 }
 
-.SideBarEntry {
-	color: var(--accent-dark);
+.Entry {
+	color: var(--gray);
 	display: flex;
 	align-items: center;
 	font-size: 1.1em;
+	font-weight: 400;
 	border-right: 0.3em solid transparent;
 }
 
-.SideBarEntry:not(.active):hover {
+.Entry:not(.active):hover {
 	background-color: rgba(0, 0, 0, 0.08)
 }
 
-.SideBarEntry:not(.active):active {
+.Entry:not(.active):active {
 	background-color: rgba(0, 0, 0, 0.12)
 }
 
-.SideBarEntry.active {
+.Entry.active {
+	color: var(--accent-dark);
 	background: var(--accent-light);
 	border-right: 0.3em solid var(--accent);
-	font-weight: bold;
 }
 </style>

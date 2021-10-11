@@ -7,30 +7,170 @@ defineProps({
 </script>
 
 <template>
-	<div class="button" :class="type">
-		<i v-if="icon" :class="icon" style="font-size: 1.1em; margin-right: 0.2em"></i>
-		<span style="display: inline-flex; font-size: 0.9em; padding: 0; margin: 0">{{ name }}</span>
+	<div
+		button
+		:class="type"
+		@keydown.enter="$emit('click')"
+		@mousedown="mouseDown"
+		@focus="focus"
+		:tabindex="!disabled ? '0' : ''"
+		ref="el"
+	>
+		<i
+			v-if="icon"
+			:class="icon"
+			style="font-size: 1.1em; margin-right: 0.3em"
+		></i>
+		<span
+			style="
+				display: inline-flex;
+				font-size: 0.9em;
+				padding: 0;
+				margin: 0;
+			"
+			>{{ name }}</span
+		>
+		<span style="display: hidden" tabindex="-1" ref="pseudo"></span>
 	</div>
 </template>
 
+<script>
+let _focus_by_mouse_ = false;
+export default {
+	methods: {
+		focus() {
+			if (_focus_by_mouse_) {
+				this.$refs.pseudo.focus();
+			}
+			_focus_by_mouse_ = false;
+		},
+		mouseDown() {
+			_focus_by_mouse_ = true;
+			this.$refs.pseudo.focus();
+		},
+	},
+	computed: {
+		disabled() {
+			return (
+				(Array.isArray(this.type)
+					? this.type
+					: this.type.split(" ")
+				).indexOf("disabled") >= 0
+			);
+		},
+	},
+};
+</script>
+
 <style>
-div.button {
-	border-radius: 0.2em;
+:root {
+	/* Default values */
+	--button-margin: 0.4em;
+	--button-padding: 0.4em 0.6em;
+	--button-focus-outline-color: var(--accent-bright);
+}
+</style>
+
+<style scoped>
+[button] {
+	/* Appearence */
 	display: flex;
-	padding: 0.2em 0.3em;
+	cursor: pointer;
 	align-items: center;
+	border-radius: 0.2em;
+	margin: var(--button-margin);
+	padding: var(--button-padding);
 }
-div.button > * {
+
+[button] > * {
 	display: flex;
 }
-/* button.seamless */
-div.button.seamless:hover {
+
+[button]:focus {
+	outline-style: solid;
+	outline-width: 2px;
+	outline-color: var(--button-focus-outline-color);
+}
+/* seamless */
+[button].seamless:not(.disabled):hover {
 	background-color: rgba(0, 0, 0, 0.1);
 }
-div.button.seamless:active {
+[button].seamless:not(.disabled):active {
 	background-color: rgba(0, 0, 0, 0.2);
 }
-/* button.positive */
-/* button.negative */
-/* button.disabled */
+/* colored */
+[button].colored {
+	font-weight: 500;
+	line-height: 1em;
+	border-radius: 6px;
+	border: 0.08em solid var(--borderPrime);
+	background-color: var(--color-Prime);
+}
+
+[button].colored:not(.disabled):hover {
+	border: 0.08em solid var(--borderHover);
+	background-color: var(--color-Hover);
+}
+
+[button].colored:not(.disabled):active {
+	border: 0.08em solid var(--borderPress);
+	background-color: var(--color-Press);
+}
+/* colored green */
+[button].colored.green {
+	color: white;
+	--color-Prime: hsl(132, 48%, 36%);
+	--color-Hover: hsl(132, 44%, 40%);
+	--color-Press: hsl(132, 42%, 44%);
+	--borderPrime: hsl(132, 48%, 36%);
+	--borderHover: hsl(132, 44%, 40%);
+	--borderPress: hsl(132, 42%, 44%);
+	--button-focus-outline-color: hsl(40, 100%, 50%);
+}
+/* colored blue */
+[button].colored.blue {
+	color: white;
+	--color-Prime: hsl(217, 48%, 36%);
+	--color-Hover: hsl(217, 44%, 40%);
+	--color-Press: hsl(217, 42%, 44%);
+	--borderPrime: hsl(217, 48%, 36%);
+	--borderHover: hsl(217, 44%, 40%);
+	--borderPress: hsl(217, 42%, 44%);
+	--button-focus-outline-color: hsl(40, 100%, 50%);
+}
+/* colored red */
+[button].colored.red {
+	color: white;
+	--color-Prime: hsl(0, 48%, 36%);
+	--color-Hover: hsl(0, 44%, 40%);
+	--color-Press: hsl(0, 42%, 44%);
+	--borderPrime: hsl(0, 48%, 36%);
+	--borderHover: hsl(0, 44%, 40%);
+	--borderPress: hsl(0, 42%, 44%);
+	--button-focus-outline-color: hsl(40, 100%, 50%);
+}
+/* colored gray */
+[button].colored.gray {
+	color: hsla(0, 0%, 0%, 0.48);
+	--color-Prime: hsla(0, 0%, 0%, 0.08);
+	--color-Hover: hsla(0, 0%, 0%, 0.06);
+	--color-Press: hsla(0, 0%, 0%, 0.04);
+	--borderPrime: hsla(0, 0%, 0%, 0.12);
+	--borderHover: hsla(0, 0%, 0%, 0.48);
+	--borderPress: hsla(0, 0%, 0%, 0.3);
+}
+/* link */
+[button].link {
+	padding-left: 0;
+	padding-right: 0;
+	text-decoration: underline;
+	color: var(--gray-bright);
+}
+[button].link:not(.disabled):hover {
+	color: var(--gray-dark);
+}
+/* disabled */
+[button].disabled {
+	pointer-events: none;
+}
 </style>

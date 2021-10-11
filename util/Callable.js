@@ -35,7 +35,8 @@ export class Callable {
 				try {
 					callback(...args);
 				} catch (e) {
-					console.log(`[${this._name_ || 'Callable'} callback] ${e}`);
+					console.log(`[${this._name_ || 'Callable'} callback] Error calling ${event}`);
+					console.log(e.stack);
 				}
 			}
 		}

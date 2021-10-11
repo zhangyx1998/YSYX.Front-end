@@ -1,0 +1,25 @@
+[w100] {
+	width: 100%;
+}
+
+[user-select] {
+	user-select: text;
+}
+
+[h-rule] {
+	border-top: 0.06em solid var(--gray-brighter);
+}
+
+[underline] {
+	text-decoration: underline;
+}
+
+[bold] {
+	font-weight: bold;
+}
+
+[flex-row] {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+}

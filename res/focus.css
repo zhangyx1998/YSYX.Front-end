@@ -1,0 +1,8 @@
+[focus-expand]:not(:focus):not(:focus-within) [focus-only] {
+	display: none !important;
+}
+
+[focus-expand]:focus [blur-only],
+[focus-expand]:focus-within [blur-only] {
+	display: none !important;
+}

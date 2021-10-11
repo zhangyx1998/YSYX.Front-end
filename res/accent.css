@@ -1,8 +1,30 @@
-:root{
-	--accent: #1b4a81;
-	--accent-bright: #2d7ad2;
-	--accent-dark: #263240;
-	--accent-light: hsl(212, 50%, 90%);
-	--red: #900000;
-	--gray: #666666;
+:root {
+	/* Accent */
+	--accent: hsl(212, 65%, 31%);
+	--accent-bright: hsl(212, 45%, 50%);
+	--accent-brighter: hsl(212, 60%, 75%);
+	--accent-dark: hsl(212, 60%, 24%);
+	--accent-light: hsl(212, 60%, 96%);
+	--accent-background: hsla(212, 45%, 50%, 0.2);
+	/* Green */
+	--green: hsl(132, 48%, 31%);
+	--green-bright: hsl(132, 32%, 50%);
+	--green-brighter: hsl(132, 43%, 75%);
+	--green-dark: hsl(132, 43%, 24%);
+	--green-light: hsl(132, 43%, 96%);
+	--green-background: hsla(132, 28%, 50%, 0.2);
+	/* Red */
+	--red: hsl(0, 65%, 31%);
+	--red-bright: hsl(0, 45%, 50%);
+	--red-brighter: hsl(0, 60%, 85%);
+	--red-dark: hsl(0, 60%, 24%);
+	--red-light: hsl(0, 60%, 96%);
+	--red-background: hsla(0, 45%, 50%, 0.2);
+	/* Gray */
+	--gray: hsl(0, 0%, 40%);
+	--gray-dark: hsl(0, 0%, 24%);
+	--gray-bright: hsl(0, 0%, 50%);
+	--gray-brighter: hsl(0, 0%, 85%);
+	--gray-light: hsl(0, 00%, 98%);
+	--gray-background: hsla(0, 0%, 60%, 0.1);
 }

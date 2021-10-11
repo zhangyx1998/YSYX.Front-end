@@ -1,0 +1,28 @@
+
+/* Popup Related */
+.popup {
+	/* Positioning */
+	position: fixed;
+	z-index: 1001;
+	left: 50vw;
+	top: 50vh;
+	transform: translate(-50%, -50%);
+	/* Layout */
+	max-width: 90vw;
+	max-height: 90vh;
+	padding: 1rem;
+	/* Appearance */
+	background-color: #fafafa;
+	box-shadow: 2px 2px 16px #0006;
+}
+
+._popup_warper_ {
+	/* box-sizing: content-box; */
+	margin: -1rem;
+}
+
+/* Child element styles */
+._popup_warper_ > * {
+	display: block;
+	margin: 1rem;
+}

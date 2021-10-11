@@ -11,29 +11,48 @@ export class Session extends Callable {
 		Module: {},
 		UI: {}
 	};
+	// Language
+	static language = 'en-US';
 	// Session maintenance
 	static login(ID, password) {
 		return Session
-			.post('login', { ID: ID, password: sha256(ID + password) })
-			.then(res => res.json())
-			.then(res => {
+			.post('login', { ID: ID, password: sha256(ID + password) }, { logoutAction: () => { } })
+			.then((res) => {
 				if (digVal(res, 'login')) {
 					Session.call('login', res);
-				} else {
-					Session.call('logout');
+				}
+				return res;
+			});
+	}
+	static logout() {
+		return Session
+			.post('logout', {}, { logoutAction: () => { } })
+			.then((res) => {
+				if (digVal(res, 'login') === false) {
+					Session.call('logout', res);
 				}
 				return res;
 			});
 	}
 	// Convenience API
-	static post(path, data) {
+	static post(path, data, args = {}) {
+		const {
+			expect = "JSON",
+			logoutAction = () => {
+				Session.call('logout');
+				throw new Error('Session expired, please login to proceed.');
+			}
+		} = args;
 		if (path[0] === '/') path = path.slice(1);
 		switch (typeof data) {
 			case 'string':
 				data = { body: data };
 				break;
 			case 'object':
-				data = { body: JSON.stringify(data) };
+				if (Object.keys(data))
+					data = { body: JSON.stringify(data) };
+				else
+					data = {};
 				break;
 			default:
 				try {
@@ -47,23 +66,27 @@ export class Session extends Callable {
 			credentials: "include",
 			...data
 		})
-		// .then(res => {
-		// 	try {
-		// 		let data = JSON.parse(res.body);
-		// 		if ('login' in data && data.login === false) {
-		// 			Session.call('logout');
-		// 		}
-		// 	} catch (e) {}
-		// 	// Pass down resolution
-		// 	return res;
-		// })
+			.then(res => {
+				switch (expect.toUpperCase()) {
+					case "JSON":
+						return res.json().then(data => {
+							if (digVal(data, 'login') === false) {
+								logoutAction();
+							}
+							return data;
+						})
+					case "TEXT":
+						return res.text();
+					default:
+						return res;
+				}
+			})
 	}
 }
 
 Session.on('init', () => {
 	Session
-		.post('state')
-		.then(res => res.json())
+		.post('state', {}, { logoutAction: () => { } })
 		.then(res => {
 			const { login } = res;
 			Session.call(login ? 'login' : 'logout', res);
@@ -75,7 +98,6 @@ Session.on('login', ({ ID }) => {
 	Session.data.login = true;
 	Session
 		.post('UserProfile')
-		.then(res => res.json())
 		.then(res => {
 			Session.call('Profile', res);
 		})

@@ -5,21 +5,20 @@ import Button from "../Common/Button.vue";
 <template>
 	<div Login class="popup" v-if="_popup_.show">
 		<div class="_popup_warper_">
-			<h2 en-us>My Profile</h2>
-			<h2 zh-cn>我的信息</h2>
+			<h2 en-US>My Profile</h2>
+			<h2 zh-CN>我的信息</h2>
 			<p v-for="(val, el) in Profile" :key="el">
 				{{ el }}: {{ val }}
 			</p>
 			<div style="display: flex; justify-content: end; font-size: 0.9em">
 				<Button
-					type="seamless"
-					icon=""
+					type="link"
 					name="close"
 					@click="Popup.close(this)"
 				/>
+				<span style="flex-grow: 1"></span>
 				<Button
-					type="seamless"
-					icon="codicon codicon-account"
+					type="colored red"
 					name="Logout"
 					@click="logout()"
 				/>
@@ -45,9 +44,7 @@ export default {
 	methods: {
 		logout() {
 			Popup.close(this);
-			Session.post("logout").then(({ login }) => {
-				Session.call("logout");
-			});
+			Session.logout().then();
 		},
 	},
 	created() {
@@ -64,20 +61,4 @@ export default {
 </script>
 
 <style scoped>
-input {
-	/* Layout */
-	padding: 0.5em;
-	/* Appearance */
-	background-color: #f0f0f0;
-	/* Appearance - border */
-	outline: none;
-	border: none;
-	border-radius: 0;
-	border-left: 2px solid transparent;
-}
-
-input:focus {
-	border: none;
-	border-left: 2px solid var(--accent);
-}
 </style>

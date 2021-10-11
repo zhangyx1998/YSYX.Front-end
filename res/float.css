@@ -1,0 +1,25 @@
+.float {
+	position: absolute;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.float._1em {
+	--float-padding: 1em;
+}
+
+.float.Left {
+	left: var(--float-padding);
+}
+
+.float.Right {
+	right: var(--float-padding);
+}
+
+.float.Top {
+	top: var(--float-padding);
+}
+
+.float.Bottom {
+	bottom: var(--float-padding);
+}

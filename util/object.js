@@ -1,35 +1,35 @@
 import { assert } from "./diagnostics.js";
 
 /**
- * 
+ * Tells if a given path exists in given object
+ * Note that a 'null' value also resolves to 'true'
  * @param {object} obj 
  * @param {...string} paths 
  */
 export function dig(obj, ...paths) {
-	let path = paths.reverse(), subObj = obj;
-	while (path.length > 0) {
-		let dir = path.pop();
-		assert(typeof dir === 'string', () => `expected path to be string, got ${typeof dir}`);
-		if (dir in subObj) subObj = subObj[dir];
-		else return false;
-	}
-	return true;
+	if (paths.length == 0) return true;
+	else if (
+		typeof obj !== 'object'
+		|| obj === null
+		|| !(paths[0] in obj)
+	) return false;
+	else return dig(obj[paths[0]], ...paths.slice(1));
 }
 
 /**
- * 
+ * If path exists in given obj, return its value
+ * Otherwise, return null
  * @param {object} obj 
  * @param {...string} paths 
  */
 export function digVal(obj, ...paths) {
-	let path = paths.reverse(), subObj = obj;
-	while (path.length > 0) {
-		let dir = path.pop();
-		assert(typeof dir === 'string', () => `expected path to be string, got ${typeof dir}`);
-		if (dir in subObj) subObj = subObj[dir];
-		else return null;
-	}
-	return subObj;
+	if (paths.length == 0) return obj;
+	else if (
+		typeof obj !== 'object'
+		|| obj === null
+		|| !(paths[0] in obj)
+	) return null;
+	else return digVal(obj[paths[0]], ...paths.slice(1));
 }
 
 /**

@@ -9,5 +9,6 @@ import { Popup, AppView } from './View.js';
 // Debug ONLY
 window.Session = Session;
 window.Popup = Popup;
+window.AppView = AppView;
 // Toggle main logic
 Session.call('init');

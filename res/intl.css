@@ -1,9 +1,9 @@
-[zh-cn],
-[en-us] {
+[zh-CN],
+[en-US] {
     display: none !important;
 }
 
-.zh-cn [zh-cn],
-.en-us [en-us] {
+.zh-CN [zh-CN],
+.en-US [en-US] {
     display: inherit !important;
 }
