@@ -46,10 +46,13 @@ import InspectState from "./InspectState.vue";
 				<InspectState :state="el.state" :pending="el.unchecked" />
 			</div>
 		</span>
-		<div class="float _1em Right Bottom">
+		<div float _1em float-right float-bottom>
 			<Button
-				type="seamless"
-				:name="{ 'en-US': 'Refresh', 'zh-CN': '刷新' }[lang]"
+				type="outlined gray"
+				icon="fas fa-sync-alt"
+				style="border-radius: 1em; opacity: 1;"
+				class="shadow-light shadow-dynamic"
+				:name="{ 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$]"
 				@click="fetch()"
 			/>
 		</div>
@@ -60,10 +63,12 @@ import InspectState from "./InspectState.vue";
 import { Session } from "/space/Session.js";
 import { monthShort, localeDate } from "/util/date.js";
 import { digVal } from "/util/object.js";
+import { locale } from "/util/locale.js";
 
 export default {
 	data() {
 		return {
+			locale,
 			lang: Session.language,
 			content: [],
 		};

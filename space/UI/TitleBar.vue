@@ -3,7 +3,7 @@ import Button from "./Common/Button.vue";
 </script>
 
 <template>
-	<div TitleBar class="UI-Top">
+	<div TitleBar UI-Top>
 		<img src="/res/YSYX.png" style="height: 1.2em; margin-right: 0" />
 		<span
 			style="
@@ -36,7 +36,7 @@ import Button from "./Common/Button.vue";
 
 <script>
 import { Session } from "/space/Session.js";
-import { Popup, AppView } from "/space/View.js";
+import { Popup, DesktopView } from "/space/View.js";
 export default {
 	data() {
 		return {
@@ -59,7 +59,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 div[TitleBar] {
 	box-sizing: border-box;
 	/* Positioning */

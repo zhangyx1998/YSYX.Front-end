@@ -1,0 +1,82 @@
+{
+	"Roles": {
+		"WebAdmin": {
+			"zh-CN": "站点管理",
+			"en-US": "Site Admin"
+		},
+		"TAssistant": {
+			"zh-CN": "项目管理",
+			"en-US": "Project Admin"
+		},
+		"Participant": {
+			"zh-CN": "参与项目",
+			"en-US": "Participant"
+		}
+	},
+	"ModuleInfo": {
+		"StudyPlan": {
+			"role": "Participant",
+			"icon": "far fa-compass",
+			"name": {
+				"zh-CN": "项目规划",
+				"en-US": "Study Plan"
+			}
+		},
+		"ProgressReport": {
+			"role": "Participant",
+			"icon": "fas fa-tasks",
+			"name": {
+				"zh-CN": "进度记录",
+				"en-US": "Progress Report"
+			}
+		},
+		"LectureMgn": {
+			"role": "TAssistant",
+			"icon": "fas fa-chalkboard-teacher",
+			"name": {
+				"zh-CN": "讲座管理",
+				"en-US": "Lecture Mgn"
+			}
+		},
+		"ProgressInspect": {
+			"role": "TAssistant",
+			"icon": "fas fa-calendar-check",
+			"name": {
+				"zh-CN": "学生进度检查",
+				"en-US": "Progress Inspect"
+			}
+		},
+		"GroupAssignment": {
+			"role": "TAssistant",
+			"icon": "fas fa-users",
+			"name": {
+				"zh-CN": "我的分组",
+				"en-US": "Assign Group"
+			}
+		},
+		"PendingApp": {
+			"role": "TAssistant",
+			"icon": "fas fa-file-import",
+			"name": {
+				"zh-CN": "待审核申请",
+				"en-US": "Applications"
+			}
+		},
+		"Analytics": {
+			"role": "WebAdmin",
+			"icon": "fas fa-chart-pie",
+			"name": {
+				"zh-CN": "统计分析",
+				"en-US": "Site analytics"
+			}
+		},
+		"PrivMgn": {
+			"role": "WebAdmin",
+			"icon": "fas fa-users-cog",
+			"name": {
+				"zh-CN": "权限管理",
+				"en-US": "Privilege manage"
+			}
+		}
+	}
+}

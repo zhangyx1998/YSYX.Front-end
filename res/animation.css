@@ -1,0 +1,4 @@
+/* Freeze animations after launch */
+.freeze * {
+	animation: none !important;
+}

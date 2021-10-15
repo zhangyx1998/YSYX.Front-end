@@ -11,7 +11,7 @@ import ProgressInspect from "./Module/ProgressInspect.vue";
 </template>
 
 <script>
-import { AppView } from "/space/View.js";
+import { DesktopView } from "/space/View.js";
 import { Session } from "/space/Session.js";
 export default {
 	data() {
@@ -30,8 +30,8 @@ export default {
 		},
 	},
 	created() {
-		AppView.on("change", () => {
-			const module = AppView.module;
+		DesktopView.on("change", () => {
+			const module = DesktopView.module;
 			if (module) {
 				this.display = module;
 			} else {
@@ -44,7 +44,7 @@ export default {
 
 <style>
 /* Application module positioning */
-.AppView {
+.desktop [DesktopView] {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -70,10 +70,11 @@ export default {
 }
 
 /* Appearence */
-.AppView h2,
-.AppView h3,
-.AppView h4,
-.AppView h5 {
+.desktop [DesktopView] h1,
+.desktop [DesktopView] h2,
+.desktop [DesktopView] h3,
+.desktop [DesktopView] h4,
+.desktop [DesktopView] h5 {
 	line-height: 1.2em;
 	color: var(--gray);
 }
@@ -82,21 +83,5 @@ export default {
 [root-el] {
 	display: block;
 	margin-bottom: 1.2rem;
-}
-/* Input */
-.AppView textarea {
-	border: none;
-	width: 100%;
-	padding: 1em;
-	font-size: 1.1em;
-	background-color: var(--gray-background);
-	vertical-align: top;
-	outline: none;
-	resize: vertical;
-	overflow-wrap: normal;
-}
-
-.AppView textarea:focus {
-	box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
 }
 </style>

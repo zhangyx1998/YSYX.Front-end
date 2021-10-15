@@ -5,21 +5,28 @@
 	--accent-brighter: hsl(212, 60%, 75%);
 	--accent-dark: hsl(212, 60%, 24%);
 	--accent-light: hsl(212, 60%, 96%);
-	--accent-background: hsla(212, 45%, 50%, 0.2);
+	--accent-background: hsla(212, 45%, 50%, 0.06);
 	/* Green */
 	--green: hsl(132, 48%, 31%);
 	--green-bright: hsl(132, 32%, 50%);
 	--green-brighter: hsl(132, 43%, 75%);
 	--green-dark: hsl(132, 43%, 24%);
 	--green-light: hsl(132, 43%, 96%);
-	--green-background: hsla(132, 28%, 50%, 0.2);
+	--green-background: hsla(132, 50%, 50%, 0.1);
 	/* Red */
 	--red: hsl(0, 65%, 31%);
 	--red-bright: hsl(0, 45%, 50%);
 	--red-brighter: hsl(0, 60%, 85%);
 	--red-dark: hsl(0, 60%, 24%);
 	--red-light: hsl(0, 60%, 96%);
-	--red-background: hsla(0, 45%, 50%, 0.2);
+	--red-background: hsla(0, 50%, 50%, 0.1);
+	/* Yellow */
+	--yellow: hsl(44, 90%, 48%);
+	--yellow-bright: hsl(44, 60%, 60%);
+	--yellow-brighter: hsl(44, 75%, 85%);
+	--yellow-dark: hsl(44, 75%, 32%);
+	--yellow-light: hsl(44, 75%, 96%);
+	--yellow-background: hsla(44, 60%, 50%, 0.06);
 	/* Gray */
 	--gray: hsl(0, 0%, 40%);
 	--gray-dark: hsl(0, 0%, 24%);
@@ -27,4 +34,64 @@
 	--gray-brighter: hsl(0, 0%, 85%);
 	--gray-light: hsl(0, 00%, 98%);
 	--gray-background: hsla(0, 0%, 60%, 0.1);
+}
+
+.accent {
+	--color: var(--accent);
+	--color-text: var(--accent);
+	--color-dark: var(--accent-dark);
+	--color-bright: var(--accent-bright);
+	--color-brighter: var(--accent-brighter);
+	--color-light: var(--accent-light);
+	--color-background: var(--accent-background);
+}
+
+.green {
+	--color: var(--green);
+	--color-text: var(--green);
+	--color-dark: var(--green-dark);
+	--color-bright: var(--green-bright);
+	--color-brighter: var(--green-brighter);
+	--color-light: var(--green-light);
+	--color-background: var(--green-background);
+}
+
+.red {
+	--color: var(--red);
+	--color-text: var(--red);
+	--color-dark: var(--red-dark);
+	--color-bright: var(--red-bright);
+	--color-brighter: var(--red-brighter);
+	--color-light: var(--red-light);
+	--color-background: var(--red-background);
+}
+
+.yellow {
+	--color: var(--yellow);
+	--color-text: var(--yellow);
+	--color-dark: var(--yellow-dark);
+	--color-bright: var(--yellow-bright);
+	--color-brighter: var(--yellow-brighter);
+	--color-light: var(--yellow-light);
+	--color-background: var(--yellow-background);
+}
+
+.gray {
+	--color: var(--gray);
+	--color-text: var(--gray);
+	--color-dark: var(--gray-dark);
+	--color-bright: var(--gray-bright);
+	--color-brighter: var(--gray-brighter);
+	--color-light: var(--gray-light);
+	--color-background: var(--gray-background);
+}
+
+.white {
+	--color: white;
+	--color-text: var(--gray);
+	--color-dark: var(--gray-dark);
+	--color-bright: var(--gray-bright);
+	--color-brighter: var(--gray-brighter);
+	--color-light: var(--gray-light);
+	--color-background: var(--gray-background);
 }

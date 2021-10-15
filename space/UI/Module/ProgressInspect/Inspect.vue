@@ -3,10 +3,11 @@ import Button from "/space/UI/Common/Button.vue";
 import Badge from "/space/UI/Common/Badge.vue";
 import Paragraph from "/space/UI/Common/Paragraph.vue";
 import InspectActions from "./InspectActions.vue";
+import Dialog from "/space/UI/Common/Panes/Dialog.vue";
 </script>
 
 <template>
-	<div class="AppPane _1024">
+	<div class="AppPane _1024" v-if="content.length">
 		<span w100 v-for="el in content" :key="this.reportKey(el)">
 			<div
 				:ref="this.reportKey(el)"
@@ -17,10 +18,12 @@ import InspectActions from "./InspectActions.vue";
 				<div title>
 					<span
 						class="small"
-						style="align-items: center; color: var(--gray-bright);"
+						style="align-items: center; color: var(--gray-bright)"
 					>
-						<i class="fas fa-user-alt" style="opacity: 0.8;"></i>
-						<span user-select style="padding: 0 0.5em;">{{ el.userName }}</span>
+						<i class="fas fa-user-alt" style="opacity: 0.8"></i>
+						<span user-select style="padding: 0 0.5em">{{
+							el.userName
+						}}</span>
 						<span en-US
 							>{{
 								reportUpdated(el) ? "updated" : "submitted"
@@ -36,17 +39,15 @@ import InspectActions from "./InspectActions.vue";
 					<span style="flex-grow: 1"></span>
 					<Badge
 						type="accent unselected"
-						v-for="(fieldID, i) in el.fields"
+						v-for="(fieldName, i) in el.fields"
 						:key="i"
-						:name="this.badgeName(fieldID)"
+						:name="badgeName(fieldName)"
 						style="--badge-margin: 0 0 0 0.6em; font-size: 0.9em"
 					/>
 				</div>
 				<div content>
 					<h4 w100 style="margin: 0.6em 0 0.8em 0">
-						<span en-US
-							>Student's report content</span
-						>
+						<span en-US>Student's report content</span>
 						<span zh-CN>学生的报告内容</span>
 					</h4>
 					<Paragraph
@@ -63,25 +64,47 @@ import InspectActions from "./InspectActions.vue";
 				/>
 			</div>
 		</span>
-		<div class="float _1em Right Bottom">
+		<div float _1em float-right float-bottom>
 			<Button
-				type="seamless"
-				:name="{ 'en-US': 'Refresh', 'zh-CN': '刷新' }[lang]"
+				type="outlined gray"
+				icon="fas fa-sync-alt"
+				style="border-radius: 1em"
+				class="shadow-light shadow-dynamic"
+				:name="{ 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$]"
 				@click="fetch()"
 			/>
 		</div>
 	</div>
+	<Dialog
+		v-else
+		class="gray"
+		style="opacity: 0.8;"
+		:title="{
+			'en-US': 'There is currently no report allocated for you',
+			'zh-CN': '暂时没有分配给您检查的报告'
+		}[locale.$]"
+		:suffix="{
+			'en-US': 'Check for \'settings\' if you expect to receive more reports.',
+			'zh-CN': '暂时没有分配给您检查的报告'
+		}[locale.$]"
+		:buttons="[{
+			name: {'en-US': 'Refresh', 'zh-CN': '刷新'}[locale.$],
+			type: 'outlined gray',
+			callback: fetch
+		}]"
+	/>
 </template>
 
 <script>
 import { Session } from "/space/Session.js";
-import { OPTIONS } from "../ProgressReport.vue";
+import { badgeName } from "../ProgressReport.vue";
+import { locale } from "/util/locale.js";
 import { localeDate } from "/util/date.js";
 
 export default {
 	data() {
 		return {
-			lang: Session.language,
+			locale,
 			content: [],
 			commentPublic: "",
 			commentPrivate: "",
@@ -112,13 +135,6 @@ export default {
 		focus(el) {
 			this.$refs[this.reportKey(el)].focus();
 		},
-		badgeName(fieldName) {
-			if (fieldName in OPTIONS) {
-				return OPTIONS[fieldName].name[this.lang];
-			} else {
-				return fieldName;
-			}
-		}
 	},
 	created() {
 		window.ProgressInspect = this;

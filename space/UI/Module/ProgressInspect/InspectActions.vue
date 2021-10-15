@@ -23,13 +23,13 @@ defineProps({
 					'en-US':
 						'[optional] Student will see the content you typed here',
 					'zh-CN': '[选填] 学生可以看见在此处填写的评论',
-				}[lang]
+				}[locale.$]
 			"
 			style="margin: 1em 0 1.2em 0; min-height: 1em"
 		/>
 		<h4 w100>
 			<span en-US>Private comment, only shared internally</span>
-			<span zh-CN>仅组织成员可见的评论</span>
+			<span zh-CN>仅内部可见的评论</span>
 		</h4>
 		<textarea
 			v-model="commentPrivate"
@@ -38,26 +38,26 @@ defineProps({
 					'en-US':
 						'[optional] Only administrators and teaching assistants will see what you typed here',
 					'zh-CN': '[选填] 在此处填写的评论仅对管理员和助教可见',
-				}[lang]
+				}[locale.$]
 			"
 			style="margin: 1em 0 0.6em 0; min-height: 1em"
 		/>
 	</div>
-	<div actions focus-only tabindex="-1" ref="el">
+	<div actions focus-only>
 		<Button
-			type="colored gray"
+			type="outlined gray"
 			icon="fas fa-paper-plane"
-			:name="{ 'en-US': 'Reallocate', 'zh-CN': '清空' }[lang]"
+			:name="{ 'en-US': 'Reallocate', 'zh-CN': '分配给其它助教' }[locale.$]"
 			@click="reallocate()"
 		/>
 		<Button
-			type="colored blue"
-			icon="far fa-check-circle"
+			type="solid blue"
+			icon="fas fa-check"
 			:name="
 				{
-					'en-US': 'Mark as Inspected',
-					'zh-CN': '标为已审阅',
-				}[lang]
+					'en-US': 'Check',
+					'zh-CN': '标为已阅',
+				}[locale.$]
 			"
 			@click="inspect()"
 		/>
@@ -89,11 +89,12 @@ defineProps({
 
 <script>
 import { Session } from "/space/Session.js";
+import { locale } from "/util/locale.js";
 
 export default {
 	data() {
 		return {
-			lang: Session.language,
+			locale,
 			commentPublic: "",
 			commentPrivate: "",
 		};

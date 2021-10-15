@@ -19,7 +19,8 @@ defineProps({
 		<i
 			v-if="icon"
 			:class="icon"
-			style="font-size: 1.1em; margin-right: 0.3em"
+			style="font-size: 1.1em;"
+			:style="name ? {'margin-right': '0.3em'} : {}"
 		></i>
 		<span
 			style="
@@ -69,6 +70,13 @@ export default {
 	--button-padding: 0.4em 0.6em;
 	--button-focus-outline-color: var(--accent-bright);
 }
+
+:root {
+	/* Default values */
+	--button-margin: 0.4em;
+	--button-padding: 0.4em 0.6em;
+	--button-focus-outline-color: var(--accent-bright);
+}
 </style>
 
 <style scoped>
@@ -77,6 +85,7 @@ export default {
 	display: flex;
 	cursor: pointer;
 	align-items: center;
+	justify-content: center;
 	border-radius: 0.2em;
 	margin: var(--button-margin);
 	padding: var(--button-padding);
@@ -98,8 +107,9 @@ export default {
 [button].seamless:not(.disabled):active {
 	background-color: rgba(0, 0, 0, 0.2);
 }
-/* colored */
-[button].colored {
+/* solid */
+[button].solid,
+[button].outlined {
 	font-weight: 500;
 	line-height: 1em;
 	border-radius: 6px;
@@ -107,17 +117,19 @@ export default {
 	background-color: var(--color-Prime);
 }
 
-[button].colored:not(.disabled):hover {
+[button].solid:not(.disabled):hover,
+[button].outlined:not(.disabled):hover {
 	border: 0.08em solid var(--borderHover);
 	background-color: var(--color-Hover);
 }
 
-[button].colored:not(.disabled):active {
+[button].solid:not(.disabled):active,
+[button].outlined:not(.disabled):active {
 	border: 0.08em solid var(--borderPress);
 	background-color: var(--color-Press);
 }
-/* colored green */
-[button].colored.green {
+/* solid green */
+[button].solid.green {
 	color: white;
 	--color-Prime: hsl(132, 48%, 36%);
 	--color-Hover: hsl(132, 44%, 40%);
@@ -127,8 +139,8 @@ export default {
 	--borderPress: hsl(132, 42%, 44%);
 	--button-focus-outline-color: hsl(40, 100%, 50%);
 }
-/* colored blue */
-[button].colored.blue {
+/* solid blue */
+[button].solid.blue {
 	color: white;
 	--color-Prime: hsl(217, 48%, 36%);
 	--color-Hover: hsl(217, 44%, 40%);
@@ -138,8 +150,8 @@ export default {
 	--borderPress: hsl(217, 42%, 44%);
 	--button-focus-outline-color: hsl(40, 100%, 50%);
 }
-/* colored red */
-[button].colored.red {
+/* solid red */
+[button].solid.red {
 	color: white;
 	--color-Prime: hsl(0, 48%, 36%);
 	--color-Hover: hsl(0, 44%, 40%);
@@ -149,8 +161,30 @@ export default {
 	--borderPress: hsl(0, 42%, 44%);
 	--button-focus-outline-color: hsl(40, 100%, 50%);
 }
-/* colored gray */
-[button].colored.gray {
+/* outlined red */
+[button].outlined.red {
+	color: hsl(0, 48%, 36%);
+	--color-Prime: hsla(0, 48%, 36%, 0);
+	--color-Hover: hsla(0, 44%, 40%, 0.04);
+	--color-Press: hsla(0, 42%, 44%, 0.02);
+	--borderPrime: hsla(0, 48%, 36%, 0.4);
+	--borderHover: hsla(0, 44%, 40%, 1);
+	--borderPress: hsla(0, 42%, 44%, 0.8);
+	--button-focus-outline-color: hsl(40, 100%, 50%);
+}
+/* solid gray */
+[button].solid.gray {
+	color: white;
+	color: white;
+	--color-Prime: hsl(0, 0%, 36%);
+	--color-Hover: hsl(0, 0%, 40%);
+	--color-Press: hsl(0, 0%, 44%);
+	--borderPrime: hsl(0, 0%, 36%);
+	--borderHover: hsl(0, 0%, 40%);
+	--borderPress: hsl(0, 0%, 44%);
+}
+/* outlined gray */
+[button].outlined.gray {
 	color: hsla(0, 0%, 0%, 0.48);
 	--color-Prime: hsla(0, 0%, 0%, 0.08);
 	--color-Hover: hsla(0, 0%, 0%, 0.06);
@@ -171,6 +205,6 @@ export default {
 }
 /* disabled */
 [button].disabled {
-	pointer-events: none;
+	cursor: not-allowed;
 }
 </style>

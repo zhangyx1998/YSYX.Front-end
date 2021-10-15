@@ -1,5 +1,5 @@
 <script setup>
-import Button from "../Common/Button.vue";
+import Button from "/space/UI/Common/Button.vue";
 </script>
 
 <template>
@@ -7,19 +7,50 @@ import Button from "../Common/Button.vue";
 		<div class="_popup_warper_">
 			<h2 en-US>My Profile</h2>
 			<h2 zh-CN>我的信息</h2>
-			<p v-for="(val, el) in Profile" :key="el">
-				{{ el }}: {{ val }}
-			</p>
-			<div style="display: flex; justify-content: end; font-size: 0.9em">
+			<p v-for="(val, el) in Profile" :key="el">{{ el }}: {{ val }}</p>
+			<div
+				style="
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					font-size: 0.9em;
+					--button-margin: 0;
+				"
+			>
+				<!-- <span style="margin-right: 0.6em">
+					<h4 zh-CN>语言</h4>
+					<h4 en-US>Language</h4>
+				</span> -->
 				<Button
-					type="link"
-					name="close"
-					@click="Popup.close(this)"
+					style="border-radius: 0.4em 0 0 0.4em; border: none"
+					:type="type_default()"
+					:name="{ 'en-US': 'default', 'zh-CN': '默认' }[locale.$]"
+					@click="locale.unsetOverride()"
 				/>
+				<Button
+					style="border-radius: 0; border: none"
+					:type="type_CN()"
+					name="中文"
+					@click="locale.setOverride('zh-CN')"
+				/>
+				<Button
+					style="border-radius: 0 0.4em 0.4em 0; border: none"
+					:type="type_EN()"
+					name="English"
+					@click="locale.setOverride('en-US')"
+				/>
+			</div>
+			<div style="display: flex; justify-content: end; font-size: 0.9em">
+				<Button type="link" name="close" @click="Popup.close(this)" />
 				<span style="flex-grow: 1"></span>
 				<Button
-					type="colored red"
-					name="Logout"
+					type="solid red"
+					:name="
+						{
+							'en-US': 'Sign out',
+							'zh-CN': '退出登录',
+						}[locale.$]
+					"
 					@click="logout()"
 				/>
 			</div>
@@ -29,10 +60,12 @@ import Button from "../Common/Button.vue";
 
 <script>
 import { Session } from "/space/Session.js";
-import { Popup, AppView } from "/space/View.js";
+import { Popup, DesktopView } from "/space/View.js";
+import { locale, Locale } from "/util/locale.js";
 export default {
 	data() {
 		return {
+			locale,
 			_popup_: {
 				ID: 0,
 				show: false,
@@ -46,6 +79,19 @@ export default {
 			Popup.close(this);
 			Session.logout().then();
 		},
+		type_default() {
+			return !locale.override ? "gray solid" : "gray outlined";
+		},
+		type_EN() {
+			return locale.override && locale.$ == "en-US"
+				? "gray solid"
+				: "gray outlined";
+		},
+		type_CN() {
+			return locale.override && locale.$ == "zh-CN"
+				? "gray solid"
+				: "gray outlined";
+		},
 	},
 	created() {
 		// Window management
@@ -55,6 +101,10 @@ export default {
 		// Data management
 		Session.on("Profile", (Profile) => {
 			this.Profile = Profile;
+		});
+		// Force Update on language change
+		Locale.on("update", () => {
+			this.$forceUpdate();
 		});
 	},
 };

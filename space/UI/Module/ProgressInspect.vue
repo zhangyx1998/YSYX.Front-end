@@ -2,11 +2,45 @@
 import PaneSelector from "/space/UI/Common/PaneSelector.vue";
 import Inspect from "./ProgressInspect/Inspect.vue";
 import History from "./ProgressInspect/History.vue";
+import Settings from "./ProgressInspect/Settings.vue";
+// Mobile only
+import MobileTitleBar from '../Mobile/TitleBar.vue';
 </script>
 
 <template>
-	<div class="UI-Top AppView">
-		<PaneSelector :el="this" />
+	<MobileTitleBar
+		v-if="platform === 'mobile'"
+		:left="{
+			icon: 'fas fa-chevron-left',
+			type: 'seamless',
+			callback: () => $emit('exit-pane'),
+		}"
+	/>
+	<div UI-Top DesktopView MobileView>
+		<PaneSelector
+			:panes="{
+				Inspect: {
+					name: {
+						'zh-CN': '进度报告审阅',
+						'en-US': 'Inspect',
+					},
+				},
+				History: {
+					name: {
+						'zh-CN': '审阅记录',
+						'en-US': 'History',
+					},
+				},
+				Settings: {
+					name: {
+						'zh-CN': '相关设置',
+						'en-US': 'Settings',
+					},
+				},
+			}"
+			defaultPane="Inspect"
+			@select="select"
+		/>
 		<keep-alive>
 			<component :is="el" />
 		</keep-alive>
@@ -14,26 +48,16 @@ import History from "./ProgressInspect/History.vue";
 </template>
 
 <script>
-import { AppView } from "/space/View.js";
+import { platform } from "/space/UI/App.vue";
+import { DesktopView } from "/space/View.js";
 import { Session } from "/space/Session.js";
+import { $select } from "/space/UI/Common/PaneSelector.vue";
 
 export default {
+	emits: ["show-pane", "exit-pane"],
 	data() {
 		return {
-			panes: {
-				Inspect: {
-					name: {
-						"zh-CN": "进度报告审阅",
-						"en-US": "Inspect Reports",
-					},
-				},
-				History: {
-					name: {
-						"zh-CN": "审阅记录",
-						"en-US": "Inspection History",
-					},
-				},
-			},
+			platform,
 			display: "Inspect",
 		};
 	},
@@ -45,10 +69,18 @@ export default {
 			return {
 				Inspect: Inspect,
 				History: History,
+				Settings: Settings,
 			}[this.display];
 		},
 	},
-	activated() {},
+	methods: {
+		select(name) {
+			$select(this, name);
+		},
+	},
+	activated() {
+		console.log(this);
+	},
 };
 
 export const OPTIONS = {

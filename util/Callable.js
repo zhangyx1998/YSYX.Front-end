@@ -30,6 +30,7 @@ export class Callable {
 	static call(event, ...args) {
 		event = event.toLowerCase();
 		console.log(`[${this._name_ || 'Callable'}] event '${event}' dispatched.`);
+		if (event == 'logout') console.log(new Error);
 		if (event in this.$callback) {
 			for (const callback of this.$callback[event]) {
 				try {

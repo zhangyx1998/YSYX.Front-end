@@ -40,8 +40,8 @@ export class Popup extends Callable {
 	}
 }
 
-export class AppView extends Callable {
-	static get _name_() { return 'View.AppView'; }
+export class DesktopView extends Callable {
+	static get _name_() { return 'View.DesktopView'; }
 	static #view = '';
 	static get module() { return this.#view; };
 	static #appList = {};

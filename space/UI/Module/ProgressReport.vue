@@ -2,11 +2,38 @@
 import PaneSelector from "/space/UI/Common/PaneSelector.vue";
 import Submit from "./ProgressReport/Submit.vue";
 import History from "./ProgressReport/History.vue";
+// Mobile only
+import MobileTitleBar from '../Mobile/TitleBar.vue';
 </script>
 
 <template>
-	<div class="UI-Top AppView">
-		<PaneSelector :el="this" />
+	<MobileTitleBar
+		v-if="platform === 'mobile'"
+		:left="{
+			icon: 'fas fa-chevron-left',
+			type: 'seamless',
+			callback: () => $emit('exit-pane'),
+		}"
+	/>
+	<div UI-Top DesktopView MobileView>
+		<PaneSelector
+			:panes="{
+				Submit: {
+					name: {
+						'zh-CN': '提交报告',
+						'en-US': 'Submit Report',
+					},
+				},
+				History: {
+					name: {
+						'zh-CN': '历史报告',
+						'en-US': 'Report History',
+					},
+				},
+			}"
+			defaultPane="Submit"
+			@select="select"
+		/>
 		<keep-alive>
 			<component :is="el" />
 		</keep-alive>
@@ -14,26 +41,16 @@ import History from "./ProgressReport/History.vue";
 </template>
 
 <script>
-import { AppView } from "/space/View.js";
+import { platform } from "/space/UI/App.vue";
+import { DesktopView } from "/space/View.js";
 import { Session } from "/space/Session.js";
+import { $select } from "/space/UI/Common/PaneSelector.vue";
 
 export default {
+	emits: ["show-pane", "exit-pane"],
 	data() {
 		return {
-			panes: {
-				Submit: {
-					name: {
-						"zh-CN": "提交报告",
-						"en-US": "Submit Report",
-					},
-				},
-				History: {
-					name: {
-						"zh-CN": "历史报告",
-						"en-US": "Report History",
-					},
-				},
-			},
+			platform,
 			display: "Submit",
 		};
 	},
@@ -47,6 +64,9 @@ export default {
 				History: History,
 			}[this.display];
 		},
+	},
+	methods: {
+		select(name) { $select(this, name); }
 	},
 	activated() {},
 };

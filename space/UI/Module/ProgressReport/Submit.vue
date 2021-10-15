@@ -38,7 +38,7 @@ import Paragraph from "/space/UI/Common/Paragraph.vue";
 				{
 					'en-US': 'Report text goes here ...',
 					'zh-CN': '在这里输入报告正文',
-				}[lang]
+				}[locale.$]
 			"
 			style="min-height: 12em"
 		/>
@@ -50,8 +50,8 @@ import Paragraph from "/space/UI/Common/Paragraph.vue";
 			<span v-for="(el, ID) in options" :key="ID" style="display: flex">
 				<Badge
 					type="accent interactive"
-					:state="this.badgeState(ID, el)"
-					:name="el.name[lang]"
+					:state="badgeState(ID, el)"
+					:name="el.name[locale.$]"
 					@click="el.selected = !el.selected"
 					style="--badge-margin: 0 0.8em 0.6em 0"
 				/>
@@ -67,20 +67,20 @@ import Paragraph from "/space/UI/Common/Paragraph.vue";
 			"
 		>
 			<Button
-				type="colored gray"
-				:name="{ 'en-US': 'Clear', 'zh-CN': '清空' }[lang]"
+				type="outlined gray"
+				:name="{ 'en-US': 'Clear', 'zh-CN': '清空' }[locale.$]"
 				@click="clear()"
 			/>
 			<Button
 				v-if="!updateID"
-				type="colored green"
-				:name="{ 'en-US': 'Submit', 'zh-CN': '提交' }[lang]"
+				type="solid green"
+				:name="{ 'en-US': 'Submit', 'zh-CN': '提交' }[locale.$]"
 				@click="submit()"
 			/>
 			<Button
 				v-else
-				type="colored green"
-				:name="{ 'en-US': 'Update', 'zh-CN': '更新' }[lang]"
+				type="solid green"
+				:name="{ 'en-US': 'Update', 'zh-CN': '更新' }[locale.$]"
 				@click="update()"
 			/>
 		</div>
@@ -93,11 +93,12 @@ import { OPTIONS } from "../ProgressReport.vue";
 import { timeZone } from "/util/date.js";
 import { assert } from "/util/diagnostics.js";
 import { digVal } from "/util/object.js";
+import { locale } from "/util/locale.js";
 
 export default {
 	data() {
 		return {
-			lang: Session.language,
+			locale,
 			options: OPTIONS,
 			text: "",
 			updateID: "",

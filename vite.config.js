@@ -13,5 +13,5 @@ export default defineConfig({
 				space: resolve(__dirname, 'space.html')
 			}
 		}
-	}
+	},
 })
