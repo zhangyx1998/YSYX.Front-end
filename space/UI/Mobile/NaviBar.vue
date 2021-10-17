@@ -1,4 +1,5 @@
 <script setup>
+import Responsive from "/space/UI/Common/Responsive.vue";
 defineProps({
 	display: String
 })
@@ -6,7 +7,7 @@ defineProps({
 
 <template>
 	<div NaviBar>
-		<div
+		<Responsive
 			v-for="(el, ID) in entries"
 			:key="ID"
 			@click="
@@ -16,12 +17,11 @@ defineProps({
 			@touchstart="flush_touch(); el.touch = true"
 			@mousedown="flush_touch(); el.touch = true"
 			@touchcancel="flush_touch()"
-			@abort="flush_touch()"
 			:class="[active(ID), el.touch ? 'touch-down' : '']"
 		>
 			<i :class="el.icon[active(ID)]"></i>
 			<span>{{ el.name[locale.$] }}</span>
-		</div>
+		</Responsive>
 	</div>
 </template>
 
@@ -91,7 +91,7 @@ export default {
 <style scoped>
 [NaviBar] {
 	/* Positioning */
-	position: fixed;
+	position: absolute;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -137,26 +137,5 @@ export default {
 [NaviBar] i {
 	font-size: 1.8em;
 	margin-bottom: 0.2em;
-}
-
-/* Navigation bar animation */
-.poster > [NaviBar] {
-	transform: translateY(100%);
-}
-
-:not(.poster) > [NaviBar] {
-	animation-name: popup;
-	animation-duration: var(--load-animation-duration);
-	animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
-}
-
-@keyframes popup {
-	from {
-		transform: translateY(100%);
-	}
-
-	to {
-		transform: none;
-	}
 }
 </style>

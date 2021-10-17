@@ -10,8 +10,8 @@ import Entry from "./Tasks/Entry.vue";
 		w100
 		v-show="role.show"
 	>
-		<div v-if="role.show" en-US>{{ role["en-US"] }}</div>
-		<div v-if="role.show" zh-CN>{{ role["zh-CN"] }}</div>
+		<div title v-if="role.show" en-US>{{ role["en-US"] }}</div>
+		<div title v-if="role.show" zh-CN>{{ role["zh-CN"] }}</div>
 		<div action-group>
 			<span v-for="(el, moduleID) in ModuleInfo" :key="moduleID">
 				<Entry
@@ -59,7 +59,7 @@ export default {
 		},
 	},
 	created() {
-		window.SideBar = this;
+		console.log(this);
 		Session.on("login", () => {
 			Session.post("Modules").then(({ Modules }) => this.load(Modules));
 		});
@@ -73,11 +73,12 @@ export default {
 <style scoped>
 [group] {
 	display: block;
-	margin: 0.5em 0;
+	margin-bottom: 0.8em;
 }
 
-[group] > div:not([action-group]) {
-	margin-bottom: 0.8em;
+[group] > [title] {
+	margin-bottom: 0.6em;
+	padding: 0 0.5em;
 	font-size: 0.8em;
 	color: var(--gray);
 	font-weight: 500;
@@ -88,5 +89,6 @@ export default {
 	border-radius: 0.4em;
 	/* border: 0.06px solid var(--gray-brighter); */
 	background-color: white;
+	margin: -1px;
 }
 </style>

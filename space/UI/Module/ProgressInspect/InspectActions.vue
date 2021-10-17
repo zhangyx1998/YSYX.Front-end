@@ -47,12 +47,15 @@ defineProps({
 		<Button
 			type="outlined gray"
 			icon="fas fa-paper-plane"
-			:name="{ 'en-US': 'Reallocate', 'zh-CN': '分配给其它助教' }[locale.$]"
+			:name="
+				{ 'en-US': 'Reallocate', 'zh-CN': '分配给其它助教' }[locale.$]
+			"
 			@click="reallocate()"
 		/>
 		<Button
 			type="solid blue"
 			icon="fas fa-check"
+			ref="inspect"
 			:name="
 				{
 					'en-US': 'Check',
@@ -135,6 +138,6 @@ export default {
 			});
 		},
 	},
-	emits: ["update"]
+	emits: ["update"],
 };
 </script>

@@ -95,7 +95,6 @@ export default {
 	},
 	created() {
 		// Window management
-		window.UserProfilePopup = this;
 		Popup.register(this);
 		Popup.on("UserProfile", () => Popup.show(this));
 		// Data management
@@ -107,6 +106,9 @@ export default {
 			this.$forceUpdate();
 		});
 	},
+	activated() {
+		console.log(this);
+	}
 };
 </script>
 

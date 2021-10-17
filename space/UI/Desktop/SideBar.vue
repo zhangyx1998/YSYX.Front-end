@@ -46,7 +46,6 @@ export default {
 		},
 	},
 	created() {
-		window.SideBar = this;
 		Session.on("login", () => {
 			Session.post("Modules").then(({ Modules }) => {
 				for (const module in ModuleInfo) {
@@ -63,6 +62,9 @@ export default {
 			// this.$forceUpdate();
 		});
 	},
+	activated() {
+		console.log(this);
+	}
 };
 </script>
 

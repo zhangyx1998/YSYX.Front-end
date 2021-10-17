@@ -1,12 +1,19 @@
 <script setup>
 import Button from "/space/UI/Common/Button.vue";
 import Badge from "/space/UI/Common/Badge.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
-import InspectActions from "./InspectActions.vue";
+import RefreshButton from "/space/UI/Common/RefreshButton.vue";
+defineProps({
+	bottom_extra_safe_area: Number,
+});
 </script>
 
 <template>
-	<div class="AppPane _1024">
+	<div
+		class="AppPane _1024"
+		:style="{
+			'padding-bottom': `${bottom_extra_safe_area || 0}px`,
+		}"
+	>
 		<span w100 v-for="field in content" :key="field.feildName">
 			<div
 				:class="[
@@ -106,14 +113,7 @@ import InspectActions from "./InspectActions.vue";
 				</div>
 			</div>
 		</span>
-		<Button
-			type="outlined gray"
-			icon="fas fa-sync-alt"
-			style="border-radius: 1em"
-			class="shadow-light shadow-dynamic"
-			:name="{ 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$]"
-			@click="fetch()"
-		/>
+		<RefreshButton @refresh="fetch" />
 	</div>
 </template>
 
@@ -127,8 +127,6 @@ export default {
 		return {
 			locale,
 			content: [],
-			commentPublic: "",
-			commentPrivate: "",
 		};
 	},
 	computed: {
@@ -169,10 +167,8 @@ export default {
 			);
 		},
 	},
-	created() {
-		window.ProgressInspectSettings = this;
-	},
 	activated() {
+		console.log(this);
 		this.fetch();
 	},
 };

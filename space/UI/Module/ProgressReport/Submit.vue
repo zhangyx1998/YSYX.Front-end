@@ -2,11 +2,18 @@
 import Button from "/space/UI/Common/Button.vue";
 import Badge from "/space/UI/Common/Badge.vue";
 import Paragraph from "/space/UI/Common/Paragraph.vue";
+defineProps({
+	bottom_extra_safe_area: Number,
+});
 </script>
 
-
 <template>
-	<div class="AppPane _1024">
+	<div
+		class="AppPane _1024"
+		:style="{
+			'padding-bottom': `${bottom_extra_safe_area || 0}px`,
+		}"
+	>
 		<h2 w100 v-if="!updateID">
 			<span en-US>Report your awesome progress</span>
 			<span zh-CN>记录你的进展</span>
@@ -185,10 +192,8 @@ export default {
 			}
 		},
 	},
-	created() {
-		window.ProgressReportSubmit = this;
-	},
 	activated() {
+		console.log(this);
 		this.init();
 	},
 };

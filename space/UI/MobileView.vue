@@ -16,34 +16,44 @@ import ProgressReport from "./Module/ProgressReport.vue";
 </script>
 
 <template>
-	<div :class="poster" v-if="!stack() && login">
-		<!-- <div Banner>
-				<img src="/res/YSYX.png" />
-			</div> -->
-		<TitleBar />
-		<div MobileView with-mobile-navibar>
-			<div style="padding: var(--padding)">
-				<keep-alive>
-					<component :is="el" @show-pane="showPane" />
-				</keep-alive>
-			</div>
+	<transition-group :name="paneAnimtion">
+		<div :class="poster" v-if="!stackDepth" style="display: flex">
+			<TitleBar @animationend="poster = init ? '' : poster" />
+			<transition name="spring-up">
+				<div MobileView with-mobile-navibar v-if="init">
+					<div style="padding: var(--padding)">
+						<keep-alive>
+							<component :is="el" @show-pane="showPane" />
+						</keep-alive>
+					</div>
+				</div>
+			</transition>
+			<NaviBar
+				:display="this.display"
+				@switch="(el) => (this.display = el)"
+			/>
 		</div>
-		<NaviBar
-			:display="this.display"
-			@switch="(el) => (this.display = el)"
-		/>
-	</div>
-	<div v-else-if="login">
-		<component
-			:is="paneEl()"
-			:data="paneArgs()"
-			@exit-pane="exitPane()"
-			@show-pane="showPane()"
-		/>
-	</div>
-	<div v-else :class="poster">
-		<Login />
-	</div>
+		<div v-if="stackDepth" MobileView>
+			<keep-alive>
+				<component
+					:is="paneEl()"
+					:data="paneArgs()"
+					@back="exitPane()"
+					@show-pane="showPane()"
+				/>
+			</keep-alive>
+		</div>
+	</transition-group>
+	<transition name="spring-up">
+		<div
+			MobileView
+			v-if="init && !login && poster !== 'poster'"
+			:class="poster"
+			style="position: absolute; top: 0; bottom; 0; left: 0; right: 0; z-index: 1000;"
+		>
+			<Login v-if="!login" />
+		</div>
+	</transition>
 </template>
 
 <script>
@@ -55,7 +65,7 @@ import { markRaw } from "@vue/reactivity";
 function safeArea() {
 	const { innerHeight, innerWidth } = window,
 		aspectRatio = innerHeight / innerWidth;
-	if (aspectRatio >= 1.8) {
+	if (aspectRatio >= 2) {
 		document.documentElement.style.setProperty(
 			"--mobile-bottom-safearea",
 			"16px"
@@ -75,15 +85,19 @@ const Modules = {
 export default {
 	data() {
 		return {
+			init: false,
 			login: false,
 			poster: "poster",
 			freeze: false,
-			display: "ModuleList",
+			display: "",
+			stackDepth: 0,
 			paneStack: [],
+			paneAnimtion: "push-left",
 		};
 	},
 	methods: {
 		showPane(pane, args) {
+			this.paneAnimtion = "push-left";
 			if (pane in Modules) {
 				this.paneStack.push({
 					el: Modules[pane],
@@ -105,7 +119,12 @@ export default {
 					},
 				});
 			}
-			this.$forceUpdate();
+			this.stackDepth = this.paneStack.length;
+		},
+		exitPane() {
+			this.paneAnimtion = "push-right";
+			this.paneStack.pop();
+			this.stackDepth = this.paneStack.length;
 		},
 		paneEl() {
 			const pane = this.paneStack[this.paneStack.length - 1];
@@ -129,16 +148,18 @@ export default {
 				}[locale.$],
 			};
 		},
-		stack() {
-			return this.paneStack.length > 0;
-		},
-		exitPane() {
-			this.paneStack.pop();
-			this.$forceUpdate();
+	},
+	computed: {
+		el() {
+			return {
+				Forum,
+				Tasks,
+				UserInfo,
+			}[this.display];
 		},
 	},
 	created() {
-		MobileView = window.MobileView = this;
+		MobileView = this;
 		// Listen for locale change
 		Locale.on("update", () => {
 			this.$forceUpdate();
@@ -157,23 +178,16 @@ export default {
 	},
 	mounted() {
 		const ANIMATION_DELAY = 1200;
-		const ANIMATION_TIME = 1200;
+		const ANIMATION_TIME = 5000;
 		setTimeout(() => {
-			this.poster = "poster-leave";
-			setTimeout(() => {
-				this.poster = "";
-			}, ANIMATION_TIME);
+			Session.init().then(() => {
+				this.poster = "poster-leave";
+				this.init = true;
+			});
 		}, ANIMATION_DELAY);
-		this.display = "Tasks";
-	},
-	computed: {
-		el() {
-			return {
-				Forum,
-				Tasks,
-				UserInfo,
-			}[this.display];
-		},
+		Session.on("login", () => {
+			this.display = "Tasks";
+		});
 	},
 };
 </script>
@@ -187,8 +201,6 @@ export default {
 		var(--mobile-navibar-content) + var(--mobile-bottom-safearea)
 	);
 	--mobile-titlebar-height: 3.6em;
-	--load-animation-duration: 1s;
-	--load-animation-curve: cubic-bezier(0.3, 0, 0, 1);
 }
 
 * {
@@ -197,110 +209,19 @@ export default {
 
 .mobile [MobileView] {
 	/* Positioning */
-	padding-top: var(--mobile-titlebar-height);
-	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
 	height: 100vh;
-	overflow-y: scroll;
-	background-color: white;
 	/* Layout */
+	padding-top: var(--mobile-titlebar-height);
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	background-color: var(--gray-background);
 }
 
 .mobile [MobileView][with-mobile-navibar] {
 	padding-bottom: var(--mobile-navibar-height);
-}
-</style>
-
-<style scoped>
-/* Banner animation */
-[Banner] {
-	/* Positioning */
-	position: fixed;
-	left: 0;
-	right: 0;
-	/* Sizing */
-	width: 100%;
-	/* Appearance */
-	background-color: var(--accent);
-	/* Layout */
-	z-index: 2000;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.8em var(--padding);
-	height: var(--mobile-titlebar-height);
-}
-
-:not(.poster) > [Banner] {
-	animation-name: uncover;
-	animation-duration: var(--load-animation-duration);
-	animation-timing-function: var(--load-animation-curve);
-}
-
-.poster > [Banner] {
-	height: 100%;
-	background-color: white;
-}
-
-@keyframes uncover {
-	from {
-		height: 100%;
-		background-color: white;
-	}
-
-	to {
-		height: var(--mobile-titlebar-height);
-		background-color: var(--accent);
-	}
-}
-
-/* Banner LOGO image animation */
-[Banner] img {
-	height: 1.6em;
-	filter: brightness(100) saturate(0);
-}
-
-.poster > [Banner] img {
-	filter: none;
-	transform: scale(1.6);
-	/* Fade in */
-	animation-name: fade-in;
-	animation-duration: 0.5s;
-	animation-timing-function: var(--load-animation-curve);
-}
-
-:not(.poster) > [Banner] img {
-	animation-name: scale;
-	animation-duration: var(--load-animation-duration);
-	animation-timing-function: var(--load-animation-curve);
-}
-
-@keyframes scale {
-	from {
-		filter: none;
-		transform: scale(1.6);
-	}
-
-	10% {
-		filter: saturate(0.6);
-	}
-
-	to {
-		filter: brightness(100) saturate(0);
-		transform: none;
-	}
-}
-
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
-	}
 }
 </style>

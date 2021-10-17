@@ -1,15 +1,16 @@
 <script setup>
+import Responsive from "/space/UI/Common/Responsive.vue";
 defineProps({
 	el: Object,
 });
 </script>
 
 <template>
-	<div>
+	<Responsive>
 		<i :class="el.icon"></i>
 		<span en-US>{{ el.name["en-US"] }}</span>
 		<span zh-CN>{{ el.name["zh-CN"] }}</span>
-	</div>
+	</Responsive>
 </template>
 
 <script>

@@ -130,7 +130,7 @@ export default {
 		}
 	},
 	created() {
-		window.LoginPopup = this;
+		console.log(this);
 		Popup.register(this);
 		Session.on("logout", () => {
 			Popup.show(this);

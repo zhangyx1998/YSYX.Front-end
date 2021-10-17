@@ -1,48 +1,51 @@
 <script setup>
 import PaneSelector from "/space/UI/Common/PaneSelector.vue";
+import BackButton from "/space/UI/Common/BackButton.vue";
 import Inspect from "./ProgressInspect/Inspect.vue";
 import History from "./ProgressInspect/History.vue";
 import Settings from "./ProgressInspect/Settings.vue";
 // Mobile only
-import MobileTitleBar from '../Mobile/TitleBar.vue';
+import MobileTitleBar from "../Mobile/TitleBar.vue";
 </script>
 
 <template>
-	<MobileTitleBar
-		v-if="platform === 'mobile'"
-		:left="{
-			icon: 'fas fa-chevron-left',
-			type: 'seamless',
-			callback: () => $emit('exit-pane'),
-		}"
-	/>
-	<div UI-Top DesktopView MobileView>
+	<MobileTitleBar v-if="platform === 'mobile'">
+		<template #left><BackButton @back="$emit('back')"/></template>
+	</MobileTitleBar>
+	<div UI-Top DesktopView>
 		<PaneSelector
 			:panes="{
+				Group: {
+					name: {
+						'zh-CN': '按分组',
+						'en-US': 'Group',
+					},
+				},
 				Inspect: {
 					name: {
-						'zh-CN': '进度报告审阅',
-						'en-US': 'Inspect',
+						'zh-CN': '按话题',
+						'en-US': 'Topic',
 					},
 				},
 				History: {
 					name: {
-						'zh-CN': '审阅记录',
+						'zh-CN': '历史',
 						'en-US': 'History',
 					},
 				},
 				Settings: {
 					name: {
-						'zh-CN': '相关设置',
+						'zh-CN': '设置',
 						'en-US': 'Settings',
 					},
 				},
 			}"
 			defaultPane="Inspect"
 			@select="select"
+			@inner-height="(val) => (PaneSelectorHeight = val)"
 		/>
 		<keep-alive>
-			<component :is="el" />
+			<component :is="el" :bottom_extra_safe_area="PaneSelectorHeight" />
 		</keep-alive>
 	</div>
 </template>
@@ -54,11 +57,12 @@ import { Session } from "/space/Session.js";
 import { $select } from "/space/UI/Common/PaneSelector.vue";
 
 export default {
-	emits: ["show-pane", "exit-pane"],
+	emits: ["show-pane", "back"],
 	data() {
 		return {
 			platform,
 			display: "Inspect",
+			PaneSelectorHeight: 0,
 		};
 	},
 	computed: {
@@ -67,6 +71,7 @@ export default {
 		},
 		el() {
 			return {
+				Group: History,
 				Inspect: Inspect,
 				History: History,
 				Settings: Settings,

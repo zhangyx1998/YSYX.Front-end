@@ -1,13 +1,13 @@
 <script setup>
 // Top level UI components
-import TitleBar from "./TitleBar.vue";
-import SideBar from "./SideBar.vue";
+import TitleBar from "./Desktop/TitleBar.vue";
+import SideBar from "./Desktop/SideBar.vue";
 // Popup components
-import Login from "./Popup/Login.vue";
-import UserProfile from "./Popup/UserProfile.vue";
-import PopupMask from "./Popup/mask.vue";
+import Login from "./Desktop/Popup/Login.vue";
+import UserProfile from "./Desktop/Popup/UserProfile.vue";
+import PopupMask from "./Desktop/Popup/mask.vue";
 // Application module components
-import Container from "./Container.vue";
+import Container from "./Desktop/Container.vue";
 </script>
 
 <template>
@@ -41,6 +41,9 @@ export default {
 		Session.on("logout", () => {
 			DesktopView.navigate("AppMask");
 		});
+	},
+	mounted() {
+		Session.init();
 	}
 };
 </script>
@@ -56,7 +59,6 @@ export default {
 	z-index: 0;
 	/* Layout */
 	overflow-x: hidden;
-	overflow-y: scroll;
 }
 /* Disable scrollbar by default */
 * {

@@ -3,19 +3,15 @@ import PaneSelector from "/space/UI/Common/PaneSelector.vue";
 import Submit from "./ProgressReport/Submit.vue";
 import History from "./ProgressReport/History.vue";
 // Mobile only
-import MobileTitleBar from '../Mobile/TitleBar.vue';
+import MobileTitleBar from "../Mobile/TitleBar.vue";
+import BackButton from "/space/UI/Common/BackButton.vue";
 </script>
 
 <template>
-	<MobileTitleBar
-		v-if="platform === 'mobile'"
-		:left="{
-			icon: 'fas fa-chevron-left',
-			type: 'seamless',
-			callback: () => $emit('exit-pane'),
-		}"
-	/>
-	<div UI-Top DesktopView MobileView>
+	<MobileTitleBar v-if="platform === 'mobile'">
+		<template #left><BackButton @back="$emit('back')"/></template>
+	</MobileTitleBar>
+	<div UI-Top DesktopView>
 		<PaneSelector
 			:panes="{
 				Submit: {
@@ -33,9 +29,10 @@ import MobileTitleBar from '../Mobile/TitleBar.vue';
 			}"
 			defaultPane="Submit"
 			@select="select"
+			@inner-height="(val) => (PaneSelectorHeight = val)"
 		/>
 		<keep-alive>
-			<component :is="el" />
+			<component :is="el" :bottom_extra_safe_area="PaneSelectorHeight" />
 		</keep-alive>
 	</div>
 </template>
@@ -47,11 +44,12 @@ import { Session } from "/space/Session.js";
 import { $select } from "/space/UI/Common/PaneSelector.vue";
 
 export default {
-	emits: ["show-pane", "exit-pane"],
+	emits: ["show-pane", "back"],
 	data() {
 		return {
 			platform,
 			display: "Submit",
+			PaneSelectorHeight: 0,
 		};
 	},
 	computed: {
@@ -66,9 +64,13 @@ export default {
 		},
 	},
 	methods: {
-		select(name) { $select(this, name); }
+		select(name) {
+			$select(this, name);
+		},
 	},
-	activated() {},
+	activated() {
+		console.log(this);
+	},
 };
 
 export const OPTIONS = {

@@ -83,6 +83,16 @@ export class Session extends Callable {
 			})
 			.catch(e => console.warn(e.message))
 	}
+	// Initialize APP
+	static init() {
+		return Session
+			.post('state', {}, { logoutAction: () => { } })
+			.then(res => {
+				const { login } = res;
+				if (login) Session.call('login', res);
+				else Session.call('logout');
+			});
+	}
 }
 
 window.Session = Session;

@@ -1,7 +1,7 @@
 <script setup>
-import AppMask from "./Module/mask.vue";
-import ProgressReport from "./Module/ProgressReport.vue";
-import ProgressInspect from "./Module/ProgressInspect.vue";
+import AppMask from "../Module/mask.vue";
+import ProgressReport from "../Module/ProgressReport.vue";
+import ProgressInspect from "../Module/ProgressInspect.vue";
 </script>
 
 <template>
@@ -62,9 +62,19 @@ export default {
 	align-items: center;
 	flex-grow: 1;
 	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
 	overflow-y: scroll;
+}
+
+.desktop .AppPane {
 	padding: var(--padding) var(--padding-large);
 }
+
+.mobile .AppPane {
+	padding: var(--padding);
+}
+
 ._1024 {
 	max-width: 1024px;
 }

@@ -1,14 +1,31 @@
 <script setup>
 import Button from "/space/UI/Common/Button.vue";
 import Paragraph from "/space/UI/Common/Paragraph.vue";
+import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 import InspectInfo from "./InspectInfo.vue";
 import InspectState from "./InspectState.vue";
+defineProps({
+	bottom_extra_safe_area: Number,
+});
 </script>
 
 <template>
-	<div class="AppPane _1024">
+	<div
+		class="AppPane _1024"
+		v-if="content && content.length"
+		:style="{
+			'padding-bottom': `${bottom_extra_safe_area || 0}px`,
+		}"
+	>
 		<span w100 v-for="el in content" :key="el.ID">
-			<div class="card list-entry shadow-light shadow-dynamic">
+			<div
+				:class="
+					{
+						desktop: 'card list-entry shadow-light shadow-dynamic',
+						mobile: 'card list-seamless',
+					}[platform]
+				"
+			>
 				<div title>
 					<div class="large">{{ titleFormat(el.ID).Date }}&nbsp;</div>
 					<div class="small">{{ titleFormat(el.ID).Year }}</div>
@@ -46,17 +63,33 @@ import InspectState from "./InspectState.vue";
 				<InspectState :state="el.state" :pending="el.unchecked" />
 			</div>
 		</span>
-		<div float _1em float-right float-bottom>
-			<Button
-				type="outlined gray"
-				icon="fas fa-sync-alt"
-				style="border-radius: 1em; opacity: 1;"
-				class="shadow-light shadow-dynamic"
-				:name="{ 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$]"
-				@click="fetch()"
-			/>
-		</div>
+		<RefreshButton @refresh="fetch" />
 	</div>
+	<Dialog
+		v-else
+		class="gray"
+		style="opacity: 0.8"
+		:title="
+			{
+				'en-US': 'No record found',
+				'zh-CN': '没有记录',
+			}[locale.$]
+		"
+		:suffix="
+			{
+				'en-US':
+					'You haven\'t submit any report yet',
+				'zh-CN': '您没有提交过进度报告',
+			}[locale.$]
+		"
+		:buttons="[
+			{
+				name: { 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$],
+				type: 'outlined gray',
+				callback: fetch,
+			},
+		]"
+	/>
 </template>
 
 <script>
@@ -64,10 +97,12 @@ import { Session } from "/space/Session.js";
 import { monthShort, localeDate } from "/util/date.js";
 import { digVal } from "/util/object.js";
 import { locale } from "/util/locale.js";
+import { platform } from "/space/UI/App.vue";
 
 export default {
 	data() {
 		return {
+			platform,
 			locale,
 			lang: Session.language,
 			content: [],
@@ -115,7 +150,11 @@ export default {
 								});
 								inspection.fields = Object.keys(fields).filter(
 									(fieldName) =>
-										digVal(fields, fieldName, 'inspectorID') === inspectorID
+										digVal(
+											fields,
+											fieldName,
+											"inspectorID"
+										) === inspectorID
 								);
 							}
 							console.log({
@@ -144,10 +183,8 @@ export default {
 			};
 		},
 	},
-	created() {
-		window.ProgressReportHistory = this;
-	},
 	activated() {
+		console.log(this);
 		this.fetch();
 	},
 };

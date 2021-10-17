@@ -1,5 +1,5 @@
 <script setup>
-import Button from "./Common/Button.vue";
+import Button from "../Common/Button.vue";
 </script>
 
 <template>
@@ -50,12 +50,14 @@ export default {
 		},
 	},
 	created() {
-		window.TitleBarVM = this;
 		Session.on("Profile", ({ Name }) => {
 			this.Name = Name ? Name : "";
 			this.ID = Session.ID;
 		});
 	},
+	activated() {
+		console.log(this);
+	}
 };
 </script>
 

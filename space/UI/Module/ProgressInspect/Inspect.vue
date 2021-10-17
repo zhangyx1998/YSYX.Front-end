@@ -1,13 +1,23 @@
 <script setup>
 import Button from "/space/UI/Common/Button.vue";
+import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 import Badge from "/space/UI/Common/Badge.vue";
 import Paragraph from "/space/UI/Common/Paragraph.vue";
 import InspectActions from "./InspectActions.vue";
 import Dialog from "/space/UI/Common/Panes/Dialog.vue";
+defineProps({
+	bottom_extra_safe_area: Number,
+});
 </script>
 
 <template>
-	<div class="AppPane _1024" v-if="content.length">
+	<div
+		class="AppPane _1024"
+		v-if="content && content.length"
+		:style="{
+			'padding-bottom': `${bottom_extra_safe_area || 0}px`,
+		}"
+	>
 		<span w100 v-for="el in content" :key="this.reportKey(el)">
 			<div
 				:ref="this.reportKey(el)"
@@ -60,38 +70,36 @@ import Dialog from "/space/UI/Common/Panes/Dialog.vue";
 					:userID="el.userID"
 					:reportID="el.reportID"
 					:fields="el.fields"
-					@update="fetch()"
+					@update="fetch"
 				/>
 			</div>
 		</span>
-		<div float _1em float-right float-bottom>
-			<Button
-				type="outlined gray"
-				icon="fas fa-sync-alt"
-				style="border-radius: 1em"
-				class="shadow-light shadow-dynamic"
-				:name="{ 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$]"
-				@click="fetch()"
-			/>
-		</div>
+		<RefreshButton @refresh="fetch" />
 	</div>
 	<Dialog
 		v-else
 		class="gray"
-		style="opacity: 0.8;"
-		:title="{
-			'en-US': 'There is currently no report allocated for you',
-			'zh-CN': '暂时没有分配给您检查的报告'
-		}[locale.$]"
-		:suffix="{
-			'en-US': 'Check for \'settings\' if you expect to receive more reports.',
-			'zh-CN': '暂时没有分配给您检查的报告'
-		}[locale.$]"
-		:buttons="[{
-			name: {'en-US': 'Refresh', 'zh-CN': '刷新'}[locale.$],
-			type: 'outlined gray',
-			callback: fetch
-		}]"
+		style="opacity: 0.8"
+		:title="
+			{
+				'en-US': 'There is currently no report allocated for you',
+				'zh-CN': '暂时没有分配给您检查的报告',
+			}[locale.$]
+		"
+		:suffix="
+			{
+				'en-US':
+					'Check for \'settings\' if you expect to receive more reports.',
+				'zh-CN': '暂时没有分配给您检查的报告',
+			}[locale.$]
+		"
+		:buttons="[
+			{
+				name: { 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$],
+				type: 'outlined gray',
+				callback: fetch,
+			},
+		]"
 	/>
 </template>
 
@@ -136,10 +144,8 @@ export default {
 			this.$refs[this.reportKey(el)].focus();
 		},
 	},
-	created() {
-		window.ProgressInspect = this;
-	},
 	activated() {
+		console.log(this);
 		this.fetch();
 	},
 };

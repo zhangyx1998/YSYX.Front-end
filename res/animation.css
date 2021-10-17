@@ -1,4 +1,86 @@
-/* Freeze animations after launch */
-.freeze * {
-	animation: none !important;
+/* Variables */
+:root {
+	--poster-animation-duration: 800ms;
+	--animation-duration: 500ms;
+	--animation-curve: cubic-bezier(0.3, 0.6, 0, 1);
+}
+
+* {
+	animation-duration: var(--animation-duration);
+	animation-timing-function: var(--animation-curve);
+}
+/* spring-up animation */
+.spring-up-enter-active {
+	animation-name: spring-opacity-up;
+}
+
+.spring-up-leave-active {
+	animation-name: spring-opacity-up-reverse;
+}
+
+@keyframes spring-up {
+	from {
+		transform: translateY(100vh);
+	}
+
+	to {
+		transform: none;
+	}
+}
+
+@keyframes spring-up-reverse {
+	to {
+		transform: translateY(100vh);
+	}
+}
+
+@keyframes spring-opacity-up {
+	from {
+		opacity: 0;
+		transform: translateY(100vh);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes spring-opacity-up-reverse {
+	to {
+		opacity: 0;
+		transform: translateY(100vh);
+	}
+}
+
+
+.poster-leave .spring-up-enter-active {
+	animation: spring-up var(--poster-animation-duration) var(--animation-curve);
+}
+
+.poster-leave .spring-up-enter-active [MobileView] {
+	transition: var(--poster-animation-duration) var(--animation-curve);
+}
+.poster-leave .spring-up-enter-from [MobileView] {
+	background-color: white !important;
+}
+
+/* push-left and push-right animation */
+.push-left-enter-from,
+.push-right-leave-to {
+	transform: translateX(100vw);
+}
+
+.push-right-enter-from,
+.push-left-leave-to {
+	transform: translateX(-100vw);
+}
+
+.push-left-enter-active,
+.push-left-leave-active,
+.push-right-enter-active,
+.push-right-leave-active {
+	transition-property: all;
+	transition-duration: var(--animation-duration);
+	transition-timing-function: var(--animation-curve);
 }

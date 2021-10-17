@@ -107,6 +107,16 @@ export default {
 [button].seamless:not(.disabled):active {
 	background-color: rgba(0, 0, 0, 0.2);
 }
+
+[button].seamless.white {
+	color: white;
+}
+[button].seamless.white:not(.disabled):hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+[button].seamless.white:not(.disabled):active {
+	background-color: rgba(255, 255, 255, 0.2);
+}
 /* solid */
 [button].solid,
 [button].outlined {

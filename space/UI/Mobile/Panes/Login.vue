@@ -1,78 +1,77 @@
 <script setup>
-import MobileTitleBar from "../TitleBar.vue";
 import Button from "/space/UI/Common/Button.vue";
 </script>
 
 <template>
-	<MobileTitleBar />
-	<div MobileView style="background-color: var(--accent)">
-		<div Login style="padding: var(--padding-large)">
-			<h2 en-US>Sign In</h2>
-			<h2 zh-CN>登录</h2>
-			<input
-				ref="UserIDInput"
-				:placeholder="
+	<div
+		Login
+		style="padding: var(--padding-large); background-color: var(--accent)"
+	>
+		<h2 en-US>Sign In</h2>
+		<h2 zh-CN>登录</h2>
+		<input
+			ref="UserIDInput"
+			:placeholder="
+				{
+					'en-US': 'ID, Cell or Email',
+					'zh-CN': 'ID / 电话 / 邮箱',
+				}[locale.$]
+			"
+			spellcheck="false"
+			v-model="login_ID"
+			:class="[
+				login_ID_Valid === null
+					? ''
+					: login_ID_Valid
+					? 'valid'
+					: 'invalid',
+			]"
+			@keydown.enter="this.$refs.PasswordInput.focus()"
+		/>
+		<input
+			ref="PasswordInput"
+			:placeholder="
+				(login_Successful === false
+					? {
+							'en-US': 'Invalid Credentials',
+							'zh-CN': '无效的用户名或密码',
+					  }
+					: {
+							'en-US': 'Password',
+							'zh-CN': '密码',
+					  })[locale.$]
+			"
+			type="password"
+			v-model="login_Password"
+			:class="[
+				(login_Password_Valid || login_Successful) === null
+					? ''
+					: login_Password_Valid || login_Successful
+					? 'valid'
+					: 'invalid',
+			]"
+			@keydown.enter="login()"
+		/>
+		<div
+			style="
+				display: flex;
+				justify-content: end;
+				font-size: 1rem;
+				--button-margin: 0;
+			"
+		>
+			<Button type="link" name="Apply" />
+			<span style="flex-grow: 1"></span>
+			<Button
+				type="solid green"
+				:name="
 					{
-						'en-US': 'ID, Cell or Email',
-						'zh-CN': 'ID / 电话 / 邮箱',
+						'en-US': 'Login',
+						'zh-CN': '登录',
 					}[locale.$]
 				"
-				spellcheck="false"
-				v-model="login_ID"
-				:class="[
-					login_ID_Valid === null
-						? ''
-						: login_ID_Valid
-						? 'valid'
-						: 'invalid',
-				]"
-				@keydown.enter="this.$refs.PasswordInput.focus()"
+				@click="login()"
 			/>
-			<input
-				ref="PasswordInput"
-				:placeholder="
-					(login_Successful === false
-						? {
-								'en-US': 'Invalid Credentials',
-								'zh-CN': '无效的用户名或密码',
-						  }
-						: {
-								'en-US': 'Password',
-								'zh-CN': '密码',
-						  })[locale.$]
-				"
-				type="password"
-				v-model="login_Password"
-				:class="[
-					(login_Password_Valid || login_Successful) === null
-						? ''
-						: login_Password_Valid || login_Successful
-						? 'valid'
-						: 'invalid',
-				]"
-				@keydown.enter="login()"
-			/>
-			<div
-				style="
-					display: flex;
-					justify-content: end;
-					font-size: 1rem;
-					--button-margin: 0;
-				"
-			>
-				<Button type="link" name="Apply" />
-				<span style="flex-grow: 1"></span>
-				<Button
-					type="solid green"
-					:name="
-						{
-							'en-US': 'Login',
-							'zh-CN': '登录',
-						}[locale.$]
-					"
-					@click="login()"
-				/>
-			</div>
 		</div>
 	</div>
 </template>
@@ -82,7 +81,7 @@ import { Session } from "/space/Session.js";
 import { locale } from "/util/locale.js";
 
 export default {
-	emits: ["show-pane", "exit-pane"],
+	emits: ["show-pane", "back"],
 	data() {
 		return {
 			locale,
@@ -135,11 +134,6 @@ export default {
 				else return null;
 			}
 		},
-	},
-	created() {
-		Session.on("login", () => {
-			this.$emit("exit-pane");
-		});
 	},
 };
 </script>

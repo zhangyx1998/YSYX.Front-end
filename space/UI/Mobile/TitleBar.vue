@@ -1,8 +1,5 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
 defineProps({
-	left: Object,
-	right: Object,
 	title: String,
 });
 </script>
@@ -10,24 +7,12 @@ defineProps({
 <template>
 	<div TitleBar ref="TitleBar">
 		<div navi :B="(B = left)" style="justify-content: left;">
-			<Button
-				v-if="left && left !== null"
-				:name="B.name"
-				:icon="B.icon"
-				:type="B.type"
-				@click="B.callback"
-			/>
+			<slot name="left"></slot>
 		</div>
 		<h1 v-if="title">{{ title }}</h1>
 		<img v-else src="/res/YSYX.png" />
 		<div navi :B="(B = right)" style="justify-content: right;">
-			<Button
-				v-if="right && right !== null"
-				:name="B.name"
-				:icon="B.icon"
-				:type="B.type"
-				@click="B.callback"
-			/>
+			<slot name="right"></slot>
 		</div>
 	</div>
 </template>
@@ -38,10 +23,10 @@ h1 {
 	font-size: 2rem;
 }
 
-/* TitleBar animation */
 [TitleBar] {
 	/* Positioning */
-	position: fixed;
+	position: absolute;
+	top: 0;
 	left: 0;
 	right: 0;
 	/* Sizing */
@@ -53,13 +38,12 @@ h1 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.8em var(--padding);
 	height: var(--mobile-titlebar-height);
-	animation-duration: var(--load-animation-duration);
-	animation-timing-function:var(--load-animation-curve);
 }
 
 [navi] {
+	padding: var(--padding-small);
+	height: 100%;
 	display: flex;
 	flex-direction: row;
 	width: 0;
@@ -69,13 +53,17 @@ h1 {
 	--button-padding: 0.2em 0.4em;
 }
 
-.poster > [TitleBar] {
+/* TitleBar animation */
+.poster [TitleBar],
+.poster-leave [TitleBar] {
 	height: 100%;
 	background-color: white;
 }
 
-.poster-leave > [TitleBar] {
+.poster-leave [TitleBar] {
 	animation-name: uncover;
+	animation-duration: var(--poster-animation-duration);
+	animation-timing-function:var(--animation-curve);
 }
 
 @keyframes uncover {
@@ -96,19 +84,19 @@ h1 {
 	filter: brightness(100) saturate(0);
 }
 
-.poster > [TitleBar] img {
+.poster [TitleBar] img {
 	filter: none;
 	transform: scale(1.6);
 	/* Fade in */
 	animation-name: fade-in;
 	animation-duration: 0.5s;
-	animation-timing-function:var(--load-animation-curve);
+	animation-timing-function:var(--animation-curve);
 }
 
-.poster-leave > [TitleBar] img {
+.poster-leave [TitleBar] img {
 	animation-name: scale;
-	animation-duration: var(--load-animation-duration);
-	animation-timing-function:var(--load-animation-curve);
+	animation-duration: var(--poster-animation-duration);
+	animation-timing-function:var(--animation-curve);
 }
 
 @keyframes fade-in {
