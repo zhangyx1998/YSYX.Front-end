@@ -1,18 +1,20 @@
 <script setup>
 import PaneSelector from "/space/UI/Common/PaneSelector.vue";
-import BackButton from "/space/UI/Common/BackButton.vue";
 import Inspect from "./ProgressInspect/Inspect.vue";
 import History from "./ProgressInspect/History.vue";
 import Settings from "./ProgressInspect/Settings.vue";
 // Mobile only
 import MobileTitleBar from "../Mobile/TitleBar.vue";
+import BackButton from "/space/UI/Common/BackButton.vue";
 </script>
 
 <template>
-	<MobileTitleBar v-if="platform === 'mobile'">
-		<template #left><BackButton @back="$emit('back')"/></template>
+	<MobileTitleBar
+		:title="{ 'en-US': 'Progress Inspect', 'zh-CN': '进度检查' }[locale.$]"
+	>
+		<template #left><BackButton @back="$emit('back')" /></template>
 	</MobileTitleBar>
-	<div UI-Top DesktopView>
+	<div UI-Top ContentView>
 		<PaneSelector
 			:panes="{
 				Group: {
@@ -42,16 +44,34 @@ import MobileTitleBar from "../Mobile/TitleBar.vue";
 			}"
 			defaultPane="Inspect"
 			@select="select"
-			@inner-height="(val) => (PaneSelectorHeight = val)"
+			@slide-to="(direction) => (slideTo = `slide-${direction}`)"
+			@el-height="(val) => (PaneSelectorHeight = val)"
 		/>
-		<keep-alive>
-			<component :is="el" :bottom_extra_safe_area="PaneSelectorHeight" />
-		</keep-alive>
+		<transition :name="slideTo">
+			<keep-alive>
+				<component
+					:is="el"
+					:style="
+						{
+							desktop: {
+								top: `${PaneSelectorHeight || 0}px`,
+							},
+							mobile: {
+								'padding-bottom': `${
+									PaneSelectorHeight || 0
+								}px`,
+							},
+						}[platform]
+					"
+				/>
+			</keep-alive>
+		</transition>
 	</div>
 </template>
 
 <script>
 import { platform } from "/space/UI/App.vue";
+import { locale } from "/util/locale.js";
 import { DesktopView } from "/space/View.js";
 import { Session } from "/space/Session.js";
 import { $select } from "/space/UI/Common/PaneSelector.vue";
@@ -60,8 +80,8 @@ export default {
 	emits: ["show-pane", "back"],
 	data() {
 		return {
-			platform,
 			display: "Inspect",
+			slideTo: "",
 			PaneSelectorHeight: 0,
 		};
 	},
@@ -154,6 +174,3 @@ export const OPTIONS = {
 	},
 };
 </script>
-
-<style scoped>
-</style>

@@ -1,3 +1,7 @@
+.card {
+	overflow: hidden;
+}
+
 .card > [actions] {
 	display: flex;
 	align-items: center;
@@ -60,24 +64,27 @@
 .card.list-seamless {
 	margin: 0;
 	width: 100%;
-	background-color: var(--gray-light);
-	padding-bottom: var(--padding);
+	border-radius: 1em;
+	padding-bottom: 5px;
+	background-color: var(--gray-background);
 }
 .card.list-seamless > * {
-	padding: 0 var(--padding);
+	margin: var(--padding-small);
 }
 
 .card.list-seamless > [title] {
-	display: flex;
+	margin: 0;
+	padding: 5px var(--padding-small);
+	display: block;
+	flex-wrap: wrap;
 	align-items: unset;
 	justify-content: left;
 	color: var(--accent-dark);
-	background: var(--accent-light);
-	padding: 0.4em var(--padding);
+	background-color: var(--gray-background);
 }
 
 .card.list-seamless > [title] > * {
-	display: flex;
+	display: inline-block;
 	flex-wrap: wrap;
 }
 

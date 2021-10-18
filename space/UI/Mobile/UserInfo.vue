@@ -4,62 +4,72 @@ import Button from "/space/UI/Common/Button.vue";
 </script>
 
 <template>
-	<p v-for="(val, entry) in data.Profile" :key="entry">
-		{{ entry }} : {{ val }}
-	</p>
-	<div
-		style="
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-grow: 1;
-			--button-margin: 0;
-			--button-padding: 0.8em;
-			margin: 1em 0;
-		"
-	>
-		<!-- <span style="margin-right: 0.6em">
-					<h4 zh-CN>语言</h4>
-					<h4 en-US>Language</h4>
-				</span> -->
-		<Button
-			style="border-radius: 0.4em 0 0 0.4em; border: none; flex-grow: 1; width: 5em;"
-			:type="type_default()"
-			:name="{ 'en-US': 'default', 'zh-CN': '默认' }[locale.$]"
-			@click="locale.unsetOverride()"
-		/>
-		<Button
-			:style="{
-				'border-radius': 0,
-				'border': 'none',
-				'border-color': 'var(--gray-brighter)',
-				'border-left': '2px inset',
-				'border-right': '2px inset',
-				'flex-grow': 1,
-				'width': '5em'
-			}"
-			:type="type_CN()"
-			name="中文"
-			@click="locale.setOverride('zh-CN')"
-		/>
-		<Button
-			style="border-radius: 0 0.4em 0.4em 0; border: none; flex-grow: 1; width: 5em;"
-			:type="type_EN()"
-			name="English"
-			@click="locale.setOverride('en-US')"
-		/>
-	</div>
-	<div style="display: flex; flex-direction: row; justify-content: center">
-		<Button
-			type="solid red"
-			:name="
-				{
-					'en-US': 'Log out',
-					'zh-CN': '退出登录',
-				}[locale.$]
+	<div Content>
+		<p v-for="(val, entry) in data.Profile" :key="entry">
+			{{ entry }} : {{ val }}
+		</p>
+		<div
+			style="
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-grow: 1;
+				--button-margin: 0;
+				--button-padding: 0.6em;
+				margin: 1em 0;
 			"
-			@click="logout()"
-		/>
+		>
+			<Button
+				style="
+					border-radius: 0.4em 0 0 0.4em;
+					border: none;
+					flex-grow: 1;
+					width: 5em;
+				"
+				:type="type_default()"
+				:name="{ 'en-US': 'default', 'zh-CN': '默认' }[locale.$]"
+				@click="locale.unsetOverride()"
+			/>
+			<Button
+				:style="{
+					'border-radius': 0,
+					'border-top': 'none',
+					'border-bottom': 'none',
+					'border-left': '2px solid var(--gray-bright)',
+					'border-right': '2px solid var(--gray-bright)',
+					'flex-grow': 1,
+					width: '5em',
+				}"
+				:type="type_CN()"
+				name="中文"
+				@click="locale.setOverride('zh-CN')"
+			/>
+			<Button
+				style="
+					border-radius: 0 0.4em 0.4em 0;
+					border: none;
+					flex-grow: 1;
+					width: 5em;
+				"
+				:type="type_EN()"
+				name="English"
+				@click="locale.setOverride('en-US')"
+			/>
+		</div>
+		<div
+			style="display: flex; flex-direction: row; justify-content: center"
+		>
+			<Button
+				type="solid red"
+				:name="
+					{
+						'en-US': 'Log out',
+						'zh-CN': '退出登录',
+					}[locale.$]
+				"
+				@click="logout()"
+			/>
+		</div>
 	</div>
 </template>
 

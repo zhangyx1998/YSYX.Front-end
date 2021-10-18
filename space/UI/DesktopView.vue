@@ -47,26 +47,3 @@ export default {
 	}
 };
 </script>
-
-<style>
-/* UI Layout general styles */
-.desktop [UI-Top] {
-	/* Typesetting */
-	font-size: 1rem;
-	line-height: 1rem;
-	/* Positioning */
-	position: fixed;
-	z-index: 0;
-	/* Layout */
-	overflow-x: hidden;
-}
-/* Disable scrollbar by default */
-* {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-}
-/* Safari */
-*::-webkit-scrollbar {
-	display: none;
-}
-</style>

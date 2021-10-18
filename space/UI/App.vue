@@ -27,23 +27,27 @@ export const platform = ((UA) => {
 export default {
 	data() {
 		return {
-			locale
+			locale,
 		};
 	},
 	computed: {
 		view() {
 			return {
 				desktop: DesktopView,
-				mobile: MobileView
-			}[platform]
+				mobile: MobileView,
+			}[platform];
 		}
 	},
 	mounted() {
+		document.getElementById("app").style.backgroundColor = {
+			desktop: "white",
+			mobile: "black",
+		}[platform];
 		// Listen for locale change
 		Locale.on("update", () => {
 			this.$forceUpdate();
 		});
-	}
+	},
 };
 </script>
 

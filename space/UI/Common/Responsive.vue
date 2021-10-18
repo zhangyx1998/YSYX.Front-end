@@ -1,6 +1,6 @@
 <template>
 	<div
-		style="position: relative;"
+		style="position: relative; overflow: hidden;"
 		@click="touch = false"
 		@touchstart="touch = true"
 		@mousedown="touch = true"
@@ -34,13 +34,24 @@ export default {
 }
 
 .touch-up > [overlay] {
-	transition: .2s;
+	transition: .3s;
 	transition-delay: .1s;
 	background-color: transparent;
 }
 
 .touch-down > [overlay] {
 	transition: .1s;
-	background-color: hsla(0, 0%, 0%, 0.04);
+	background-color: hsla(0, 0%, 0%, 0.08);
+}
+
+[lighter].touch-up > [overlay] {
+	transition: .2s;
+	transition-delay: .1s;
+	background-color: transparent;
+}
+
+[lighter].touch-down > [overlay] {
+	transition: .1s;
+	background-color: hsla(0, 0%, 100%, 0.08);
 }
 </style>

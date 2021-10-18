@@ -1,4 +1,5 @@
 <script setup>
+import Responsive from "/space/UI/Common/Responsive.vue";
 defineProps({
 	panes: Object,
 	defaultPane: String,
@@ -8,17 +9,17 @@ defineProps({
 <template>
 	<span warpper ref="el" @resize="emitHeight">
 		<div PaneSelector :class="platform == 'mobile' ? 'shadow' : ''">
-			<span v-for="(val, ID) in panes" :key="ID">
-				<div
+			<div animate-under-line :style="underline">
+				<div :class="platform == 'mobile' ? 'shadow' : ''"></div>
+			</div>
+			<span v-for="(val, ID, i) in panes" :key="ID" :ref="ID">
+				<Responsive
 					:class="['Option', display == ID ? 'active' : '']"
-					@click="
-						display = ID;
-						$emit('select', ID);
-					"
+					@click="select(ID, i)"
 				>
 					<span zh-CN>{{ val.name["zh-CN"] }}</span>
 					<span en-US>{{ val.name["en-US"] }}</span>
-				</div>
+				</Responsive>
 			</span>
 		</div>
 	</span>
@@ -26,35 +27,66 @@ defineProps({
 
 <script>
 import { platform } from "/space/UI/App.vue";
-
 export default {
-	emits: ["select", "inner-height"],
+	emits: ["select", "slide-to", "el-height"],
 	data() {
 		return {
 			platform,
-			display: (() => {
-				if (
-					typeof this.defaultPane === "string" &&
-					this.defaultPane in this.panes
-				) {
-					return this.defaultPane;
-				} else {
-					for (const ID in this.panes) {
-						return ID;
-					}
-				}
-			})(),
+			underline: {
+				left: "0px",
+				width: "0px",
+			},
+			display: "",
+			focusEl: null,
+			order: null,
 		};
 	},
+	watch: {
+		display(ID) {
+			this.focusEl = this.$refs[ID].lastElementChild;
+			this.relocate();
+			this.$emit("select", ID);
+		},
+		order(newOrder, oldOrder) {
+			if (oldOrder !== null)
+				this.$emit("slide-to", newOrder >= oldOrder ? "left" : "right");
+		},
+	},
 	methods: {
+		relocate() {
+			[this.underline.left, this.underline.width] = [
+				this.focusEl.offsetLeft,
+				this.focusEl.offsetWidth,
+			].map((el) => `${el}px`);
+		},
+		select(ID, i) {
+			ID =
+				ID ||
+				(() => {
+					if (
+						typeof this.defaultPane === "string" &&
+						this.defaultPane in this.panes
+					) {
+						i = Object.keys(this.panes).indexOf(this.defaultPane);
+						return this.defaultPane;
+					} else {
+						i = 0;
+						for (const ID in this.panes) {
+							return ID;
+						}
+					}
+				})();
+			this.order = i;
+			this.display = ID;
+		},
 		emitHeight() {
-			if (platform == "mobile")
-				this.$emit("inner-height", this.$refs.el.offsetHeight);
+			this.$emit("el-height", this.$refs.el.offsetHeight);
 		},
 	},
 	mounted() {
-		this.$emit("select", this.display);
 		this.emitHeight();
+		this.select();
+		window.addEventListener('resize', this.relocate);
 	},
 	activated() {
 		console.log(this);
@@ -77,6 +109,7 @@ export function $select(app, name) {
 [PaneSelector] {
 	/* Layout */
 	display: flex;
+	position: relative;
 	align-items: center;
 	justify-content: center;
 	/* Apperance */
@@ -100,6 +133,7 @@ export function $select(app, name) {
 	/* Layout */
 	overflow: hidden;
 	margin-bottom: var(--padding);
+	padding: 0 0.3em;
 	/* Apperance */
 	border-radius: 2em;
 	border: 1px solid var(--gray-brighter);
@@ -111,7 +145,7 @@ export function $select(app, name) {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 2000;
+	z-index: 1000;
 	/* Layout */
 	display: flex;
 	justify-content: center;
@@ -126,44 +160,65 @@ export function $select(app, name) {
 	);
 }
 /* Option buttons */
+.Option {
+	color: var(--gray);
+}
+
 .desktop .Option {
 	cursor: pointer;
-	color: var(--gray);
 	padding: 0.5em 0.6em;
 	margin: 0 0.3em -0.08em 0.3em;
-	border-bottom: 0.15em solid transparent;
 }
 .desktop .Option:hover {
 	background: rgba(0, 0, 0, 0.04);
-	border-bottom: 0.15em solid var(--gray-bright);
-}
-.desktop .Option:active {
-	background: rgba(0, 0, 0, 0.06);
-	border-bottom: 0.15em solid var(--gray-bright);
 }
 .desktop .Option.active {
 	cursor: default;
 	color: var(--accent);
-	border-bottom: 0.15em solid var(--accent);
 }
 .mobile .Option {
-	cursor: pointer;
-	color: var(--gray);
 	padding: 0.8em 1em;
-	margin: 0;
+	margin: 0 -0.3em;
+	border-radius: 2em;
 	flex-grow: 1;
 	transition-delay: 100ms;
 	transition: 0.2s ease-out;
 }
-.mobile .Option:active {
-	transition-delay: 0ms;
-	transition: 0.1s ease-in;
-	background: rgba(0, 0, 0, 0.08);
-}
 .mobile .Option.active {
 	cursor: default;
-	color: var(--accent);
-	/* Appearence */
-	background: rgba(0, 0, 0, 0.05);
+	color: var(--white);
+}
+
+[animate-under-line] {
+	pointer-events: none;
+	transition-duration: var(--animation-duration-short);
+	transition-timing-function: var(--animation-curve);
+	position: absolute;
+}
+
+.mobile [animate-under-line] {
+	padding: 0.2em;
+	top: 0;
+	bottom: 0;
+}
+
+.desktop [animate-under-line] {
+	overflow: visible;
+	bottom: 0;
+	height: 0.16em;
+	background-color: var(--accent);
+	transform: translateY(0.04em);
+}
+
+[animate-under-line] > div {
+	width: 100%;
+	height: 100%;
+}
+
+.mobile [animate-under-line] > div {
+	width: 100%;
+	height: 100%;
+	background-color: var(--accent);
+	border-radius: 2em;
 }
 </style>

@@ -3,10 +3,7 @@ import Button from "/space/UI/Common/Button.vue";
 </script>
 
 <template>
-	<div
-		Login
-		style="padding: var(--padding-large); background-color: var(--accent)"
-	>
+	<div Login>
 		<h2 en-US>Sign In</h2>
 		<h2 zh-CN>登录</h2>
 		<input
@@ -58,6 +55,7 @@ import Button from "/space/UI/Common/Button.vue";
 				justify-content: end;
 				font-size: 1rem;
 				--button-margin: 0;
+				--button-padding: 0.5em 1.2em;
 			"
 		>
 			<Button type="link" name="Apply" />
@@ -98,7 +96,6 @@ export default {
 	methods: {
 		login() {
 			this.pend = true;
-			this.$forceUpdate();
 			if (this.login_ID_Valid && this.login_Password_Valid)
 				Session.login(this.login_ID, this.login_Password).then(
 					({ login }) => {
@@ -140,17 +137,26 @@ export default {
 
 <style scoped>
 [Login] {
+	/* Position */
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100%;
+	/* Layout */
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	flex-grow: 1;
 	font-size: 1.6em;
-	margin-bottom: 12rem;
-	color: var(--gray-brighter) !important;
+	/* Appearence */
+	padding: var(--padding-large);
+	padding-bottom: calc(var(--padding-large) + var(--mobile-titlebar-height));
 }
 
 [Login] > * {
 	margin: 1rem 0;
+	color: var(--gray-brighter) !important;
 }
 
 h2 {
@@ -168,8 +174,6 @@ input {
 	font-weight: lighter !important;
 	outline: none;
 	border: none;
-	border-radius: 0;
-	border-left: 2px solid transparent;
 	/*  */
 }
 

@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-	<div RefreshButton>
+	<div RefreshButton v-if="platform == 'desktop'">
 		<Button
 			type="outlined gray"
 			icon="fas fa-sync-alt"
@@ -21,6 +21,7 @@ defineProps({
 
 <script>
 import { locale } from '/util/locale.js';
+import { platform } from '/space/UI/App.vue';
 export default {
 	emits: ['refresh'],
 };

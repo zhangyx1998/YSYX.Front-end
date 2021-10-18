@@ -17,23 +17,35 @@ import ProgressReport from "./Module/ProgressReport.vue";
 
 <template>
 	<transition-group :name="paneAnimtion">
-		<div :class="poster" v-if="!stackDepth" style="display: flex">
-			<TitleBar @animationend="poster = init ? '' : poster" />
-			<transition name="spring-up">
-				<div MobileView with-mobile-navibar v-if="init">
-					<div style="padding: var(--padding)">
-						<keep-alive>
-							<component :is="el" @show-pane="showPane" />
-						</keep-alive>
-					</div>
-				</div>
-			</transition>
+		<TitleBar
+			:class="poster"
+			v-if="!stackDepth || !login"
+			@animationend="poster = init ? '' : poster"
+			style="opacity: 1 !important"
+		/>
+		<div
+			AppView
+			v-if="!stackDepth"
+			style="padding-bottom: var(--mobile-navibar-height)"
+		>
+			<div ContentView>
+				<transition :name="slideTo || 'spring-up'">
+					<keep-alive>
+						<component
+							v-show="init"
+							:is="el"
+							@show-pane="showPane"
+						/>
+					</keep-alive>
+				</transition>
+			</div>
 			<NaviBar
-				:display="this.display"
-				@switch="(el) => (this.display = el)"
+				:display="display"
+				@slide-to="(direction) => (slideTo = `slide-${direction}`)"
+				@switch="(el) => (display = el)"
 			/>
 		</div>
-		<div v-if="stackDepth" MobileView>
+		<div AppView v-if="stackDepth">
 			<keep-alive>
 				<component
 					:is="paneEl()"
@@ -46,10 +58,10 @@ import ProgressReport from "./Module/ProgressReport.vue";
 	</transition-group>
 	<transition name="spring-up">
 		<div
-			MobileView
+			ContentView
 			v-if="init && !login && poster !== 'poster'"
 			:class="poster"
-			style="position: absolute; top: 0; bottom; 0; left: 0; right: 0; z-index: 1000;"
+			style="z-index: 1000; background-color: var(--accent)"
 		>
 			<Login v-if="!login" />
 		</div>
@@ -73,7 +85,7 @@ function safeArea() {
 	}
 }
 
-export let MobileView = null;
+export let ContentView = null;
 
 const Modules = {
 	PlaceHolder: markRaw(PlaceHolder),
@@ -89,6 +101,7 @@ export default {
 			login: false,
 			poster: "poster",
 			freeze: false,
+			slideTo: "",
 			display: "",
 			stackDepth: 0,
 			paneStack: [],
@@ -149,6 +162,11 @@ export default {
 			};
 		},
 	},
+	watch: {
+		slideTo(val) {
+			console.log(val);
+		}
+	},
 	computed: {
 		el() {
 			return {
@@ -159,7 +177,7 @@ export default {
 		},
 	},
 	created() {
-		MobileView = this;
+		ContentView = this;
 		// Listen for locale change
 		Locale.on("update", () => {
 			this.$forceUpdate();
@@ -205,23 +223,5 @@ export default {
 
 * {
 	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-}
-
-.mobile [MobileView] {
-	/* Positioning */
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	/* Layout */
-	padding-top: var(--mobile-titlebar-height);
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-}
-
-.mobile [MobileView][with-mobile-navibar] {
-	padding-bottom: var(--mobile-navibar-height);
 }
 </style>

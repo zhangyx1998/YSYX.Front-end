@@ -8,11 +8,8 @@ defineProps({
 </script>
 
 <template>
-	<div
-		class="AppPane _1024"
-		style="align-items: center; justify-content: center"
-	>
-		<h1 w100 style="font-weight: 200;">{{ title }}</h1>
+	<div Content _1024_>
+		<h1 w100 style="font-weight: 200">{{ title }}</h1>
 		<h3 w100>{{ suffix }}</h3>
 		<div style="flex-direction: row">
 			<Button
@@ -28,6 +25,13 @@ defineProps({
 </template>
 
 <style scoped>
+[Content] {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+}
 h1,
 h2,
 h3,
