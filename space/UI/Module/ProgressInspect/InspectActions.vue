@@ -48,7 +48,7 @@ defineProps({
 			type="outlined gray"
 			icon="fas fa-paper-plane"
 			:name="
-				{ 'en-US': 'Reallocate', 'zh-CN': '分配给其它助教' }[locale.$]
+				{ 'en-US': 'Reallocate', 'zh-CN': '无法解决' }[locale.$]
 			"
 			@click="reallocate()"
 		/>
@@ -59,7 +59,7 @@ defineProps({
 			:name="
 				{
 					'en-US': 'Check',
-					'zh-CN': '标为已阅',
+					'zh-CN': '已阅',
 				}[locale.$]
 			"
 			@click="inspect()"

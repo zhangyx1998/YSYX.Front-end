@@ -2,31 +2,24 @@
 import Button from "/space/UI/Common/Button.vue";
 import Badge from "/space/UI/Common/Badge.vue";
 import RefreshButton from "/space/UI/Common/RefreshButton.vue";
-defineProps({
-	bottom_extra_safe_area: Number,
-});
 </script>
 
 <template>
 	<div
-		class="AppPane _1024"
-		:style="{
-			'padding-bottom': `${bottom_extra_safe_area || 0}px`,
-		}"
+		Content _1024_
 	>
 		<span w100 v-for="field in content" :key="field.feildName">
 			<div
 				:class="[
 					'card',
-					'flat-round',
+					'list-seamless',
 					field.selected ? 'accent selected' : 'gray',
 				]"
 				tabindex="0"
 				focus-expand
 			>
-				<div title>
+				<div title style="justify-content: space-between;">
 					<span class="large">{{ badgeName(field.fieldName) }}</span>
-					<span style="flex-grow: 1"></span>
 					<span
 						class="suffix yellow"
 						v-if="(cnt = field.failedAllocList.length)"

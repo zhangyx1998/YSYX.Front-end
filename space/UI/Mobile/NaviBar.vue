@@ -1,23 +1,17 @@
 <script setup>
 import Responsive from "/space/UI/Common/Responsive.vue";
 defineProps({
-	display: String
-})
+	display: String,
+});
 </script>
 
 <template>
 	<div NaviBar>
 		<Responsive
-			v-for="(el, ID) in entries"
+			v-for="(el, ID, i) in entries"
 			:key="ID"
-			@click="
-				select(ID);
-				flush_touch();
-			"
-			@touchstart="flush_touch(); el.touch = true"
-			@mousedown="flush_touch(); el.touch = true"
-			@touchcancel="flush_touch()"
-			:class="[active(ID), el.touch ? 'touch-down' : '']"
+			@click="select(ID, i)"
+			:class="active(ID)"
 		>
 			<i :class="el.icon[active(ID)]"></i>
 			<span>{{ el.name[locale.$] }}</span>
@@ -29,12 +23,13 @@ defineProps({
 import { locale } from "/util/locale.js";
 
 export default {
+	emits: ["switch", "slide-to"],
 	data() {
 		return {
 			locale,
+			order: null,
 			entries: {
 				Forum: {
-					touch: false,
 					icon: {
 						active: "fas fa-compass",
 						inactive: "far fa-compass",
@@ -45,7 +40,6 @@ export default {
 					},
 				},
 				Tasks: {
-					touch: false,
 					icon: {
 						active: "fas fa-layer-group",
 						inactive: "fas fa-layer-group",
@@ -56,7 +50,6 @@ export default {
 					},
 				},
 				UserInfo: {
-					touch: false,
 					icon: {
 						active: "fas fa-user-alt",
 						inactive: "fas fa-user-alt",
@@ -73,17 +66,21 @@ export default {
 		active(ID) {
 			return ID === this.display ? "active" : "inactive";
 		},
-		select(val) {
-			if (val !== this.display)
-				this.$emit("switch", val);
+		select(val, i) {
+			this.order = i;
+			if (val !== this.display) this.$emit("switch", val);
 		},
-		flush_touch() {
-			for (const el in this.entries) {
-				this.entries[el].touch = false;
+	},
+	watch: {
+		order(newVal, oldVal) {
+			if (oldVal !== null && newVal !== oldVal) {
+				this.$emit('slide-to', newVal > oldVal ? 'left' : 'right');
 			}
 		}
 	},
-	emits: ["switch"],
+	mounted() {
+		this.order = Object.keys(this.entries).indexOf(this.display);
+	}
 };
 </script>
 
@@ -113,23 +110,19 @@ export default {
 	align-items: center;
 	height: 100%;
 	width: 5em;
-	color: var(--gray);
 	font-weight: 400;
-	opacity: 0.8;
 	font-size: 0.75em;
-	transition: background-color .2s ease-out;
-	transition-delay: background-color .1s;
+	transition: background-color 0.2s ease-out;
+	transition-delay: background-color 0.1s;
 	padding-bottom: var(--mobile-bottom-safearea);
 }
 
-[NaviBar] > .touch-down {
-	transition: background-color .1s;
-	transition-delay: background-color 0s;
-	background-color: var(--gray-brighter);
+[NaviBar] > *.inactive > * {
+	opacity: 0.8;
+	color: var(--gray);
 }
 
-[NaviBar] > *.active,
-[NaviBar] > *.touch-down {
+[NaviBar] > *.active > * {
 	opacity: 1;
 	color: var(--accent);
 }

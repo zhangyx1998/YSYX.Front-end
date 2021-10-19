@@ -5,23 +5,22 @@ import Badge from "/space/UI/Common/Badge.vue";
 import Paragraph from "/space/UI/Common/Paragraph.vue";
 import InspectActions from "./InspectActions.vue";
 import Dialog from "/space/UI/Common/Panes/Dialog.vue";
-defineProps({
-	bottom_extra_safe_area: Number,
-});
 </script>
 
 <template>
 	<div
-		class="AppPane _1024"
+		Content _1024_
 		v-if="content && content.length"
-		:style="{
-			'padding-bottom': `${bottom_extra_safe_area || 0}px`,
-		}"
 	>
 		<span w100 v-for="el in content" :key="this.reportKey(el)">
 			<div
 				:ref="this.reportKey(el)"
-				class="card list-entry shadow-light shadow-dynamic"
+				:class="
+					{
+						desktop: 'card list-entry shadow-light shadow-dynamic',
+						mobile: 'card list-seamless',
+					}[platform]
+				"
 				tabindex="0"
 				focus-expand
 			>
@@ -83,14 +82,14 @@ defineProps({
 		:title="
 			{
 				'en-US': 'There is currently no report allocated for you',
-				'zh-CN': '暂时没有分配给您检查的报告',
+				'zh-CN': '暂时没有分配给您的报告',
 			}[locale.$]
 		"
 		:suffix="
 			{
 				'en-US':
 					'Check for \'settings\' if you expect to receive more reports.',
-				'zh-CN': '暂时没有分配给您检查的报告',
+				'zh-CN': '前往\'设置\'获取更多报告',
 			}[locale.$]
 		"
 		:buttons="[
@@ -104,6 +103,7 @@ defineProps({
 </template>
 
 <script>
+import { platform } from "/space/UI/App.vue";
 import { Session } from "/space/Session.js";
 import { badgeName } from "../ProgressReport.vue";
 import { locale } from "/util/locale.js";

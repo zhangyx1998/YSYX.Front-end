@@ -4,18 +4,12 @@ import Paragraph from "/space/UI/Common/Paragraph.vue";
 import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 import InspectInfo from "./InspectInfo.vue";
 import InspectState from "./InspectState.vue";
-defineProps({
-	bottom_extra_safe_area: Number,
-});
 </script>
 
 <template>
 	<div
-		class="AppPane _1024"
+		Content _1024_
 		v-if="content && content.length"
-		:style="{
-			'padding-bottom': `${bottom_extra_safe_area || 0}px`,
-		}"
 	>
 		<span w100 v-for="el in content" :key="el.ID">
 			<div

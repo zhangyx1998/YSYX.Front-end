@@ -42,8 +42,97 @@ textarea {
 	flex-direction: row;
 }
 
-[DesktopView],
-[MobileView],
-.AppPane {
-	background-color: var(--white);
+
+/* Disable scrollbar by default */
+* {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+/* Safari */
+*::-webkit-scrollbar {
+	display: none;
+}
+
+/* Application module positioning */
+[AppView] {
+	z-index: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+/* Application module positioning */
+[ContentView] {
+	padding: 0 !important;
+	z-index: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background-color: var(--white-brighter);
+}
+
+.desktop [ContentView] {
+	position: fixed;
+	align-items: center;
+	top: var(--TitleBarHeight);
+	left: var(--SideBarWidth);
+	bottom: 0;
+	right: 0;
+}
+
+.mobile [ContentView] {
+	z-index: -1;
+	/* Positioning */
+	position: absolute;
+	top: var(--mobile-titlebar-height);
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+/* Application module positioning */
+[ContentView] > [Content] {
+	z-index: 0;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow-y: scroll;
+	width: 100%;
+	/* Center */
+    margin: 0 auto !important;
+	background-color: var(--white-brighter);
+}
+
+.desktop [ContentView] > [Content] {
+	flex-grow: 1;
+	overflow-y: scroll;
+}
+
+.desktop [ContentView] > [Content] {
+	padding: var(--padding) var(--padding-large);
+}
+
+.mobile [ContentView] > [Content] {
+	padding: var(--padding);
+}
+
+[_1024_] {
+	width: 100%;
+	max-width: 1024px;
+}
+
+/* Appearance */
+h1, h2, h3, h4, h5 {
+	line-height: 1.2em;
+	color: var(--gray)
+}
+
+[Content] > *,
+[root-el] {
+	display: block;
+	margin-bottom: 1.2rem;
 }

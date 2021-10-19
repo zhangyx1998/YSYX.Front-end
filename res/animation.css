@@ -1,43 +1,44 @@
 /* Variables */
 :root {
-	--poster-animation-duration: 800ms;
-	--animation-duration: 500ms;
+	--poster-animation-duration: 1200ms;
+	--animation-duration: 600ms;
+	--animation-duration-short: 300ms;
 	--animation-curve: cubic-bezier(0.3, 0.6, 0, 1);
+	--animation-curve-ease-in: cubic-bezier(0.1, 0.0, 1, 0.6);
 }
 
 * {
 	animation-duration: var(--animation-duration);
 	animation-timing-function: var(--animation-curve);
+	/* This property will trigger hardware acceleration if supported */
+	backface-visibility: hidden;
 }
 /* spring-up animation */
 .spring-up-enter-active {
 	animation-name: spring-opacity-up;
 }
 
-.spring-up-leave-active {
-	animation-name: spring-opacity-up-reverse;
+.spring-up-enter-active[Content] {
+	animation-name: spring-opacity-up;
+	animation-duration: var(--poster-animation-duration);
 }
 
-@keyframes spring-up {
-	from {
-		transform: translateY(100vh);
-	}
-
-	to {
-		transform: none;
-	}
+.spring-up-leave-active {
+	animation-duration: var(--animation-duration-short);
+	animation-timing-function: linear;
+	animation-name: spring-opacity-up-reverse;
 }
 
 @keyframes spring-up-reverse {
 	to {
-		transform: translateY(100vh);
+		transform: translateY(100%);
 	}
 }
 
 @keyframes spring-opacity-up {
 	from {
 		opacity: 0;
-		transform: translateY(100vh);
+		transform: translateY(100%);
 	}
 
 	to {
@@ -49,33 +50,34 @@
 @keyframes spring-opacity-up-reverse {
 	to {
 		opacity: 0;
-		transform: translateY(100vh);
+		transform: translateY(40vh);
 	}
 }
 
-
-.poster-leave .spring-up-enter-active {
+.poster-leave.spring-up-enter-active {
 	animation: spring-up var(--poster-animation-duration) var(--animation-curve);
+	transition: background-color var(--poster-animation-duration) var(--animation-curve);
 }
 
-.poster-leave .spring-up-enter-active [MobileView] {
-	transition: var(--poster-animation-duration) var(--animation-curve);
-}
-.poster-leave .spring-up-enter-from [MobileView] {
+.poster-leave.spring-up-enter-from {
 	background-color: white !important;
 }
 
-/* push-left and push-right animation */
-.push-left-enter-from,
-.push-right-leave-to {
-	transform: translateX(100vw);
+@keyframes spring-up {
+	from {
+		transform: translateY(100%);
+	}
+
+	to {
+		transform: none;
+	}
 }
 
-.push-right-enter-from,
-.push-left-leave-to {
-	transform: translateX(-100vw);
+.poster-leave.spring-up-enter-from[ContentView] {
+	background-color: white !important;
 }
 
+/* push-left and push-right animations */
 .push-left-enter-active,
 .push-left-leave-active,
 .push-right-enter-active,
@@ -83,4 +85,37 @@
 	transition-property: all;
 	transition-duration: var(--animation-duration);
 	transition-timing-function: var(--animation-curve);
+}
+
+.push-left-enter-from,
+.push-right-leave-to {
+	transform: translateX(100vw);
+}
+
+.push-right-enter-from,
+.push-left-leave-to {
+	opacity: 0.6 !important;
+	z-index: -1000 !important;
+	transform: translateX(-40vw);
+}
+
+/* slide-left and slide-right animations */
+
+/* push-left and push-right animation */
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+	transition-duration: var(--animation-duration);
+	transition-timing-function: var(--animation-curve);
+}
+
+.slide-left-enter-from,
+.slide-right-leave-to {
+	transform: translateX(100vw);
+}
+
+.slide-right-enter-from,
+.slide-left-leave-to {
+	transform: translateX(-100vw);
 }

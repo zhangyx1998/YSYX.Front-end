@@ -1,5 +1,5 @@
 <template>
-	<div UI-Top DesktopView>
+	<div UI-Top ContentView>
 		<span>
 			<h2>
 				<span en-US>No APP Selected</span>

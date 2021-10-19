@@ -1,17 +1,23 @@
 <script setup>
+import { platform } from '/space/UI/App.vue';
 defineProps({
 	title: String,
 });
 </script>
 
 <template>
-	<div TitleBar ref="TitleBar">
-		<div navi :B="(B = left)" style="justify-content: left;">
+	<div TitleBar ref="TitleBar" v-if="platform == 'mobile'">
+		<div navi style="justify-content: left">
 			<slot name="left"></slot>
 		</div>
-		<h1 v-if="title">{{ title }}</h1>
+		<div
+			v-if="title"
+			style="color: white; font-size: 1.2em; font-weight: normal"
+		>
+			{{ title }}
+		</div>
 		<img v-else src="/res/YSYX.png" />
-		<div navi :B="(B = right)" style="justify-content: right;">
+		<div navi style="justify-content: right">
 			<slot name="right"></slot>
 		</div>
 	</div>
@@ -21,6 +27,10 @@ defineProps({
 h1 {
 	color: white;
 	font-size: 2rem;
+}
+
+.Desktop [TitleBar] {
+	display: none;
 }
 
 [TitleBar] {
@@ -54,16 +64,16 @@ h1 {
 }
 
 /* TitleBar animation */
-.poster [TitleBar],
-.poster-leave [TitleBar] {
+.poster[TitleBar],
+.poster-leave[TitleBar] {
 	height: 100%;
 	background-color: white;
 }
 
-.poster-leave [TitleBar] {
+.poster-leave[TitleBar] {
 	animation-name: uncover;
 	animation-duration: var(--poster-animation-duration);
-	animation-timing-function:var(--animation-curve);
+	animation-timing-function: var(--animation-curve);
 }
 
 @keyframes uncover {
@@ -84,19 +94,19 @@ h1 {
 	filter: brightness(100) saturate(0);
 }
 
-.poster [TitleBar] img {
+.poster[TitleBar] img {
 	filter: none;
 	transform: scale(1.6);
 	/* Fade in */
 	animation-name: fade-in;
 	animation-duration: 0.5s;
-	animation-timing-function:var(--animation-curve);
+	animation-timing-function: var(--animation-curve);
 }
 
-.poster-leave [TitleBar] img {
+.poster-leave[TitleBar] img {
 	animation-name: scale;
 	animation-duration: var(--poster-animation-duration);
-	animation-timing-function:var(--animation-curve);
+	animation-timing-function: var(--animation-curve);
 }
 
 @keyframes fade-in {
@@ -115,8 +125,16 @@ h1 {
 		transform: scale(1.6);
 	}
 
+	10% {
+		filter: brightness(1) saturate(0.2);
+	}
+
 	30% {
-		filter: brightness(1) saturate(0);
+		filter: brightness(10) saturate(0.1);
+	}
+
+	60% {
+		filter: brightness(60) saturate(0);
 	}
 
 	to {

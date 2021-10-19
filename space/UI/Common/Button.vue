@@ -9,18 +9,26 @@ defineProps({
 <template>
 	<div
 		button
-		:class="type"
+		:class="[type, touch ? 'active' : '']"
 		@keydown.enter="$emit('click')"
 		@mousedown="mouseDown"
 		@focus="focus"
+		@blur="touch = false"
+		@click="touch = false"
+		@touchstart="
+			touch = true;
+			mouseDown();
+		"
+		@touchcancel="touch = false"
+		@touchleave="touch = false"
 		:tabindex="!disabled ? '0' : ''"
 		ref="el"
 	>
 		<i
 			v-if="icon"
 			:class="icon"
-			style="font-size: 1.1em;"
-			:style="name ? {'margin-right': '0.3em'} : {}"
+			style="font-size: 1.1em"
+			:style="name ? { 'margin-right': '0.3em' } : {}"
 		></i>
 		<span
 			style="
@@ -31,13 +39,21 @@ defineProps({
 			"
 			>{{ name }}</span
 		>
-		<span style="display: hidden" tabindex="-1" ref="pseudo"></span>
+		<span
+			style="display: hidden"
+			tabindex="-1"
+			ref="pseudo"
+			@blur="touch = false"
+		></span>
 	</div>
 </template>
 
 <script>
 let _focus_by_mouse_ = false;
 export default {
+	data() {
+		return { touch: false };
+	},
 	methods: {
 		focus() {
 			if (_focus_by_mouse_) {
@@ -46,6 +62,10 @@ export default {
 			_focus_by_mouse_ = false;
 		},
 		mouseDown() {
+			_focus_by_mouse_ = true;
+			this.$refs.pseudo.focus();
+		},
+		touchDown() {
 			_focus_by_mouse_ = true;
 			this.$refs.pseudo.focus();
 		},
@@ -71,10 +91,10 @@ export default {
 	--button-focus-outline-color: var(--accent-bright);
 }
 
-:root {
+.mobile {
 	/* Default values */
 	--button-margin: 0.4em;
-	--button-padding: 0.4em 0.6em;
+	--button-padding: 0.5em 0.8em;
 	--button-focus-outline-color: var(--accent-bright);
 }
 </style>
@@ -91,6 +111,10 @@ export default {
 	padding: var(--button-padding);
 }
 
+.mobile [button] {
+	font-size: 1.1em;
+}
+
 [button] > * {
 	display: flex;
 }
@@ -104,7 +128,8 @@ export default {
 [button].seamless:not(.disabled):hover {
 	background-color: rgba(0, 0, 0, 0.1);
 }
-[button].seamless:not(.disabled):active {
+[button].seamless:not(.disabled):active,
+[button].seamless:not(.disabled).active {
 	background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -134,7 +159,9 @@ export default {
 }
 
 [button].solid:not(.disabled):active,
-[button].outlined:not(.disabled):active {
+[button].solid:not(.disabled).active,
+[button].outlined:not(.disabled):active,
+[button].outlined:not(.disabled).active {
 	border: 0.08em solid var(--borderPress);
 	background-color: var(--color-Press);
 }
@@ -211,7 +238,11 @@ export default {
 	color: var(--gray-bright);
 }
 [button].link:not(.disabled):hover {
-	color: var(--gray-dark);
+	color: var(--gray-brighter);
+}
+[button].link:not(.disabled):active,
+[button].link:not(.disabled).active {
+	color: var(--gray);
 }
 /* disabled */
 [button].disabled {
