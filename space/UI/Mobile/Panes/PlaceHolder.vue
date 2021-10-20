@@ -19,6 +19,6 @@ defineProps({
 <script>
 import { locale } from "/util/locale.js";
 export default {
-	emits: ["back"],
+	emits: ["show-pane", "back"],
 };
 </script>
