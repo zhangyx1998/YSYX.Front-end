@@ -39,6 +39,16 @@ export default {
 						"zh-CN": "论坛",
 					},
 				},
+				Posts: {
+					icon: {
+						active: "fas fa-bell",
+						inactive: "far fa-bell",
+					},
+					name: {
+						"en-US": "Posts",
+						"zh-CN": "公告",
+					},
+				},
 				Tasks: {
 					icon: {
 						active: "fas fa-layer-group",
@@ -49,7 +59,7 @@ export default {
 						"zh-CN": "我的任务",
 					},
 				},
-				UserInfo: {
+				Account: {
 					icon: {
 						active: "fas fa-user-alt",
 						inactive: "fas fa-user-alt",

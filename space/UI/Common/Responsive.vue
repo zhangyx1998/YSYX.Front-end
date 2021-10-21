@@ -5,6 +5,7 @@
 		@touchstart="touch = true"
 		@mousedown="touch = true"
 		@touchcancel="touch = false"
+		@touchend="touch = false"
 		@touchleave="touch = false"
 		:class="[touch ? 'touch-down' : 'touch-up']"
 	>
@@ -20,6 +21,9 @@ export default {
 			touch: false,
 		};
 	},
+	created() {
+		// window.addEventListener('touchcancel')
+	}
 };
 </script>
 

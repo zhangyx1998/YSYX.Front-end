@@ -20,6 +20,7 @@ defineProps({
 			mouseDown();
 		"
 		@touchcancel="touch = false"
+		@touchend="touch = false"
 		@touchleave="touch = false"
 		:tabindex="!disabled ? '0' : ''"
 		ref="el"
