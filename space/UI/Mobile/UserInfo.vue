@@ -1,13 +1,12 @@
 <script setup>
 import Dialog from "/space/UI/Common/Panes/Dialog.vue";
+import IdCard from "/space/UI/Common/IdCard.vue";
 import Button from "/space/UI/Common/Button.vue";
 </script>
 
 <template>
-	<div Content>
-		<p v-for="(val, entry) in data.Profile" :key="entry">
-			{{ entry }} : {{ val }}
-		</p>
+	<div Content style="padding-top: 0; padding-left: 0; padding-right: 0; background-color: var(--accent)">
+		<IdCard :profile="data.profile" />
 		<div
 			style="
 				display: flex;
@@ -17,6 +16,7 @@ import Button from "/space/UI/Common/Button.vue";
 				--button-margin: 0;
 				--button-padding: 0.6em;
 				margin: 1em 0;
+				padding: var(--padding)
 			"
 		>
 			<Button

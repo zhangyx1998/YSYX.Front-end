@@ -1,4 +1,5 @@
 <script setup>
+import Dialog from "/space/UI/Common/Panes/Dialog.vue";
 import Button from "/space/UI/Common/Button.vue";
 import Paragraph from "/space/UI/Common/Paragraph.vue";
 import RefreshButton from "/space/UI/Common/RefreshButton.vue";

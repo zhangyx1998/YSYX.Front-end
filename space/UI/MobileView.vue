@@ -4,8 +4,9 @@ import NaviBar from "./Mobile/NaviBar.vue";
 import AppPane from "./Mobile/AppPane.vue";
 // Application module components
 import Forum from "./Mobile/Forum.vue";
+import Posts from "./Mobile/Forum.vue";
 import Tasks from "./Mobile/Tasks.vue";
-import UserInfo from "./Mobile/UserInfo.vue";
+import Account from "./Common/IdCard.vue";
 import TitleBar from "./Mobile/TitleBar.vue";
 // Application Panels
 import PlaceHolder from "./Mobile/Panes/PlaceHolder.vue";
@@ -18,17 +19,16 @@ import ProgressReport from "./Module/ProgressReport.vue";
 <template>
 	<transition-group :name="paneAnimtion">
 		<TitleBar
-			:class="poster"
+			:class="posterState"
 			v-if="!stackDepth || !login"
-			@animationend="poster = init ? '' : poster"
+			@animationend="posterState = init ? '' : posterState"
 			style="opacity: 1 !important"
 		/>
-		<div
-			AppView
-			v-if="!stackDepth"
-			style="padding-bottom: var(--mobile-navibar-height)"
-		>
-			<div ContentView>
+		<div AppView v-if="!stackDepth">
+			<div
+				ContentView
+				style="bottom: var(--mobile-navibar-height) !important"
+			>
 				<transition :name="slideTo || 'spring-up'">
 					<keep-alive>
 						<component
@@ -59,8 +59,8 @@ import ProgressReport from "./Module/ProgressReport.vue";
 	<transition name="spring-up">
 		<div
 			ContentView
-			v-if="init && !login && poster !== 'poster'"
-			:class="poster"
+			v-if="init && !login && posterState !== 'posterState'"
+			:class="posterState"
 			style="z-index: 1000; background-color: var(--accent)"
 		>
 			<Login v-if="!login" />
@@ -77,7 +77,7 @@ import { markRaw } from "@vue/reactivity";
 function safeArea() {
 	const { innerHeight, innerWidth } = window,
 		aspectRatio = innerHeight / innerWidth;
-	if (aspectRatio >= 2) {
+	if (aspectRatio >= 2 || 1 / aspectRatio >= 2) {
 		document.documentElement.style.setProperty(
 			"--mobile-bottom-safearea",
 			"16px"
@@ -99,10 +99,10 @@ export default {
 		return {
 			init: false,
 			login: false,
-			poster: "poster",
+			posterState: "posterState",
 			freeze: false,
 			slideTo: "",
-			display: "",
+			display: "Tasks",
 			stackDepth: 0,
 			paneStack: [],
 			paneAnimtion: "push-left",
@@ -162,17 +162,13 @@ export default {
 			};
 		},
 	},
-	watch: {
-		slideTo(val) {
-			console.log(val);
-		}
-	},
 	computed: {
 		el() {
 			return {
 				Forum,
+				Posts,
 				Tasks,
-				UserInfo,
+				Account,
 			}[this.display];
 		},
 	},
@@ -199,7 +195,7 @@ export default {
 		const ANIMATION_TIME = 5000;
 		setTimeout(() => {
 			Session.init().then(() => {
-				this.poster = "poster-leave";
+				this.posterState = "posterState-leave";
 				this.init = true;
 			});
 		}, ANIMATION_DELAY);
