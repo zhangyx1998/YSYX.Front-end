@@ -32,11 +32,11 @@ import Button from "/space/UI/Common/Button.vue";
 					? {
 							'en-US': 'Invalid Credentials',
 							'zh-CN': '无效的用户名或密码',
-					  }
+						}
 					: {
 							'en-US': 'Password',
 							'zh-CN': '密码',
-					  })[locale.$]
+						})[locale.$]
 			"
 			type="password"
 			v-model="login_Password"

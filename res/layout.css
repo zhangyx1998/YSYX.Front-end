@@ -103,7 +103,7 @@ textarea {
 	overflow-y: scroll;
 	width: 100%;
 	/* Center */
-    margin: 0 auto !important;
+		margin: 0 auto !important;
 	background-color: var(--white-brighter);
 }
 

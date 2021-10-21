@@ -14,4 +14,12 @@ export default defineConfig({
 			}
 		}
 	},
+	server: {
+		proxy: {
+			'^/api/.*': {
+				target: 'http://dev.ysyx.org:8100/',
+				changeOrigin: true,
+			},
+		}
+	}
 })

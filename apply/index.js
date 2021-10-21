@@ -1,3 +1,3 @@
 import { createApp } from 'vue';
-import App from './UI/Form.vue';
+import App from './UI/App.vue';
 createApp(App).mount('#app');
