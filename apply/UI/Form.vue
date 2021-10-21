@@ -38,6 +38,14 @@ export default {
     page3,
     page4,
   },
+  data() {
+    return {
+      isShow_page1: true,
+      isShow_page2: false,
+      isShow_page3: false,
+      isShow_page4: false,
+    }
+  },
 }
 </script>
 <style scoped>

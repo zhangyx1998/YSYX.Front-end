@@ -10,7 +10,7 @@
           type="text"
           class="inputContent"
           ref="name"
-          v-model="info.name"
+          v-model="name"
           placeholder="请输入2～20个字符"
         />
         <i class="fa fa-times" id="name" style="display: none;"></i>
@@ -24,7 +24,7 @@
           type="text"
           class="inputContent"
           ref="phone"
-          v-model="info.phone"
+          v-model="phone"
           placeholder="请输入11位数字"
         />
         <i class="fa fa-times" id="phone" style="display: none;"></i>
@@ -38,7 +38,7 @@
           type="text"
           class="inputContent"
           ref="email"
-          v-model="info.email"
+          v-model="email"
           placeholder="请输入您的常用邮箱"
         />
         <i class="fa fa-times" id="email" style="display: none;"></i>
@@ -52,7 +52,7 @@
           type="text"
           class="inputContent"
           ref="school"
-          v-model="info.school"
+          v-model="school"
           placeholder="请输入你所在的学校或单位"
         />
         <i class="fa fa-times" id="school" style="display: none;"></i>
@@ -79,6 +79,117 @@
 <script>
 export default {
   name: 'page1',
+  data() {
+    return {
+      isTeacher: false,
+      isStudent: false,
+      //基本信息page1
+
+      name: '',
+      phone: '',
+      email: '',
+      school: '',
+      identity: '',
+
+      information: {},
+    }
+  },
+  methods: {
+    acquireTec() {
+      var ui = document.getElementById('identity')
+      ui.style.display = 'none'
+      this.isTeacher = true
+      this.isStudent = false
+      this.identity = '老师'
+    },
+    acquireStu() {
+      var ui = document.getElementById('identity')
+      ui.style.display = 'none'
+      this.isTeacher = false
+      this.isStudent = true
+      this.identity = '学生'
+    },
+    nextpage2() {
+      //验证name
+      if (
+        this.$refs.name.value.length < 2 ||
+        this.$refs.name.value.length > 20
+      ) {
+        var ui = document.getElementById('name')
+        ui.style.display = 'inline'
+        console.log('name is error')
+      } else {
+        var ui = document.getElementById('name')
+        ui.style.display = 'none'
+        this.name = this.$refs.name.value
+        this.isName = true
+      }
+
+      //验证phone
+      var s = this.$refs.phone.value
+      var r = /^1(3|4|5|6|7|8|9)\d{9}$/
+      if (r.test(s)) {
+        var ui = document.getElementById('phone')
+        ui.style.display = 'none'
+        this.phone = this.$refs.phone.value
+        this.isPhone = true
+      } else {
+        var ui = document.getElementById('phone')
+        ui.style.display = 'inline'
+        console.log('phone is error')
+      }
+
+      //验证email
+      var str = this.$refs.email.value
+      var re = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
+      if (re.test(str)) {
+        var ui = document.getElementById('email')
+        ui.style.display = 'none'
+        this.email = this.$refs.email.value
+        this.isEmail = true
+      } else {
+        var ui = document.getElementById('email')
+        ui.style.display = 'inline'
+        console.log('email is error')
+      }
+
+      //验证school
+      if (this.$refs.school.value.length < 1) {
+        var ui = document.getElementById('school')
+        ui.style.display = 'inline'
+        console.log('school is error')
+      } else {
+        var ui = document.getElementById('school')
+        ui.style.display = 'none'
+        this.school = this.$refs.school.value
+        this.isSchool = true
+      }
+
+      //验证identity
+      if (this.identity.length < 1) {
+        var ui = document.getElementById('identity')
+        ui.style.display = 'inline'
+        console.log('identity is error')
+      } else {
+        this.isIdentity = true
+      }
+      var right =
+        this.isName &&
+        this.isPhone &&
+        this.isEmail &&
+        this.isSchool &&
+        this.isIdentity
+      //   if (right) {
+      //     this.isShow_page1 = false
+      //     this.isShow_page2 = true
+      //     this.isShow_page3 = true
+      //   } else {
+      //     this.isShow_page1 = true
+      //     this.isShow_page2 = false
+      //     this.isShow_page3 = false
+      //   }
+    },
+  },
 }
 </script>
 <style scoped>
