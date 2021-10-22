@@ -1,65 +1,149 @@
+<script setup>
+import Button from "/space/UI/Common/Button.vue";
+import DirectInputEntry from "../Common/DirectInputEntry.vue";
+</script>
+
+
 <template>
-	<div>
-		<section class="page2">
-			<div class="question">
-				<div class="title">
-					<span class="answerTitle">您所教授的相关课程:</span>
-				</div>
-				<textarea
-					id="course"
-					cols="60"
-					rows="5"
-					ref="course"
-					v-model="info_tec.course"
-				></textarea>
-			</div>
-			<div class="question">
-				<div class="title">
-					<span class="answerTitle">
-						您辅导学生参加过的比赛（请注明比赛名称、参加时间和获奖名次):
-					</span>
-				</div>
-				<textarea
-					id="contest"
-					cols="60"
-					rows="5"
-					ref="contest"
-					v-model="info_tec.contest"
-				></textarea>
-			</div>
-		</section>
-		<div style="display: flex; flex-direction: row;">
-			<button class="up_button" @click="back()">上一步</button>
-			<button class="down_button" @click="nextpage4()">下一步</button>
-		</div>
-	</div>
+    <div Content>
+        <div EntryGroup>
+            <div IdCard ref="IdCard">
+                <div EntryGroup>
+                    <DirectInputEntry
+                        :validate="(val) => val.trim().length >= 2"
+                        :value="name"
+                        property="name"
+                        @update="(val) => (name = val)"
+                    >
+                        <span en-US>Name</span>
+                        <span zh-CN>姓名</span>
+                    </DirectInputEntry>
+                    <DirectInputEntry
+                        :validate="(val) => true"
+                        :value="mail"
+                        property="email"
+                        @update="(val) => (mail = val)"
+                    >
+                        <span en-US>Mail</span>
+                        <span zh-CN>邮箱</span>
+                    </DirectInputEntry>
+                    <DirectInputEntry
+                        :validate="() => true"
+                        :value="cell"
+                        property="tel"
+                        @update="(val) => (cell = val)"
+                    >
+                        <span en-US>phone</span>
+                        <span zh-CN>电话</span>
+                    </DirectInputEntry>
+                </div>
+                <div
+                    w100
+                    h-rule
+                    style="
+                        display: flex;
+                        justify-content: center;
+                        --button-margin: 1.2em 0.8em 0 0.8em;
+                    "
+                ></div>
+            </div>
+        </div>
+    </div>
 </template>
+<script>
+import { locale } from "/util/locale.js";
+export default {
+    emits: ["forward", "submitToApp"],
+    data() {
+        return {
+            locale,
+            name: "",
+            mail: "",
+            cell: "",
+        };
+    },
+    watch: {
+        name(val) {
+            console.log(val);
+        },
+        cell(val) {
+            console.log(val);
+        },
+        mail(val) {
+            console.log(val);
+        },
+    },
+    computed: {
+        complete() {
+            return (
+                !!(this.name && this.mail && this.cell) ||
+                this.$emit("submitToApp", { name, mail, cell })
+            );
+        },
+    },
+};
+</script>
+
 <style scoped>
-.page2 {
-	margin: 2em 0 0.5em 0;
-	padding: 1.8em 3em;
-	box-shadow: 0 0.25em 0.5em 0 var(--shadow);
-	transition: 0.3s;
-	border-radius: 5px;
+[IdCard] {
+    font-size: 1.2em;
+    display: block;
+    width: 100%;
+    height: 100vh;
 }
-.page2:hover {
-	box-shadow: 0 0.5em 1em 0 var(--shadow);
+
+[IdCard] > * {
+    width: auto;
 }
-.page2 .question {
-	margin: 1em 0 1.8em 0;
+
+/* EntryGroup */
+[EntryGroup] {
+    /* color: var(--white); */
 }
-.page2 .title {
-	color: var(--fontcolor);
-	margin: 0.25em 0;
+
+[EntryGroup] {
+    background-color: var(--white-background);
+    min-height: 3em;
+    overflow: hidden;
 }
-.up_button,
-.down_button {
-	width: 7em;
-	height: 3em;
-	font-size: 1em;
-	color: var(--mainbgc);
-	background-color: var(--accent);
-	margin: 2.5em 2em;
-	border-radius: 3px;
+
+::v-deep([EntryGroup] > [Entry]) {
+    padding: 0.2em var(--padding);
+}
+
+::v-deep([Entry]) {
+    display: flex;
+    margin: -2px 0;
+    border-bottom: 1px solid var(--white-background);
+}
+
+::v-deep([Entry]:focus),
+::v-deep([Entry]:focus-within) {
+    background-color: var(--white-background);
+}
+
+::v-deep([Entry] > *) {
+}
+
+::v-deep([EntryVal]) {
+    flex-grow: 1;
+    display: block;
+}
+
+::v-deep([EntryAction]) {
+}
+
+::v-deep([EntryVal] > [title]) {
+    padding-top: 0.4em;
+    font-size: 0.8em;
+    opacity: 0.6;
+}
+
+::v-deep(input) {
+    padding: 0.6em 0;
+    outline: none;
+    border: none;
+    background-color: transparent !important;
+    /* color: var(--white); */
 }
 </style>

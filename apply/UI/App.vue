@@ -1,6 +1,7 @@
 <script setup>
 // UI Components
 import TitleBar from "/space/UI/Mobile/TitleBar.vue";
+import NaviBar from "./NaviBar.vue";
 // Form Components
 import Step_0 from "./Steps/0.Blank.vue";
 import Step_1 from "./Steps/1.BasicInfo.vue";
@@ -13,11 +14,14 @@ import Step_4 from "./Steps/4.Confirm.vue";
     <span :class="[locale.$, 'mobile']">
         <div AppView>
             <TitleBar
-                :title="{ 'en-US': 'Apply', 'zh-CN': '提交申請' }[locale.$]"
+                :title="
+                    { 'en-US': 'Apply', 'zh-CN': '一生一芯片报名表' }[locale.$]
+                "
             />
             <div ContentView>
-                <component :is="el" @forward="step++" />
+                <component :is="el" @forward="step++" @back="step--" />
             </div>
+            <NaviBar :step="step" @forward="step++" @back="step--" />
         </div>
     </span>
 </template>
@@ -26,10 +30,12 @@ import Step_4 from "./Steps/4.Confirm.vue";
 import { locale } from "/util/locale.js";
 
 export default {
+    components: { NaviBar },
     data() {
         return {
             locale,
-            step: 0,
+            step: 1,
+            allInfo: {},
         };
     },
     computed: {
@@ -41,6 +47,14 @@ export default {
                 Step_3, // emits: ['back', 'forward']
                 Step_4, // emits: ['back', 'confirm']
             ][this.step];
+        },
+    },
+    methods: {
+        submitToApp(infoObj) {
+            for (let key of infoObj) {
+                this.allInfo[key] = infoObj[key];
+            }
+            console.log(this.allInfo);
         },
     },
 };
