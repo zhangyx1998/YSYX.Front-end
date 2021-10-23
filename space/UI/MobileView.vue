@@ -72,7 +72,7 @@ import Button from "/space/UI/Common/Button.vue";
 			<keep-alive>
 				<component
 					:is="paneEl"
-					:data="paneArgs"
+					:args="paneArgs"
 					@back="exitPane"
 					@show-pane="showPane"
 				/>

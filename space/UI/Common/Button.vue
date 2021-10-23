@@ -140,7 +140,8 @@ export default {
 [button].seamless.white:not(.disabled):hover {
 	background-color: rgba(255, 255, 255, 0.1);
 }
-[button].seamless.white:not(.disabled):active {
+[button].seamless.white:not(.disabled):active,
+[button].seamless.white:not(.disabled).active {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 /* solid */
@@ -239,7 +240,7 @@ export default {
 	color: var(--gray-bright);
 }
 [button].link:not(.disabled):hover {
-	color: var(--gray-brighter);
+	opacity: 0.8;
 }
 [button].link:not(.disabled):active,
 [button].link:not(.disabled).active {

@@ -107,8 +107,9 @@ Session.on('init', () => {
 		});
 });
 
-Session.on('login', ({ ID }) => {
+Session.on('login', ({ ID, Privilege }) => {
 	Session.data.ID = ID;
+	Session.data.Privilege = Privilege
 	Session.data.login = true;
 	Session
 		.post('UserProfile')

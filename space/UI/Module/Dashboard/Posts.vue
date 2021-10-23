@@ -25,36 +25,73 @@ import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 				>
 					<div title>
 						<div class="large">{{ el.title }}&nbsp;</div>
-						<div style="flex-grow: 1"></div>
-						<div class="suffix">
-							<span zh-CN>由</span>
-							<span en-US>Posted by</span>
-							<span style="padding: 0 0.5em">{{
-								el.userName
-							}}</span>
-							<span zh-CN>发布</span>
-						</div>
+						<span
+							class="small"
+							style="
+								flex-grow: 1;
+								justify-content: flex-end;
+								--button-padding: 0em 0.2em;
+								--button-margin: 0 0.5em;
+							"
+						>
+							<Button
+								v-if="el.userID == userID"
+								type="link"
+								:name="
+									intl({
+										'en-US': 'edit',
+										'zh-CN': '编辑',
+									})
+								"
+								@click="
+									this.$emit(
+										'show-pane',
+										'PostManage',
+										Object.assign({}, el)
+									)
+								"
+							/>
+							<Button
+								v-if="el.userID == userID || userPriv.admin"
+								type="link"
+								:name="
+									intl({
+										'en-US': 'delete',
+										'zh-CN': '删除',
+									})
+								"
+								@click="deletePost(el.ID)"
+							/>
+						</span>
 					</div>
 					<div content>
 						<Paragraph :text="el.content" />
 					</div>
 					<div
 						style="
-							text-align: center;
+							display: block;
+							text-align: left;
 							font-size: 0.8em;
 							color: var(--gray-bright);
 						"
+						:set="
+							(dateStr = localeDate(
+								el.updateTime || el.createTime
+							))
+						"
 					>
-						<span v-if="el.updateTime">
-							<span zh-CN>最后更新于</span>
-							<span en-US>Modified at</span>
+						<span zh-CN v-if="!el.updateTime">
+							{{ el.userName }} 发布于 {{ dateStr }}
 						</span>
-						<span v-else>
-							<span zh-CN>创建于</span>
-							<span en-US>Posted at</span> </span
-						>&nbsp;<span>{{
-							localeDate(el.createTime || el.updateTime)
-						}}</span>
+						<span zh-CN v-else>
+							{{ el.userName }}，最后更新于 {{ dateStr }}
+						</span>
+						<span en-US v-if="!el.updateTime">
+							{{ el.userName }} posted at {{ dateStr }}
+						</span>
+						<span en-US v-else>
+							{{ el.userName }} updated at {{ dateStr }}
+						</span>
 					</div>
 				</div>
 			</span>
@@ -98,8 +135,9 @@ export default {
 	data() {
 		return {
 			env,
-			lang: Session.language,
 			content: [],
+			userID: Session.data.ID,
+			userPriv: Session.data.Privilege,
 		};
 	},
 	computed: {
@@ -125,12 +163,23 @@ export default {
 					}));
 			});
 		},
-		titleFormat(ID) {
-			const [Y, M, D] = ID.split("-");
-			return {
-				Date: `${monthShort(M)} ${D}`,
-				Year: Y,
-			};
+		deletePost(postID) {
+			if (
+				confirm(
+					this.intl({
+						"en-US": `Delete this post? (ID ${postID})\nPosts can not be recovered once deleted.`,
+					})
+				)
+			) {
+				let update = {};
+				update[postID] = null;
+				Session.post("PostManage/Update", update).then(
+					({ valid, message }) => {
+						console.log(valid, message);
+						this.fetch();
+					}
+				);
+			}
 		},
 	},
 	activated() {

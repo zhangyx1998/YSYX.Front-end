@@ -246,15 +246,9 @@ export default {
 	background-color: var(--white-background);
 }
 
-::v-deep([Entry] > *) {
-}
-
 ::v-deep([EntryVal]) {
 	flex-grow: 1;
 	display: block;
-}
-
-::v-deep([EntryAction]) {
 }
 
 ::v-deep([EntryVal] > [title]) {

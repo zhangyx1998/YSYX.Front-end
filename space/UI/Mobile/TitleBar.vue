@@ -14,16 +14,12 @@ defineProps({
 		</div>
 		<div title>
 			<transition :name="animation">
-				<img v-show="!title" src="/res/YSYX.png" />
+				<img id="YSYX_MONO" v-show="!title" src="/res/YSYX_Mono.png" />
 			</transition>
+			<img id="YSYX_COLOR" src="/res/YSYX.png" />
 		</div>
 		<transition :name="animation">
-			<span
-				title-alt
-				v-if="!!title"
-				:key="title"
-				>{{ title }}</span
-			>
+			<span title-alt v-if="!!title" :key="title">{{ title }}</span>
 		</transition>
 		<div navi style="justify-content: flex-end">
 			<slot name="right"></slot>
@@ -99,8 +95,8 @@ h1 {
 /* TitleBar LOGO image animation */
 [title] {
 	height: 1.4em;
-	filter: brightness(100) saturate(0);
 	text-align: center;
+	position: relative;
 }
 
 [title-alt] {
@@ -121,18 +117,32 @@ img {
 }
 
 .poster [title] {
-	filter: none;
 	transform: scale(1.6);
-	/* Fade in */
-	animation-name: fade-in;
-	animation-duration: 0.5s;
-	animation-timing-function: var(--animation-curve);
+	animation: fade-in var(--poster-animation-duration) var(--animation-curve);
 }
 
-.poster-leave [title] {
-	animation-name: scale;
-	animation-duration: var(--poster-animation-duration);
-	animation-timing-function: var(--animation-curve);
+.poster-leave [title],
+.poster-leave [title] img {
+	transition-duration: var(--poster-animation-duration);
+	transition-timing-function: var(--animation-curve);
+}
+
+#YSYX_COLOR {
+	position: absolute;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	opacity: 0;
+}
+
+.poster #YSYX_COLOR,
+.poster-leave #YSYX_COLOR {
+	opacity: 1;
+}
+
+.poster #YSYX_MONO {
+	opacity: 0;
 }
 
 @keyframes fade-in {
@@ -142,30 +152,6 @@ img {
 
 	to {
 		opacity: 1;
-	}
-}
-
-@keyframes scale {
-	from {
-		filter: none;
-		transform: scale(1.6);
-	}
-
-	10% {
-		filter: brightness(1) saturate(0.2);
-	}
-
-	30% {
-		filter: brightness(10) saturate(0.1);
-	}
-
-	60% {
-		filter: brightness(60) saturate(0);
-	}
-
-	to {
-		filter: brightness(100) saturate(0);
-		transform: none;
 	}
 }
 </style>
