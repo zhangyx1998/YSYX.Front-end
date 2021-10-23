@@ -11,66 +11,191 @@ import Step_4 from "./Steps/4.Confirm.vue";
 </script>
 
 <template>
-    <span :class="[locale.$, 'mobile']">
-        <div AppView>
-            <TitleBar
-                :title="
-                    { 'en-US': 'Apply', 'zh-CN': '一生一芯片报名表' }[locale.$]
-                "
-            />
-            <div ContentView>
-                <component :is="el" @forward="step++" @back="step--" />
-            </div>
-            <NaviBar :step="step" @forward="step++" @back="step--" />
-        </div>
-    </span>
+	<span :class="[locale.$, 'mobile']">
+		<div AppView>
+			<TitleBar
+				:title="
+					{ 'en-US': 'Apply', 'zh-CN': '一生一芯报名表' }[locale.$]
+				"
+			/>
+			<div ContentView>
+				<transition :name="slideTo ? `slide-${slideTo}` : 'spring-up'">
+					<keep-alive>
+						<component
+							:is="el"
+							@forward="step++"
+							@back="step--"
+							@update="update"
+						/>
+					</keep-alive>
+				</transition>
+			</div>
+			<NaviBar
+				:back="step > 1"
+				:forward="step < 4"
+				@forward="step++"
+				@back="step--"
+				:valid="stepValid"
+			/>
+		</div>
+	</span>
 </template>
 
 <script>
 import { locale } from "/util/locale.js";
 
 export default {
-    components: { NaviBar },
-    data() {
-        return {
-            locale,
-            step: 1,
-            allInfo: {},
-        };
-    },
-    computed: {
-        el() {
-            return [
-                Step_0,
-                Step_1, // emits: ['forward']
-                Step_2, // emits: ['back', 'forward']
-                Step_3, // emits: ['back', 'forward']
-                Step_4, // emits: ['back', 'confirm']
-            ][this.step];
-        },
-    },
-    methods: {
-        submitToApp(infoObj) {
-            for (let key of infoObj) {
-                this.allInfo[key] = infoObj[key];
-            }
-            console.log(this.allInfo);
-        },
-    },
+	components: { NaviBar },
+	data() {
+		return {
+			locale,
+			step: null,
+			slideTo: "",
+			formData: {
+				Name: "",
+				Cell: "",
+				Mail: "",
+				identity: "",
+			},
+		};
+	},
+	computed: {
+		el() {
+			return [
+				Step_0,
+				Step_1, // emits: ['forward']
+				Step_2, // emits: ['back', 'forward']
+				Step_3, // emits: ['back', 'forward']
+				Step_4, // emits: ['back', 'confirm']
+			][this.step];
+		},
+		stepValid() {
+			return !![
+				true,
+				this.formData.Name && this.formData.Cell && this.formData.Mail,
+				this.formData.identity,
+				true,
+				true,
+			][this.step];
+		},
+	},
+	methods: {
+		update(entryName, data) {
+			if (entryName in this.formData) {
+				this.formData[entryName] = data;
+			}
+			console.log(entryName, data);
+
+			this.$forceUpdate();
+		},
+	},
+	watch: {
+		step(newVal, oldVal) {
+			if (oldVal !== null)
+				this.slideTo = newVal > oldVal ? "left" : "right";
+		},
+	},
+	mounted() {
+		this.step = 1;
+		console.log(this);
+	},
 };
 </script>
+
 <style>
 :root {
-    /* Variables */
-    --mobile-bottom-safearea: 0px;
-    --mobile-navibar-content: 4.2em;
-    --mobile-navibar-height: calc(
-        var(--mobile-navibar-content) + var(--mobile-bottom-safearea)
-    );
-    --mobile-titlebar-height: 3.6em;
+	/* Variables */
+	--mobile-bottom-safearea: 0px;
+	--mobile-navibar-content: 4.2em;
+	--mobile-navibar-height: calc(
+		var(--mobile-navibar-content) + var(--mobile-bottom-safearea)
+	);
+	--mobile-titlebar-height: 3.6em;
 }
 
 * {
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+input {
+	width: 100%;
+}
+
+[Form] {
+	font-size: 1.2em;
+	display: block;
+	width: 100%;
+	height: 100vh;
+}
+
+[Form] > * {
+	width: auto;
+}
+
+[Entry] {
+	border-left: 2px solid transparent;
+}
+
+[Entry]:focus-within {
+	border-left: 2px solid var(--accent);
+}
+[IdCard] {
+	font-size: 1.2em;
+	display: block;
+	width: 100%;
+	height: 100vh;
+}
+
+[IdCard] > * {
+	width: auto;
+}
+
+/* EntryGroup */
+
+[EntryGroup] {
+	min-height: 3em;
+	overflow: hidden;
+}
+
+[EntryGroup] > [Entry] {
+	padding: 0.2em var(--padding);
+	margin: var(--padding) 0;
+}
+
+[Entry] {
+	display: flex;
+	margin: -2px 0;
+	border-bottom: 1px solid var(--white-background);
+}
+
+[Entry]:focus,
+[Entry]:focus-within {
+	background-color: var(--accent-background);
+}
+
+[Entry] > * {
+}
+
+[EntryVal] {
+	flex-grow: 1;
+	display: block;
+}
+
+[EntryAction] {
+}
+
+[EntryVal] > [title] {
+	padding: 0.4em 0;
+	font-size: 0.8em;
+	opacity: 0.6;
+}
+
+input {
+	width: 100%;
+	padding: 0.6em 0;
+	outline: none;
+	border: none;
+	background-color: transparent !important;
+	/* color: var(--white); */
 }
 </style>

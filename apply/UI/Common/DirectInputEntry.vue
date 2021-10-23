@@ -3,7 +3,6 @@ import Button from "/space/UI/Common/Button.vue";
 import Responsive from "/space/UI/Common/Responsive.vue";
 defineProps({
 	validate: Function,
-	value: String,
 	property: String
 });
 </script>
@@ -15,7 +14,6 @@ defineProps({
 			<input
 				ref="input"
 				:autocomplete="property"
-				:value="value"
 				:placeholder="warn || property"
 				@keydown.enter="update()"
 				@blur="update()"
@@ -45,8 +43,9 @@ export default {
 			if (this.validate(this.$refs.input.value))
 				this.$emit('update', this.$refs.input.value);
 			else {
-				this.warn = 'ssss';
+				this.warn = '格式错误，请重新输入';
 				this.$refs.input.value = '';
+				this.$emit('update', null);
 			}
 		}
 	}
