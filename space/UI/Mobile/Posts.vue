@@ -1,31 +1,9 @@
 <script setup>
-import Entry from "./Tasks/Entry.vue";
+import Posts from "/space/UI/Module/Dashboard/Posts.vue";
 </script>
 
 <template>
-	<div ContentView>
-		<div Content>
-			<span
-				group
-				v-for="(role, roleName) in Roles"
-				:key="roleName"
-				w100
-				v-show="role.show"
-			>
-				<div title v-if="role.show" en-US>{{ role["en-US"] }}</div>
-				<div title v-if="role.show" zh-CN>{{ role["zh-CN"] }}</div>
-				<div action-group>
-					<span v-for="(el, moduleID) in ModuleInfo" :key="moduleID">
-						<Entry
-							v-if="el.show && el.role === roleName"
-							:el="el"
-							@click="$emit('show-pane', moduleID)"
-						/>
-					</span>
-				</div>
-			</span>
-		</div>
-	</div>
+	<Posts />
 </template>
 
 <script>

@@ -2,6 +2,7 @@
 	position: absolute;
 	margin: 0 !important;
 	padding: 0 !important;
+	--float-padding: var(--padding);
 }
 
 [float][_1em] {

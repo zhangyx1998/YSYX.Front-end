@@ -1,23 +1,31 @@
 <script setup>
-import { platform } from '/space/UI/App.vue';
+import { env } from "/util/env.js";
 defineProps({
 	title: String,
+	animation: String,
+	poster: Boolean,
 });
 </script>
 
 <template>
-	<div TitleBar ref="TitleBar" v-if="platform == 'mobile'">
-		<div navi style="justify-content: left">
+	<div TitleBar ref="TitleBar" v-if="env.platform == 'mobile'">
+		<div navi style="justify-content: flex-start">
 			<slot name="left"></slot>
 		</div>
-		<div
-			v-if="title"
-			style="color: white; font-size: 1.2em; font-weight: normal"
-		>
-			{{ title }}
+		<div title>
+			<transition :name="animation">
+				<img v-show="!title" src="/res/YSYX.png" />
+			</transition>
 		</div>
-		<img v-else src="/res/YSYX.png" />
-		<div navi style="justify-content: right">
+		<transition :name="animation">
+			<span
+				title-alt
+				v-if="!!title"
+				:key="title"
+				>{{ title }}</span
+			>
+		</transition>
+		<div navi style="justify-content: flex-end">
 			<slot name="right"></slot>
 		</div>
 	</div>
@@ -89,12 +97,30 @@ h1 {
 }
 
 /* TitleBar LOGO image animation */
-[TitleBar] img {
-	height: 1.6em;
+[title] {
+	height: 1.4em;
 	filter: brightness(100) saturate(0);
+	text-align: center;
 }
 
-.poster[TitleBar] img {
+[title-alt] {
+	pointer-events: none;
+	position: absolute;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	left: 0;
+	color: white;
+	font-size: 1.2em;
+}
+
+img {
+	height: 100%;
+}
+
+.poster [title] {
 	filter: none;
 	transform: scale(1.6);
 	/* Fade in */
@@ -103,7 +129,7 @@ h1 {
 	animation-timing-function: var(--animation-curve);
 }
 
-.poster-leave[TitleBar] img {
+.poster-leave [title] {
 	animation-name: scale;
 	animation-duration: var(--poster-animation-duration);
 	animation-timing-function: var(--animation-curve);

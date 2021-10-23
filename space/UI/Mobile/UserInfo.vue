@@ -27,8 +27,8 @@ import Button from "/space/UI/Common/Button.vue";
 					width: 5em;
 				"
 				:type="type_default()"
-				:name="{ 'en-US': 'default', 'zh-CN': '默认' }[locale.$]"
-				@click="locale.unsetOverride()"
+				:name="intl({ 'en-US': 'default', 'zh-CN': '默认' })"
+				@click="setLocaleOverride()"
 			/>
 			<Button
 				:style="{
@@ -42,7 +42,7 @@ import Button from "/space/UI/Common/Button.vue";
 				}"
 				:type="type_CN()"
 				name="中文"
-				@click="locale.setOverride('zh-CN')"
+				@click="setLocaleOverride('zh-CN')"
 			/>
 			<Button
 				style="
@@ -53,7 +53,7 @@ import Button from "/space/UI/Common/Button.vue";
 				"
 				:type="type_EN()"
 				name="English"
-				@click="locale.setOverride('en-US')"
+				@click="setLocaleOverride('en-US')"
 			/>
 		</div>
 		<div
@@ -62,10 +62,10 @@ import Button from "/space/UI/Common/Button.vue";
 			<Button
 				type="solid red"
 				:name="
-					{
+					intl({
 						'en-US': 'Log out',
 						'zh-CN': '退出登录',
-					}[locale.$]
+					})
 				"
 				@click="logout()"
 			/>
@@ -75,7 +75,7 @@ import Button from "/space/UI/Common/Button.vue";
 
 <script>
 import { Session } from "/space/Session.js";
-import { locale, Locale } from "/util/locale.js";
+import { env, intl, setLocaleOverride } from '/util/env.js';
 
 const data = {
 	Profile: null,
@@ -89,7 +89,6 @@ export default {
 	emits: ["show-pane", "close-pane"],
 	data() {
 		return {
-			locale,
 			_popup_: {
 				ID: 0,
 				show: false,
@@ -99,26 +98,28 @@ export default {
 		};
 	},
 	methods: {
+		intl,
+		setLocaleOverride,
 		logout() {
 			Session.logout().then();
 		},
 		type_default() {
-			return !locale.override ? "gray solid" : "gray outlined";
+			return !env.localeOverride ? "gray solid" : "gray outlined";
 		},
 		type_EN() {
-			return locale.override && locale.$ == "en-US"
+			return env.localeOverride && env.locale == "en-US"
 				? "gray solid"
 				: "gray outlined";
 		},
 		type_CN() {
-			return locale.override && locale.$ == "zh-CN"
+			return env.localeOverride && env.locale == "zh-CN"
 				? "gray solid"
 				: "gray outlined";
 		},
 	},
 	created() {
 		// Force Update on language change
-		Locale.on("update", () => {
+		env.on("update", () => {
 			this.$forceUpdate();
 		});
 	},

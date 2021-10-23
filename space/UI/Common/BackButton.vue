@@ -13,7 +13,6 @@ import Button from "/space/UI/Common/Button.vue";
 
 
 <script>
-import { locale } from '/util/locale.js';
 export default {
 	emits: ['back'],
 };

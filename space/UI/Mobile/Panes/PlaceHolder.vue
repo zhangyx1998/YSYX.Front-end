@@ -8,16 +8,15 @@ defineProps({
 </script>
 
 <template>
-	<MobileTitleBar>
+	<MobileTitleBar :title="data.title">
 		<template #left><BackButton @back="$emit('back')" /></template>
 	</MobileTitleBar>
 	<div ContentView style="padding-bottom: var(--mobile-title-bar-height)">
-		<Dialog :title="data.title" :suffix="data.suffix" class="gray" />
+		<Dialog :suffix="data.suffix" class="gray" />
 	</div>
 </template>
  
 <script>
-import { locale } from "/util/locale.js";
 export default {
 	emits: ["show-pane", "back"],
 };

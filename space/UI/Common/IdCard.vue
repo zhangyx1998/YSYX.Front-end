@@ -3,24 +3,10 @@ import DirectInputEntry from "./IdCard/DirectInputEntry.vue";
 </script>
 
 <template>
-	<div
-		Content
-		style="
-			padding-top: 0;
-			padding-left: 0;
-			padding-right: 0;
-			background-color: var(--accent);
-		"
-	>
+	<div ContentView>
 		<div
 			IdCardHeader
-			style="
-				position: fixed;
-				top: var(--mobile-titlebar-height);
-				left: 0;
-				right: 0;
-				z-index: 999;
-			"
+			style="position: absolute; top: 0; left: 0; right: 0; z-index: 999"
 			:style="{
 				'--IdCardHeader-height': IdCardHeaderHeight - scrollTop + 'px',
 			}"
@@ -65,65 +51,84 @@ import DirectInputEntry from "./IdCard/DirectInputEntry.vue";
 			></div>
 		</div>
 		<div
-			IdCard
-			ref="IdCard"
-			:style="{ 'padding-top': IdCardHeaderHeight + 'px' }"
+			Content
+			style="
+				padding-top: 0;
+				padding-left: 0;
+				padding-right: 0;
+				background-color: var(--accent);
+			"
+			ref="Content"
 		>
-			<div EntryGroupTitle>
-				<span en-US>User Group</span><span zh-CN>分组</span>
+			<div IdCard :style="{ 'padding-top': IdCardHeaderHeight + 'px' }">
+				<div EntryGroupTitle>
+					<span en-US>User Group</span><span zh-CN>分组</span>
+				</div>
+				<div EntryGroup></div>
+				<div EntryGroupTitle>
+					<span en-US>Personal Information</span
+					><span zh-CN>个人信息</span>
+				</div>
+				<div EntryGroup>
+					<DirectInputEntry
+						:value="profile.Cell"
+						:validate="() => true"
+					>
+						<span en-US>Cell</span>
+						<span zh-CN>电话</span>
+					</DirectInputEntry>
+					<DirectInputEntry
+						:value="profile.Mail"
+						:validate="() => true"
+					>
+						<span en-US>Mail</span>
+						<span zh-CN>邮箱</span>
+					</DirectInputEntry>
+					<DirectInputEntry
+						:value="profile.Organization"
+						:validate="() => true"
+					>
+						<span en-US>Institute</span>
+						<span zh-CN>所属机构</span>
+					</DirectInputEntry>
+					<DirectInputEntry
+						:value="profile.Major"
+						:validate="() => true"
+					>
+						<span en-US>Major</span>
+						<span zh-CN>专业</span>
+					</DirectInputEntry>
+				</div>
+				<div EntryGroupTitle>
+					<span en-US>Interested Fields</span
+					><span zh-CN>兴趣范围</span>
+				</div>
+				<div EntryGroup></div>
+				<div EntryGroupTitle>
+					<span en-US>Settings</span><span zh-CN>设置</span>
+				</div>
+				<div EntryGroup></div>
 			</div>
-			<div EntryGroup></div>
-			<div EntryGroupTitle>
-				<span en-US>Personal Information</span
-				><span zh-CN>个人信息</span>
-			</div>
-			<div EntryGroup>
-				<DirectInputEntry :value="profile.Cell" :validate="() => true">
-					<span en-US>Cell</span>
-					<span zh-CN>电话</span>
-				</DirectInputEntry>
-				<DirectInputEntry :value="profile.Mail" :validate="() => true">
-					<span en-US>Mail</span>
-					<span zh-CN>邮箱</span>
-				</DirectInputEntry>
-				<DirectInputEntry
-					:value="profile.Organization"
-					:validate="() => true"
-				>
-					<span en-US>Institute</span>
-					<span zh-CN>所属机构</span>
-				</DirectInputEntry>
-				<DirectInputEntry :value="profile.Major" :validate="() => true">
-					<span en-US>Major</span>
-					<span zh-CN>专业</span>
-				</DirectInputEntry>
-			</div>
-			<div EntryGroupTitle>
-				<span en-US>Interested Fields</span><span zh-CN>兴趣范围</span>
-			</div>
-			<div EntryGroup></div>
-			<div EntryGroupTitle>
-				<span en-US>Settings</span><span zh-CN>设置</span>
-			</div>
-			<div EntryGroup></div>
 		</div>
 	</div>
 </template>
 
 <script>
 import { Session } from "/space/Session.js";
-import { locale, Locale } from "/util/locale.js";
 
-let parentEl;
+let profile = {};
+
+Session.on("Profile", (data) => (profile = Object.assign({}, data)));
+
+let ContentEl;
 export default {
 	emits: ["show-pane", "close-pane"],
 	data() {
 		return {
-			locale,
 			IdCardHeaderHeight: 120,
 			flexibleHeight: 30,
 			scrollTop: 0,
-			profile: {},
+			profile,
 		};
 	},
 	watch: {
@@ -138,14 +143,13 @@ export default {
 		},
 	},
 	mounted() {
-		parentEl = this.$refs.IdCard.parentElement;
-		parentEl.addEventListener("scroll", () => {
-			this.scrollTop = parentEl.scrollTop;
+		ContentEl = this.$refs.Content;
+		ContentEl.addEventListener("scroll", () => {
+			this.scrollTop = ContentEl.scrollTop;
 		});
 	},
 	activated() {
-		this.scrollTop = parentEl.scrollTop;
-		Session.post("UserProfile").then((profile) => (this.profile = profile));
+		this.scrollTop = ContentEl.scrollTop;
 	},
 };
 </script>

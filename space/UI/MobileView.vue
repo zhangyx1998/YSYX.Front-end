@@ -4,7 +4,7 @@ import NaviBar from "./Mobile/NaviBar.vue";
 import AppPane from "./Mobile/AppPane.vue";
 // Application module components
 import Forum from "./Mobile/Forum.vue";
-import Posts from "./Mobile/Forum.vue";
+import Posts from "/space/UI/Module/Dashboard/Posts.vue";
 import Tasks from "./Mobile/Tasks.vue";
 import Account from "./Common/IdCard.vue";
 import TitleBar from "./Mobile/TitleBar.vue";
@@ -14,44 +14,67 @@ import Login from "./Mobile/Panes/Login.vue";
 // Application Modules
 import ProgressInspect from "./Module/ProgressInspect.vue";
 import ProgressReport from "./Module/ProgressReport.vue";
+import PostManage from "./Module/PostManage.vue";
+// UI Components
+import Button from "/space/UI/Common/Button.vue";
 </script>
 
 <template>
 	<transition-group :name="paneAnimtion">
 		<TitleBar
 			:class="posterState"
+			:title="title"
+			:animation="slideTo ? `slide-opacity-${slideTo}` : 'opacity-switch'"
 			v-if="!stackDepth || !login"
 			@animationend="posterState = init ? '' : posterState"
 			style="opacity: 1 !important"
-		/>
+		>
+			<template #right>
+				<transition-group :name="`slide-opacity-${slideTo || ''}`">
+					<Button
+						icon="fas fa-plus"
+						type="seamless white"
+						v-if="login && display == 'Posts'"
+						style="--button-padding: 0.5em 0.7em"
+						@click="showPane('PostManage')"
+					/>
+					<Button
+						icon="fas fa-sign-out-alt"
+						type="seamless white"
+						v-if="login && display == 'Account'"
+						style="--button-padding: 0.5em 0.7em"
+						@click="
+							slideTo = 'right';
+							Session.logout();
+						"
+					/>
+				</transition-group>
+			</template>
+		</TitleBar>
 		<div AppView v-if="!stackDepth">
-			<div
-				ContentView
-				style="bottom: var(--mobile-navibar-height) !important"
-			>
-				<transition :name="slideTo || 'spring-up'">
-					<keep-alive>
-						<component
-							v-show="init"
-							:is="el"
-							@show-pane="showPane"
-						/>
-					</keep-alive>
-				</transition>
-			</div>
+			<transition :name="slideTo ? `slide-${slideTo}` : 'spring-up'">
+				<keep-alive>
+					<component
+						v-show="init"
+						:is="el"
+						@show-pane="showPane"
+						style="bottom: var(--mobile-navibar-height) !important"
+					/>
+				</keep-alive>
+			</transition>
 			<NaviBar
 				:display="display"
-				@slide-to="(direction) => (slideTo = `slide-${direction}`)"
+				@slide-to="(direction) => (slideTo = direction)"
 				@switch="(el) => (display = el)"
 			/>
 		</div>
-		<div AppView v-if="stackDepth">
+		<div AppView v-else>
 			<keep-alive>
 				<component
-					:is="paneEl()"
-					:data="paneArgs()"
-					@back="exitPane()"
-					@show-pane="showPane()"
+					:is="paneEl"
+					:data="paneArgs"
+					@back="exitPane"
+					@show-pane="showPane"
 				/>
 			</keep-alive>
 		</div>
@@ -71,7 +94,8 @@ import ProgressReport from "./Module/ProgressReport.vue";
 <script>
 // import { Popup, DesktopView } from "/space/View.js";
 import { Session } from "/space/Session.js";
-import { locale, Locale } from "/util/locale.js";
+import { env, intl } from "/util/env.js";
+import { digVal } from "/util/object.js";
 import { markRaw } from "@vue/reactivity";
 
 function safeArea() {
@@ -92,14 +116,17 @@ const Modules = {
 	Login: markRaw(Login),
 	ProgressInspect: markRaw(ProgressInspect),
 	ProgressReport: markRaw(ProgressReport),
+	PostManage: markRaw(PostManage),
 };
 
 export default {
+	components: { Button },
 	data() {
 		return {
+			env,
 			init: false,
 			login: false,
-			posterState: "posterState",
+			posterState: "poster",
 			freeze: false,
 			slideTo: "",
 			display: "Tasks",
@@ -109,6 +136,7 @@ export default {
 		};
 	},
 	methods: {
+		intl,
 		showPane(pane, args) {
 			this.paneAnimtion = "push-left";
 			if (pane in Modules) {
@@ -120,10 +148,10 @@ export default {
 				this.paneStack.push({
 					el: Modules.PlaceHolder,
 					args: {
-						title: {
+						title: intl({
 							"en-US": "Internal Error",
 							"zh-CN": "应用内部错误",
-						}[locale.$],
+						}),
 						suffix: `Requesting nonexistant module '${pane}', with arguments '${JSON.stringify(
 							args,
 							null,
@@ -139,6 +167,26 @@ export default {
 			this.paneStack.pop();
 			this.stackDepth = this.paneStack.length;
 		},
+	},
+	computed: {
+		el() {
+			return {
+				Forum,
+				Posts,
+				Tasks,
+				Account,
+			}[this.display];
+		},
+		title() {
+			return intl(
+				{
+					Posts: {
+						"en-US": "Posts",
+						"zh-CN": "公告",
+					},
+				}[this.display]
+			);
+		},
 		paneEl() {
 			const pane = this.paneStack[this.paneStack.length - 1];
 			if (pane && typeof pane === "object" && "el" in pane) {
@@ -151,31 +199,21 @@ export default {
 			if (pane && typeof pane === "object" && "el" in pane)
 				return pane.args;
 			return {
-				title: {
+				title: intl({
 					"en-US": "Internal Error",
 					"zh-CN": "应用内部错误",
-				}[locale.$],
-				suffix: {
+				}),
+				suffix: intl({
 					"en-US": "Pane stack smpty",
 					"zh-CN": "面板栈已弹空",
-				}[locale.$],
+				}),
 			};
-		},
-	},
-	computed: {
-		el() {
-			return {
-				Forum,
-				Posts,
-				Tasks,
-				Account,
-			}[this.display];
 		},
 	},
 	created() {
 		ContentView = this;
-		// Listen for locale change
-		Locale.on("update", () => {
+		// Listen for env change
+		env.on("update", () => {
 			this.$forceUpdate();
 		});
 		// Display SafeArea
@@ -195,13 +233,10 @@ export default {
 		const ANIMATION_TIME = 5000;
 		setTimeout(() => {
 			Session.init().then(() => {
-				this.posterState = "posterState-leave";
+				this.posterState = "poster-leave";
 				this.init = true;
 			});
 		}, ANIMATION_DELAY);
-		Session.on("login", () => {
-			this.display = "Tasks";
-		});
 	},
 };
 </script>

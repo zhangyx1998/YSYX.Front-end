@@ -75,7 +75,7 @@
 .card.list-seamless > [title] {
 	margin: 0;
 	padding: 5px var(--padding-small);
-	display: block;
+	display: flex;
 	flex-wrap: wrap;
 	align-items: unset;
 	justify-content: left;
@@ -84,7 +84,7 @@
 }
 
 .card.list-seamless > [title] > * {
-	display: inline-block;
+	display: inline-flex;
 	flex-wrap: wrap;
 }
 

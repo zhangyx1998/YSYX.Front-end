@@ -9,7 +9,7 @@ import BackButton from "/space/UI/Common/BackButton.vue";
 
 <template>
 	<MobileTitleBar
-		:title="{ 'en-US': 'Progress Report', 'zh-CN': '进度报告' }[locale.$]"
+		:title="intl({ 'en-US': 'Progress Report', 'zh-CN': '进度报告' })"
 	>
 		<template #left><BackButton @back="$emit('back')" /></template>
 	</MobileTitleBar>
@@ -48,7 +48,7 @@ import BackButton from "/space/UI/Common/BackButton.vue";
 									PaneSelectorHeight || 0
 								}px`,
 							},
-						}[platform]
+						}[env.platform]
 					"
 				/>
 			</keep-alive>
@@ -57,8 +57,7 @@ import BackButton from "/space/UI/Common/BackButton.vue";
 </template>
 
 <script>
-import { platform } from "/space/UI/App.vue";
-import { locale } from "/util/locale.js";
+import { env, intl } from "/util/env.js";
 import { DesktopView } from "/space/View.js";
 import { Session } from "/space/Session.js";
 import { $select } from "/space/UI/Common/PaneSelector.vue";
@@ -67,6 +66,7 @@ export default {
 	emits: ["show-pane", "back"],
 	data() {
 		return {
+			env,
 			display: "Submit",
 			slideTo: "",
 			PaneSelectorHeight: 0,
@@ -84,6 +84,7 @@ export default {
 		},
 	},
 	methods: {
+		intl,
 		select(name) {
 			$select(this, name);
 		},

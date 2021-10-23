@@ -14,7 +14,6 @@ defineProps({
 </template>
 
 <script>
-import { locale } from "/util/locale.js";
 export default {
 	methods: {
 		navigate() {
