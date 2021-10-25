@@ -44,7 +44,7 @@ defineProps({
 					'zh-CN': '确认并提交',
 				}[locale.$]
 			"
-			@click="$emit('submit')"
+			@click="$emit('submit');alertMessage()"
 			style="flex-grow: 1"
 		/>
 	</div>
@@ -58,9 +58,13 @@ export default {
 	data() {
 		return {
 			locale,
-			order: null,
 		};
 	},
+	methods:{
+		alertMessage(){
+			alert('提交成功！')
+		}
+	}
 };
 </script>
 

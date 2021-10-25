@@ -1,88 +1,177 @@
+<script setup>
+import DirectInputEntry from "../Common/DirectInputEntry.vue";
+import RadioCard from "../Common/RadioCard.vue";
+import CheckboxCard from "../Common/CheckboxCard.vue";
+defineProps({
+    identity: String,
+});
+</script>
+
 <template>
-	<div>
-		<section class="page3">
-			<div class="question">
-				<div class="title">
-					<span class="answerTitle">在读年级:</span>
-				</div>
-				<input type="text" ref="grade" v-model="info_stu.grade" />
-			</div>
-			<div class="question">
-				<div class="title">
-					<span class="answerTitle">报名来源:</span>
-				</div>
-				<ul>
-					<li
-						:class="info_stu.recommend == '教师推荐' ? 'changeColor' : ''"
-						@click="recommendTec()"
-					>
-						教师推荐
-					</li>
-					<li
-						:class="info_stu.recommend == '同学推荐' ? 'changeColor' : ''"
-						@click="recommendStu()"
-					>
-						同学推荐
-					</li>
-					<li
-						:class="info_stu.recommend == '其他途径' ? 'changeColor' : ''"
-						@click="recommend()"
-					>
-						其他途径
-					</li>
-				</ul>
-			</div>
-			<div class="question">
-				<div class="title">
-					<span class="answerTitle">
-						上过哪些与“一生一芯”计划相关的课程，如数字电路、组成原理、体系结构等:
-					</span>
-				</div>
-				<textarea
-					cols="67"
-					rows="5"
-					ref="subject"
-					v-model="info_stu.subject"
-				></textarea>
-			</div>
-		</section>
-		<div style="display: flex; flex-direction: row;">
-			<button class="up_button" @click="back()">上一步</button>
-			<button class="down_button" @click="nextpage4()">下一步</button>
-		</div>
-	</div>
+    <div Content>
+        <div EntryGroup>
+            <div Form ref="IdCard">
+                <div EntryGroup>
+                    <DirectInputEntry
+                        :validate="(val) => !!val"
+                        property="School"
+                        @update="(val) => this.$emit('update', 'School', val)"
+                    >
+                        <span en-US>School</span>
+                        <span zh-CN>所属学校或机构</span>
+                    </DirectInputEntry>
+                    <div
+                        Entry
+                        style="display: block"
+                        v-if="identity === 'student'"
+                    >
+                        <span style="font-size: 0.8em; opacity: 0.6"
+                            >你对一生一芯计划的哪些部分比较感兴趣</span
+                        >
+                        <CheckboxCard
+                            :class="
+                                likes.indexOf('architectureDesign') > -1
+                                    ? 'selected'
+                                    : 'unselected'
+                            "
+                            @click="
+                                likes.indexOf('architectureDesign') > -1
+                                    ? (likes = likes.filter(
+                                          (item) =>
+                                              item !== 'architectureDesign'
+                                      ))
+                                    : likes.push('architectureDesign')
+                            "
+                        >
+                            <template #content>
+                                <span>体系结构设计</span>
+                            </template>
+                        </CheckboxCard>
+                        <CheckboxCard
+                            :class="
+                                likes.indexOf('rtl') > -1
+                                    ? 'selected'
+                                    : 'unselected'
+                            "
+                            @click="
+                                likes.indexOf('rtl') > -1
+                                    ? (likes = likes.filter(
+                                          (item) => item !== 'rtl'
+                                      ))
+                                    : likes.push('rtl')
+                            "
+                        >
+                            <template #content>
+                                <span>RTL开发和验证</span>
+                            </template>
+                        </CheckboxCard>
+                        <CheckboxCard
+                            :class="
+                                likes.indexOf('soc') > -1
+                                    ? 'selected'
+                                    : 'unselected'
+                            "
+                            @click="
+                                likes.indexOf('soc') > -1
+                                    ? (likes = likes.filter(
+                                          (item) => item !== 'soc'
+                                      ))
+                                    : likes.push('soc')
+                            "
+                        >
+                            <template #content>
+                                <span>SoC集成和验证</span>
+                            </template>
+                        </CheckboxCard>
+                        <CheckboxCard
+                            :class="
+                                likes.indexOf('ic') > -1
+                                    ? 'selected'
+                                    : 'unselected'
+                            "
+                            @click="
+                                likes.indexOf('ic') > -1
+                                    ? (likes = likes.filter(
+                                          (item) => item !== 'ic'
+                                      ))
+                                    : likes.push('ic')
+                            "
+                        >
+                            <template #content>
+                                <span>IC后端设计</span>
+                            </template>
+                        </CheckboxCard>
+                    </div>
+                    <DirectInputEntry
+                        v-if="identity === 'teacher'"
+                        :validate="(val) => !!val"
+                        property="College"
+                        @update="(val) => this.$emit('update', 'College', val)"
+                    >
+                        <span en-US>College</span>
+                        <span zh-CN>所属学院</span>
+                    </DirectInputEntry>
+                    <DirectInputEntry
+                        v-if="identity === 'teacher'"
+                        :validate="(val) => !!val"
+                        property="Title"
+                        @update="(val) => this.$emit('update', 'Title', val)"
+                    >
+                        <span en-US>Title</span>
+                        <span zh-CN>职称</span>
+                    </DirectInputEntry>
+                    <DirectInputEntry
+                        v-if="identity === 'ta' || identity === 'student'"
+                        :validate="(val) => !!val"
+                        property="Major"
+                        @update="(val) => this.$emit('update', 'Major', val)"
+                    >
+                        <span en-US>Major</span>
+                        <span zh-CN>专业</span>
+                    </DirectInputEntry>
+                    <DirectInputEntry
+                        :validate="(val) => !!val"
+                        property="Remark"
+                        @update="(val) => this.$emit('update', 'Remark', val)"
+                    >
+                        <span en-US>Remark</span>
+                        <span zh-CN>备注</span>
+                    </DirectInputEntry>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
+<script>
+import { locale } from "/util/locale.js";
+import Button from "../Button.vue";
+export default {
+    components: { Button },
+    emits: ["update"],
+    data() {
+        return {
+            locale,
+            likes: [],
+        };
+    },
+    watch: {
+        likes: {
+            deep: true,
+            handler(val) {
+                this.$emit("update", "likes", val);
+            },
+        },
+    },
+};
+</script>
+
 <style scoped>
-.page3 {
-	margin: 2em 0 0.5em 0;
-	padding: 1.8em 3em;
-	box-shadow: 0 0.25em 0.5em 0 var(--shadow);
-	transition: 0.3s;
-	border-radius: 5px;
+::v-deep(.selected) {
+    border-color: var(--accent);
 }
 
-.page3:hover {
-	box-shadow: 0 0.5em 1em 0 var(--shadow);
-}
-.page3 .question {
-	margin: 1em 0 1.5em 0;
-}
-.page3 .title {
-	color: var(--fontcolor);
-	margin: 0.2em 0;
-}
-.page3 ul li {
-	display: inline-block;
-	margin-right: 2em;
-	width: 6.875em;
-	border: 1px solid var(--fontcolor);
-	border-radius: 2px;
-	color: var(--fontcolor);
-	text-align: center;
-}
-.page3 .question ul li:hover {
-	cursor: pointer;
-	background-color: var(--dashcolor);
-	border: 1px solid var(--accent);
+::v-deep(.unselected) {
+    border-color: var(--gray-brighter);
+    opacity: 0.5;
 }
 </style>
