@@ -1,7 +1,7 @@
 <script setup>
 import ConfirmCard from "../Common/ConfirmCard.vue";
 defineProps({
-    formData: Object,
+    FormData: Object,
 });
 </script>
 
@@ -32,53 +32,7 @@ defineProps({
 <script>
 export default {
     computed: {
-        FormData() {
-            let {
-                Name,
-                Cell,
-                Mail,
-                identity,
-                School,
-                likes,
-                College,
-                Title,
-                Major,
-                Remark,
-            } = this.formData;
-            if (this.formData.identity === "student") {
-                return {
-                    Name,
-                    Cell,
-                    Mail,
-                    identity,
-                    School,
-                    likes,
-                    Major,
-                    Remark,
-                };
-            } else if (this.formData.identity === "ta") {
-                return {
-                    Name,
-                    Cell,
-                    Mail,
-                    identity,
-                    School,
-                    Major,
-                    Remark,
-                };
-            } else {
-                return {
-                    Name,
-                    Cell,
-                    Mail,
-                    identity,
-                    School,
-                    College,
-                    Title,
-                    Remark,
-                };
-            }
-        },
+        
     },
 };
 </script>

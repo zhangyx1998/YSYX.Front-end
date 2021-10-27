@@ -25,7 +25,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
                             :is="el"
                             @update="update"
                             :identity="this.formData.identity"
-							:formData="formData"
+                            :FormData="FormData"
                         />
                     </keep-alive>
                 </transition>
@@ -36,6 +36,8 @@ import Step_4 from "./Steps/4.Confirm.vue";
                 :valid="stepValid"
                 @forward="step++"
                 @back="step--"
+                :FormData="FormData"
+                @submit="submit"
             />
         </div>
     </span>
@@ -61,6 +63,7 @@ export default {
                 College: "",
                 Title: "",
                 Major: "",
+                Resume: null,
                 Remark: "",
             },
         };
@@ -89,6 +92,57 @@ export default {
                 true,
             ][this.step];
         },
+        FormData() {
+            let {
+                Name,
+                Cell,
+                Mail,
+                identity,
+                School,
+                likes,
+                College,
+                Title,
+                Major,
+                Resume,
+                Remark,
+            } = this.formData;
+            if (this.formData.identity === "student") {
+                return {
+                    Name,
+                    Cell,
+                    Mail,
+                    identity,
+                    School,
+                    likes,
+                    Major,
+                    Resume: !Resume ? "(未上传)" : Resume,
+                    Remark: !Remark ? "(未填写)" : Remark,
+                };
+            } else if (this.formData.identity === "ta") {
+                return {
+                    Name,
+                    Cell,
+                    Mail,
+                    identity,
+                    School,
+                    Major,
+                    Resume: !Resume ? "(未上传)" : Resume,
+                    Remark: !Remark ? "(未填写)" : Remark,
+                };
+            } else {
+                return {
+                    Name,
+                    Cell,
+                    Mail,
+                    identity,
+                    School,
+                    College,
+                    Title,
+                    Resume: !Resume ? "(未上传)" : Resume,
+                    Remark: !Remark ? "(未填写)" : Remark,
+                };
+            }
+        },
     },
     methods: {
         update(entryName, data) {
@@ -98,6 +152,18 @@ export default {
             console.log(entryName, data);
 
             this.$forceUpdate();
+        },
+        async submit() {
+            let data = Object.assign({}, this.formData);
+            data.Resume = await new Promise((resolve, reject) => {
+                var reader = new FileReader();
+                reader.readAsBinaryString(this.formData.Resume);
+                reader.onload = function (e) {
+                    var urlData = this.result;
+                    resolve(btoa(urlData));
+                };
+            });
+            console.log(data);
         },
     },
     watch: {
@@ -136,7 +202,7 @@ input {
     font-size: 1.2em;
     display: block;
     width: 100%;
-    height: 100vh;
+    height: 110vh;
 }
 
 [Form] > * {

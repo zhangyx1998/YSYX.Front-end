@@ -129,13 +129,33 @@ defineProps({
                         <span en-US>Major</span>
                         <span zh-CN>专业</span>
                     </DirectInputEntry>
+                    <div
+                        Entry
+                        style="display: block"
+                        v-if="identity === 'student' || identity === 'ta'"
+                    >
+                        <span style="font-size: 0.8em; opacity: 0.6"
+                            >简历(选填)</span
+                        >
+                        <div class="upload" @click="uploadFile">
+                            <input
+                                type="file"
+                                ref="fileInput"
+                                style="display: none"
+                            />
+                            <div>
+                                <i class="fa fa-upload"></i>
+                                <span>选择文件(最大限10M)</span>
+                            </div>
+                        </div>
+                    </div>
                     <DirectInputEntry
                         :validate="(val) => !!val"
                         property="Remark"
                         @update="(val) => this.$emit('update', 'Remark', val)"
                     >
-                        <span en-US>Remark</span>
-                        <span zh-CN>备注</span>
+                        <span en-US>Remark(Optional)</span>
+                        <span zh-CN>备注(选填)</span>
                     </DirectInputEntry>
                 </div>
             </div>
@@ -162,6 +182,17 @@ export default {
             },
         },
     },
+    methods: {
+        uploadFile() {
+            let fileInput = this.$refs.fileInput;
+            fileInput.click();
+            fileInput.onchange = () => {
+                let file = fileInput.files[0];
+                
+                this.$emit("update", "Resume", file);
+            };
+        },
+    },
 };
 </script>
 
@@ -173,5 +204,15 @@ export default {
 ::v-deep(.unselected) {
     border-color: var(--gray-brighter);
     opacity: 0.5;
+}
+.upload {
+    width: 100%;
+    height: 2em;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    color: var(--gray);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 </style>
