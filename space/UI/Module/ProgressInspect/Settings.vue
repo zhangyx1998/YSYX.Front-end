@@ -1,7 +1,7 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
-import Badge from "/space/UI/Common/Badge.vue";
-import RefreshButton from "/space/UI/Common/RefreshButton.vue";
+import Button from "/components/Button.vue";
+import Badge from "/components/Badge.vue";
+import RefreshButton from "/components/Button/RefreshButton.vue";
 </script>
 
 <template>

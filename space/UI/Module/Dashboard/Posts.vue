@@ -1,8 +1,8 @@
 <script setup>
-import Dialog from "/space/UI/Common/Panes/Dialog.vue";
-import Button from "/space/UI/Common/Button.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
-import RefreshButton from "/space/UI/Common/RefreshButton.vue";
+import Dialog from "/components/AppView/Panes/Dialog.vue";
+import Button from "/components/Button.vue";
+import Paragraph from "/components/Paragraph.vue";
+import RefreshButton from "/components/Button/RefreshButton.vue";
 </script>
 
 <template>
@@ -65,7 +65,7 @@ import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 						</span>
 					</div>
 					<div content>
-						<Paragraph :text="el.content" />
+						{{ el.content }}
 					</div>
 					<div
 						style="
@@ -84,13 +84,14 @@ import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 							{{ el.userName }} 发布于 {{ dateStr }}
 						</span>
 						<span zh-CN v-else>
-							{{ el.userName }}，最后更新于 {{ dateStr }}
+							来自 {{ el.userName }}, 最后更新于 {{ dateStr }}
 						</span>
 						<span en-US v-if="!el.updateTime">
-							{{ el.userName }} posted at {{ dateStr }}
+							Posted by {{ el.userName }} at {{ dateStr }}
 						</span>
 						<span en-US v-else>
-							{{ el.userName }} updated at {{ dateStr }}
+							Posted by {{ el.userName }}, updated at
+							{{ dateStr }}
 						</span>
 					</div>
 				</div>
@@ -126,7 +127,7 @@ import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 </template>
 
 <script>
-import { Session } from "/space/Session.js";
+import { Session, hasModuleAccess } from "/space/Session.js";
 import { monthShort, localeDate } from "/util/date.js";
 import { digVal } from "/util/object.js";
 import { env, intl } from "/util/env.js";
@@ -136,8 +137,10 @@ export default {
 		return {
 			env,
 			content: [],
+			adminContent: [],
 			userID: Session.data.ID,
 			userPriv: Session.data.Privilege,
+			managePriv: false
 		};
 	},
 	computed: {
@@ -149,7 +152,9 @@ export default {
 		intl,
 		localeDate,
 		fetch() {
+			let publicPosts;
 			Session.post("PublicData/Posts").then((content) => {
+				publicPosts = content;
 				this.content = Object.keys(content)
 					.sort((a, b) => {
 						const [A, B] = [a, b].map(
@@ -162,6 +167,22 @@ export default {
 						...content[ID],
 					}));
 			});
+			// If user has PostManage authority, fetch all posts
+			if (hasModuleAccess('PostManage')) {
+				Session.post("PostManage/JSON").then((content) => {
+					this.content = Object.keys(content)
+						.sort((a, b) => {
+							const [A, B] = [a, b].map(
+								(el) => el.updateTime || el.createTime
+							);
+							return B - A;
+						})
+						.map((ID) => ({
+							ID,
+							...content[ID],
+						}));
+				});
+			}
 		},
 		deletePost(postID) {
 			if (
@@ -183,8 +204,8 @@ export default {
 		},
 	},
 	activated() {
-		console.log(this);
 		this.fetch();
+		this.managePriv = 'PostManage' in Session.data.Modules
 	},
 };
 </script>

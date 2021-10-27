@@ -1,0 +1,41 @@
+[EntryGroup]>[Entry] {
+	padding: 0.4em 0.8em;
+	display: flex;
+	margin: -1px 0;
+	border-bottom: 1px solid var(--white-background);
+	transition: background-color var(--animation-duration) var(--animation-curve);
+}
+
+[Entry]:focus,
+[Entry]:focus-within {
+	background-color: var(--white-background);
+}
+
+[EntryVal] {
+	flex-grow: 1;
+	display: block;
+}
+
+[EntryVal]>[title] {
+	padding-top: 0.4em;
+	font-size: 0.8em;
+	opacity: 0.6;
+}
+
+input {
+	padding: 0.6em 0;
+	outline: none;
+	border: none;
+	background-color: transparent !important;
+	color: var(--white);
+}
+
+[EntryAction] {
+	display: flex;
+	align-items: center;
+}
+
+[EntryAction]>* {
+	border-radius: 0.4em;
+	padding: var(--padding-small);
+}

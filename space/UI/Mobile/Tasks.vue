@@ -65,11 +65,11 @@ export default {
 	created() {
 		console.log(this);
 		Session.on("login", () => {
-			Session.post("Modules").then(({ Modules }) => this.load(Modules));
+			Session.post("Modules").then(({ Modules }) => this.load(Session.data.Modules = Modules));
 		});
 	},
 	activated() {
-		Session.post("Modules").then(({ Modules }) => this.load(Modules));
+		Session.post("Modules").then(({ Modules }) => this.load(Session.data.Modules = Modules));
 	},
 };
 </script>

@@ -1,5 +1,5 @@
 <script setup>
-import Responsive from "/space/UI/Common/Responsive.vue";
+import Responsive from "/components/Responsive.vue";
 defineProps({
 	display: String,
 });

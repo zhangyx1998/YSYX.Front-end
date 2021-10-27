@@ -29,6 +29,7 @@ export default {
 		},
 	},
 	created() {
+		window.App = this;
 		// Listen for env change
 		env.on("update", () => {
 			// Set application background
@@ -40,7 +41,9 @@ export default {
 			document.title = intl({
 				'en-US': 'Space|YSYX',
 				'zh-CN': '个人空间|一生一芯',
-			})
+			});
+			// Force update
+			this.$forceUpdate();
 		});
 		// Call for initial update
 		env.call('update');

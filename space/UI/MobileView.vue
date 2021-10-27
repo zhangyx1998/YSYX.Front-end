@@ -6,17 +6,27 @@ import AppPane from "./Mobile/AppPane.vue";
 import Forum from "./Mobile/Forum.vue";
 import Posts from "/space/UI/Module/Dashboard/Posts.vue";
 import Tasks from "./Mobile/Tasks.vue";
-import Account from "./Common/IdCard.vue";
+import Account from "./Mobile/Panes/IdCard.vue";
 import TitleBar from "./Mobile/TitleBar.vue";
 // Application Panels
 import PlaceHolder from "./Mobile/Panes/PlaceHolder.vue";
 import Login from "./Mobile/Panes/Login.vue";
+import SelectLanguage from "./Mobile/Panes/SelectLanguage.vue";
 // Application Modules
 import ProgressInspect from "./Module/ProgressInspect.vue";
 import ProgressReport from "./Module/ProgressReport.vue";
 import PostManage from "./Module/PostManage.vue";
 // UI Components
-import Button from "/space/UI/Common/Button.vue";
+import Button from "/components/Button.vue";
+// Register Modules
+const Modules = {
+	PlaceHolder: markRaw(PlaceHolder),
+	Login: markRaw(Login),
+	SelectLanguage: markRaw(SelectLanguage),
+	ProgressInspect: markRaw(ProgressInspect),
+	ProgressReport: markRaw(ProgressReport),
+	PostManage: markRaw(PostManage),
+};
 </script>
 
 <template>
@@ -34,19 +44,9 @@ import Button from "/space/UI/Common/Button.vue";
 					<Button
 						icon="fas fa-plus"
 						type="seamless white"
-						v-if="login && display == 'Posts'"
+						v-if="login && display == 'Posts' && hasModuleAccess('PostManage')"
 						style="--button-padding: 0.5em 0.7em"
 						@click="showPane('PostManage')"
-					/>
-					<Button
-						icon="fas fa-sign-out-alt"
-						type="seamless white"
-						v-if="login && display == 'Account'"
-						style="--button-padding: 0.5em 0.7em"
-						@click="
-							slideTo = 'right';
-							Session.logout();
-						"
 					/>
 				</transition-group>
 			</template>
@@ -93,7 +93,7 @@ import Button from "/space/UI/Common/Button.vue";
 
 <script>
 // import { Popup, DesktopView } from "/space/View.js";
-import { Session } from "/space/Session.js";
+import { Session, hasModuleAccess } from "/space/Session.js";
 import { env, intl } from "/util/env.js";
 import { digVal } from "/util/object.js";
 import { markRaw } from "@vue/reactivity";
@@ -110,14 +110,6 @@ function safeArea() {
 }
 
 export let ContentView = null;
-
-const Modules = {
-	PlaceHolder: markRaw(PlaceHolder),
-	Login: markRaw(Login),
-	ProgressInspect: markRaw(ProgressInspect),
-	ProgressReport: markRaw(ProgressReport),
-	PostManage: markRaw(PostManage),
-};
 
 export default {
 	components: { Button },
@@ -137,16 +129,17 @@ export default {
 	},
 	methods: {
 		intl,
+		hasModuleAccess,
 		showPane(pane, args) {
 			this.paneAnimtion = "push-left";
-			if (pane in Modules) {
+			if (pane in this.Modules) {
 				this.paneStack.push({
-					el: Modules[pane],
+					el: this.Modules[pane],
 					args,
 				});
 			} else {
 				this.paneStack.push({
-					el: Modules.PlaceHolder,
+					el: this.Modules.PlaceHolder,
 					args: {
 						title: intl({
 							"en-US": "Internal Error",
@@ -184,6 +177,10 @@ export default {
 						"en-US": "Posts",
 						"zh-CN": "公告",
 					},
+					Forum: {
+						"en-US": "Forum",
+						"zh-CN": "论坛",
+					},
 				}[this.display]
 			);
 		},
@@ -192,7 +189,7 @@ export default {
 			if (pane && typeof pane === "object" && "el" in pane) {
 				return pane.el;
 			}
-			return Modules.PlaceHolder;
+			return this.Modules.PlaceHolder;
 		},
 		paneArgs() {
 			const pane = this.paneStack[this.paneStack.length - 1];

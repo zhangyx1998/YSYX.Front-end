@@ -1,8 +1,8 @@
 <script setup>
-import Dialog from "/space/UI/Common/Panes/Dialog.vue";
-import Button from "/space/UI/Common/Button.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
-import RefreshButton from "/space/UI/Common/RefreshButton.vue";
+import Dialog from "/components/AppView/Panes/Dialog.vue";
+import Button from "/components/Button.vue";
+import Paragraph from "/components/Paragraph.vue";
+import RefreshButton from "/components/Button/RefreshButton.vue";
 import InspectInfo from "./InspectInfo.vue";
 import InspectState from "./InspectState.vue";
 </script>

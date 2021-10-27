@@ -1,7 +1,7 @@
 <script setup>
-import Dialog from "/space/UI/Common/Panes/Dialog.vue";
+import Dialog from "/components/AppView/Panes/Dialog.vue";
 import MobileTitleBar from "../TitleBar.vue";
-import BackButton from "/space/UI/Common/BackButton.vue";
+import BackButton from "/components/Button/BackButton.vue";
 defineProps({
 	args: Object,
 });

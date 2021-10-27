@@ -1,11 +1,11 @@
 <script setup>
-import PaneSelector from "/space/UI/Common/PaneSelector.vue";
+import PaneSelector from "/components/AppView/PaneSelector.vue";
 import Inspect from "./ProgressInspect/Inspect.vue";
 import History from "./ProgressInspect/History.vue";
 import Settings from "./ProgressInspect/Settings.vue";
 // Mobile only
 import MobileTitleBar from "../Mobile/TitleBar.vue";
-import BackButton from "/space/UI/Common/BackButton.vue";
+import BackButton from "/components/Button/BackButton.vue";
 </script>
 
 <template>
@@ -73,7 +73,7 @@ import BackButton from "/space/UI/Common/BackButton.vue";
 import { env, intl } from "/util/env.js";
 import { DesktopView } from "/space/View.js";
 import { Session } from "/space/Session.js";
-import { $select } from "/space/UI/Common/PaneSelector.vue";
+import { $select } from "/components/AppView/PaneSelector.vue";
 
 export default {
 	emits: ["show-pane", "back"],

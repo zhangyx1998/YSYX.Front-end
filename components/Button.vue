@@ -232,6 +232,16 @@ export default {
 	--borderHover: hsla(0, 0%, 0%, 0.48);
 	--borderPress: hsla(0, 0%, 0%, 0.3);
 }
+/* outlined white */
+[button].outlined.white {
+	color: hsla(0, 0%, 100%, 0.8);
+	--color-Prime: hsla(0, 0%, 100%, 0.08);
+	--color-Hover: hsla(0, 0%, 100%, 0.07);
+	--color-Press: hsla(0, 0%, 100%, 0.06);
+	--borderPrime: hsla(0, 0%, 100%, 0.3);
+	--borderHover: hsla(0, 0%, 100%, 0.4);
+	--borderPress: hsla(0, 0%, 100%, 0.6);
+}
 /* link */
 [button].link {
 	padding-left: 0;

@@ -1,5 +1,7 @@
 <script setup>
 import DirectInputEntry from "./IdCard/DirectInputEntry.vue";
+import PaneNaviEntry from "./IdCard/PaneNaviEntry.vue";
+import Button from "/components/Button.vue";
 </script>
 
 <template>
@@ -62,7 +64,7 @@ import DirectInputEntry from "./IdCard/DirectInputEntry.vue";
 		>
 			<div IdCard :style="{ 'padding-top': IdCardHeaderHeight + 'px' }">
 				<div EntryGroupTitle>
-					<span en-US>User Group</span><span zh-CN>分组</span>
+					<span en-US>My groups</span><span zh-CN>我的分组</span>
 				</div>
 				<div EntryGroup></div>
 				<div EntryGroupTitle>
@@ -107,7 +109,37 @@ import DirectInputEntry from "./IdCard/DirectInputEntry.vue";
 				<div EntryGroupTitle>
 					<span en-US>Settings</span><span zh-CN>设置</span>
 				</div>
-				<div EntryGroup></div>
+				<div EntryGroup>
+					<PaneNaviEntry
+						@click="this.$emit('show-pane', 'SelectLanguage')"
+					>
+						<span en-US>Language</span>
+						<span zh-CN>语言</span>
+					</PaneNaviEntry>
+					<PaneNaviEntry
+						@click="this.$emit('show-pane', 'ChangePassword')"
+					>
+						<span en-US>Change Password</span>
+						<span zh-CN>更改密码</span>
+					</PaneNaviEntry>
+					<PaneNaviEntry @click="this.$emit('show-pane', 'Feedback')">
+						<span en-US>Feedback</span>
+						<span zh-CN>反馈</span>
+					</PaneNaviEntry>
+				</div>
+				<div actions>
+					<Button
+						type="solid red"
+						style="--button-padding: 0.6em 2em"
+						:name="
+							intl({
+								'en-US': 'Log out',
+								'zh-CN': '退出登录',
+							})
+						"
+						@click="logout()"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -115,10 +147,7 @@ import DirectInputEntry from "./IdCard/DirectInputEntry.vue";
 
 <script>
 import { Session } from "/space/Session.js";
-
-let profile = {};
-
-Session.on("Profile", (data) => (profile = Object.assign({}, data)));
+import { intl } from "/util/env.js";
 
 let ContentEl;
 export default {
@@ -128,7 +157,7 @@ export default {
 			IdCardHeaderHeight: 120,
 			flexibleHeight: 30,
 			scrollTop: 0,
-			profile,
+			profile: Session.data.Profile,
 		};
 	},
 	watch: {
@@ -138,8 +167,12 @@ export default {
 		},
 	},
 	methods: {
+		intl,
 		logout() {
 			Session.logout().then();
+		},
+		fetch() {
+			Session.post("UserProfile").then((data) => (this.profile = data));
 		},
 	},
 	mounted() {
@@ -150,6 +183,7 @@ export default {
 	},
 	activated() {
 		this.scrollTop = ContentEl.scrollTop;
+		this.fetch();
 	},
 };
 </script>
@@ -159,7 +193,7 @@ export default {
 [IdCard] {
 	display: block;
 	width: 100%;
-	height: 100vh;
+	margin: 0;
 }
 
 [IdCard] > * {
@@ -207,6 +241,11 @@ export default {
 	border-radius: 100%;
 	overflow: hidden;
 }
+/* Actions */
+[Actions] {
+	display: flex;
+	justify-content: space-evenly;
+}
 
 /* EntryGroup */
 [EntryGroupTitle],
@@ -229,39 +268,5 @@ export default {
 	overflow: hidden;
 	--button-margin: 0;
 	--button-padding: 0;
-}
-
-::v-deep([EntryGroup] > [Entry]) {
-	padding: 0.2em var(--padding);
-}
-
-::v-deep([Entry]) {
-	display: flex;
-	margin: -2px 0;
-	border-bottom: 1px solid var(--white-background);
-}
-
-::v-deep([Entry]:focus),
-::v-deep([Entry]:focus-within) {
-	background-color: var(--white-background);
-}
-
-::v-deep([EntryVal]) {
-	flex-grow: 1;
-	display: block;
-}
-
-::v-deep([EntryVal] > [title]) {
-	padding-top: 0.4em;
-	font-size: 0.8em;
-	opacity: 0.6;
-}
-
-::v-deep(input) {
-	padding: 0.6em 0;
-	outline: none;
-	border: none;
-	background-color: transparent !important;
-	color: var(--white);
 }
 </style>

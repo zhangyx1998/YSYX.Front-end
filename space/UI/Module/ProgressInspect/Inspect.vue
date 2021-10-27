@@ -1,10 +1,10 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
-import RefreshButton from "/space/UI/Common/RefreshButton.vue";
-import Badge from "/space/UI/Common/Badge.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
+import Button from "/components/Button.vue";
+import RefreshButton from "/components/Button/RefreshButton.vue";
+import Badge from "/components/Badge.vue";
+import Paragraph from "/components/Paragraph.vue";
 import InspectActions from "./InspectActions.vue";
-import Dialog from "/space/UI/Common/Panes/Dialog.vue";
+import Dialog from "/components/AppView/Panes/Dialog.vue";
 </script>
 
 <template>
