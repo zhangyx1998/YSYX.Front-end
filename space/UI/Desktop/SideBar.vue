@@ -48,6 +48,7 @@ export default {
 	created() {
 		Session.on("login", () => {
 			Session.post("Modules").then(({ Modules }) => {
+				Session.data.Modules = Modules;
 				for (const module in ModuleInfo) {
 					const show = Modules.indexOf(module) >= 0;
 					ModuleInfo[module].show = show;

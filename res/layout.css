@@ -44,16 +44,22 @@ textarea {
 
 
 /* Disable scrollbar by default */
+
 * {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
+
+
 /* Safari */
+
 *::-webkit-scrollbar {
 	display: none;
 }
 
+
 /* Application module positioning */
+
 [AppView] {
 	z-index: 0;
 	position: absolute;
@@ -63,7 +69,9 @@ textarea {
 	bottom: 0;
 }
 
+
 /* Application module positioning */
+
 [ContentView] {
 	padding: 0 !important;
 	z-index: 0;
@@ -91,8 +99,11 @@ textarea {
 	right: 0;
 	bottom: 0;
 }
+
+
 /* Application module positioning */
-[ContentView] > [Content] {
+
+[ContentView]>[Content] {
 	z-index: 0;
 	display: block;
 	position: absolute;
@@ -103,20 +114,25 @@ textarea {
 	overflow-y: scroll;
 	width: 100%;
 	/* Center */
+<<<<<<< HEAD
 		margin: 0 auto !important;
+=======
+	margin: 0 auto !important;
+>>>>>>> origin
 	background-color: var(--white-brighter);
+	padding-bottom: var(--mobile-bottom-safearea);
 }
 
-.desktop [ContentView] > [Content] {
+.desktop [ContentView]>[Content] {
 	flex-grow: 1;
 	overflow-y: scroll;
 }
 
-.desktop [ContentView] > [Content] {
+.desktop [ContentView]>[Content] {
 	padding: var(--padding) var(--padding-large);
 }
 
-.mobile [ContentView] > [Content] {
+.mobile [ContentView]>[Content] {
 	padding: var(--padding);
 }
 
@@ -125,13 +141,19 @@ textarea {
 	max-width: 1024px;
 }
 
+
 /* Appearance */
-h1, h2, h3, h4, h5 {
+
+h1,
+h2,
+h3,
+h4,
+h5 {
 	line-height: 1.2em;
 	color: var(--gray)
 }
 
-[Content] > *,
+[Content]>*,
 [root-el] {
 	display: block;
 	margin-bottom: 1.2rem;

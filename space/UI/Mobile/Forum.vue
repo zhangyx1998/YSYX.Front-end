@@ -1,11 +1,13 @@
 <script setup>
-import Dialog from "/space/UI/Common/Panes/Dialog.vue";
+import Dialog from "/components/AppView/Panes/Dialog.vue";
 </script>
 
 <template>
-	<Dialog
-		:title="'Under development'"
-		:suffix="'Please check back later.'"
-		class="gray"
-	/>
+	<div ContentView>
+		<Dialog
+			:title="'Under development'"
+			:suffix="'Please check back later.'"
+			class="gray"
+		/>
+	</div>
 </template>

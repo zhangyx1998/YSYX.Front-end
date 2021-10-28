@@ -62,20 +62,12 @@
 				"en-US": "Applications"
 			}
 		},
-		"PostManage": {
-			"role": "ProjAdmin",
-			"icon": "far fa-bell",
-			"name": {
-				"zh-CN": "公告管理",
-				"en-US": "Post Manage"
-			}
-		},
-		"PrivMgn": {
+		"UserManage": {
 			"role": "WebAdmin",
 			"icon": "fas fa-users-cog",
 			"name": {
-				"zh-CN": "权限管理",
-				"en-US": "Privilege manage"
+				"zh-CN": "用户管理",
+				"en-US": "User manage"
 			}
 		}
 	}

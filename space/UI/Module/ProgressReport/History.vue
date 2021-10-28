@@ -1,8 +1,8 @@
 <script setup>
-import Dialog from "/space/UI/Common/Panes/Dialog.vue";
-import Button from "/space/UI/Common/Button.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
-import RefreshButton from "/space/UI/Common/RefreshButton.vue";
+import Dialog from "/components/AppView/Panes/Dialog.vue";
+import Button from "/components/Button.vue";
+import Paragraph from "/components/Paragraph.vue";
+import RefreshButton from "/components/Button/RefreshButton.vue";
 import InspectInfo from "./InspectInfo.vue";
 import InspectState from "./InspectState.vue";
 </script>
@@ -18,7 +18,7 @@ import InspectState from "./InspectState.vue";
 					{
 						desktop: 'card list-entry shadow-light shadow-dynamic',
 						mobile: 'card list-seamless',
-					}[platform]
+					}[env.platform]
 				"
 			>
 				<div title>
@@ -65,21 +65,21 @@ import InspectState from "./InspectState.vue";
 		class="gray"
 		style="opacity: 0.8"
 		:title="
-			{
+			intl({
 				'en-US': 'No record found',
 				'zh-CN': '没有记录',
-			}[locale.$]
+			})
 		"
 		:suffix="
-			{
+			intl({
 				'en-US':
 					'You haven\'t submit any report yet',
 				'zh-CN': '您没有提交过进度报告',
-			}[locale.$]
+			})
 		"
 		:buttons="[
 			{
-				name: { 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$],
+				name: intl({ 'en-US': 'Refresh', 'zh-CN': '刷新' }),
 				type: 'outlined gray',
 				callback: fetch,
 			},
@@ -91,14 +91,12 @@ import InspectState from "./InspectState.vue";
 import { Session } from "/space/Session.js";
 import { monthShort, localeDate } from "/util/date.js";
 import { digVal } from "/util/object.js";
-import { locale } from "/util/locale.js";
-import { platform } from "/space/UI/App.vue";
+import { env, intl } from "/util/env.js";
 
 export default {
 	data() {
 		return {
-			platform,
-			locale,
+			env,
 			lang: Session.language,
 			content: [],
 		};
@@ -109,6 +107,7 @@ export default {
 		},
 	},
 	methods: {
+		intl,
 		fetch() {
 			Session.post("ProgressReport/JSON").then((content) => {
 				this.content = Object.keys(content)

@@ -1,5 +1,5 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
+import Button from "/components/Button.vue";
 </script>
 
 <template>
@@ -9,13 +9,14 @@ import Button from "/space/UI/Common/Button.vue";
 		<input
 			ref="UserIDInput"
 			:placeholder="
-				{
+				intl({
 					'en-US': 'ID, Cell or Email',
 					'zh-CN': 'ID / 电话 / 邮箱',
-				}[locale.$]
+				})
 			"
 			spellcheck="false"
-			v-model="login_ID"
+			@focus="login_ID_Valid = null"
+			@blur="login_ID_Valid = validate_ID()"
 			:class="[
 				login_ID_Valid === null
 					? ''
@@ -28,7 +29,7 @@ import Button from "/space/UI/Common/Button.vue";
 		<input
 			ref="PasswordInput"
 			:placeholder="
-				(login_Successful === false
+				intl(login_Successful === false
 					? {
 							'en-US': 'Invalid Credentials',
 							'zh-CN': '无效的用户名或密码',
@@ -36,10 +37,15 @@ import Button from "/space/UI/Common/Button.vue";
 					: {
 							'en-US': 'Password',
 							'zh-CN': '密码',
+<<<<<<< HEAD
 						})[locale.$]
+=======
+					  })
+>>>>>>> origin
 			"
 			type="password"
-			v-model="login_Password"
+			@focus="login_Password_Valid = null"
+			@blur="login_Password_Valid = validate_Password()"
 			:class="[
 				(login_Password_Valid || login_Successful) === null
 					? ''
@@ -63,10 +69,10 @@ import Button from "/space/UI/Common/Button.vue";
 			<Button
 				type="solid green"
 				:name="
-					{
+					intl({
 						'en-US': 'Login',
 						'zh-CN': '登录',
-					}[locale.$]
+					})
 				"
 				@click="login()"
 			/>
@@ -76,13 +82,12 @@ import Button from "/space/UI/Common/Button.vue";
 
 <script>
 import { Session } from "/space/Session.js";
-import { locale } from "/util/locale.js";
+import { intl } from "/util/env.js";
 
 export default {
 	emits: ["show-pane", "back"],
 	data() {
 		return {
-			locale,
 			_popup_: {
 				ID: 0,
 				show: false,
@@ -90,31 +95,33 @@ export default {
 			pend: false,
 			login_ID: "",
 			login_Password: "",
+			login_ID_Valid: null,
+			login_Password_Valid: null,
 			login_Successful: null,
 		};
 	},
 	methods: {
+		intl,
 		login() {
 			this.pend = true;
-			if (this.login_ID_Valid && this.login_Password_Valid)
-				Session.login(this.login_ID, this.login_Password).then(
-					({ login }) => {
-						this.pend = false;
-						// Always clear password
-						this.login_Password = "";
-						if (!login) {
-							this.login_Successful = false;
-						}
+			if (this.validate_ID() && this.validate_Password())
+				Session.login(
+					this.$refs.UserIDInput.value,
+					this.$refs.PasswordInput.value
+				).then(({ login }) => {
+					this.pend = false;
+					// Always clear password
+					this.login_Password = "";
+					if (!login) {
+						this.login_Successful = false;
 					}
-				);
+				});
 			else {
 				alert("Invalid credentials");
 			}
 		},
-	},
-	computed: {
-		login_ID_Valid() {
-			const val = this.login_ID || "";
+		validate_ID() {
+			const val = this.$refs.UserIDInput.value;
 			if (typeof val === "string" && val.trim().length >= 5) {
 				return true;
 			} else {
@@ -122,8 +129,8 @@ export default {
 				else return null;
 			}
 		},
-		login_Password_Valid() {
-			const val = this.login_Password || "";
+		validate_Password() {
+			const val = this.$refs.PasswordInput.value;
 			if (typeof val === "string" && val.length >= 5) {
 				return true;
 			} else {

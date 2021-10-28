@@ -1,7 +1,11 @@
 @import './codicon/codicon.css';
 @import './fa/all.min.css';
 :root {
+<<<<<<< HEAD
 		font-family: 'Avenir', 'Avenir Next', Helvetica, sans-serif;
+=======
+	font-family: 'Avenir', 'Avenir Next', Helvetica, sans-serif;
+>>>>>>> origin
 }
 
 .mono {

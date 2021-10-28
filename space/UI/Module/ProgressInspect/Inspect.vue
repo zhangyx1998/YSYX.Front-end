@@ -1,17 +1,14 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
-import RefreshButton from "/space/UI/Common/RefreshButton.vue";
-import Badge from "/space/UI/Common/Badge.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
+import Button from "/components/Button.vue";
+import RefreshButton from "/components/Button/RefreshButton.vue";
+import Badge from "/components/Badge.vue";
+import Paragraph from "/components/Paragraph.vue";
 import InspectActions from "./InspectActions.vue";
-import Dialog from "/space/UI/Common/Panes/Dialog.vue";
+import Dialog from "/components/AppView/Panes/Dialog.vue";
 </script>
 
 <template>
-	<div
-		Content _1024_
-		v-if="content && content.length"
-	>
+	<div Content _1024_ v-if="content && content.length">
 		<span w100 v-for="el in content" :key="this.reportKey(el)">
 			<div
 				:ref="this.reportKey(el)"
@@ -19,7 +16,7 @@ import Dialog from "/space/UI/Common/Panes/Dialog.vue";
 					{
 						desktop: 'card list-entry shadow-light shadow-dynamic',
 						mobile: 'card list-seamless',
-					}[platform]
+					}[env.platform]
 				"
 				tabindex="0"
 				focus-expand
@@ -80,21 +77,21 @@ import Dialog from "/space/UI/Common/Panes/Dialog.vue";
 		class="gray"
 		style="opacity: 0.8"
 		:title="
-			{
+			intl({
 				'en-US': 'There is currently no report allocated for you',
 				'zh-CN': '暂时没有分配给您的报告',
-			}[locale.$]
+			})
 		"
 		:suffix="
-			{
+			intl({
 				'en-US':
 					'Check for \'settings\' if you expect to receive more reports.',
 				'zh-CN': '前往\'设置\'获取更多报告',
-			}[locale.$]
+			})
 		"
 		:buttons="[
 			{
-				name: { 'en-US': 'Refresh', 'zh-CN': '刷新' }[locale.$],
+				name: intl({ 'en-US': 'Refresh', 'zh-CN': '刷新' }),
 				type: 'outlined gray',
 				callback: fetch,
 			},
@@ -103,16 +100,15 @@ import Dialog from "/space/UI/Common/Panes/Dialog.vue";
 </template>
 
 <script>
-import { platform } from "/space/UI/App.vue";
 import { Session } from "/space/Session.js";
 import { badgeName } from "../ProgressReport.vue";
-import { locale } from "/util/locale.js";
+import { env, intl } from "/util/env.js";
 import { localeDate } from "/util/date.js";
 
 export default {
 	data() {
 		return {
-			locale,
+			env,
 			content: [],
 			commentPublic: "",
 			commentPrivate: "",
@@ -124,6 +120,7 @@ export default {
 		},
 	},
 	methods: {
+		intl,
 		fetch() {
 			Session.post("ProgressInspect/JSON")
 				.then((content) => (Array.isArray(content) ? content : []))

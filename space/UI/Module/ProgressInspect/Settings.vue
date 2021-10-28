@@ -1,7 +1,7 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
-import Badge from "/space/UI/Common/Badge.vue";
-import RefreshButton from "/space/UI/Common/RefreshButton.vue";
+import Button from "/components/Button.vue";
+import Badge from "/components/Badge.vue";
+import RefreshButton from "/components/Button/RefreshButton.vue";
 </script>
 
 <template>
@@ -75,20 +75,20 @@ import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 						v-if="field.failedAllocList.length"
 						type="outlined gray"
 						:name="
-							{
+							intl({
 								'en-US': 'Force reallocate',
 								'zh-CN': '强制重分配',
-							}[locale.$]
+							})
 						"
 					/>
 					<Button
 						v-if="field.selected"
 						type="outlined red"
 						:name="
-							{
+							intl({
 								'en-US': 'Remove',
 								'zh-CN': '移除',
-							}[locale.$]
+							})
 						"
 						@click="removeField(field.fieldName)"
 					/>
@@ -96,10 +96,10 @@ import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 						v-else
 						type="solid gray"
 						:name="
-							{
+							intl({
 								'en-US': 'Add',
 								'zh-CN': '添加',
-							}[locale.$]
+							})
 						"
 						@click="addField(field.fieldName)"
 					/>
@@ -113,12 +113,11 @@ import RefreshButton from "/space/UI/Common/RefreshButton.vue";
 <script>
 import { Session } from "/space/Session.js";
 import { badgeName } from "../ProgressReport.vue";
-import { locale } from "/util/locale.js";
+import { intl } from "/util/env.js";
 
 export default {
 	data() {
 		return {
-			locale,
 			content: [],
 		};
 	},
@@ -128,6 +127,7 @@ export default {
 		},
 	},
 	methods: {
+		intl,
 		fetch() {
 			Session.post("ProgressInspect/Fields").then((content) => {
 				this.content = content.sort((a, b) =>

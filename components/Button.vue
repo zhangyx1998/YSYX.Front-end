@@ -140,7 +140,8 @@ export default {
 [button].seamless.white:not(.disabled):hover {
 	background-color: rgba(255, 255, 255, 0.1);
 }
-[button].seamless.white:not(.disabled):active {
+[button].seamless.white:not(.disabled):active,
+[button].seamless.white:not(.disabled).active {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 /* solid */
@@ -231,6 +232,16 @@ export default {
 	--borderHover: hsla(0, 0%, 0%, 0.48);
 	--borderPress: hsla(0, 0%, 0%, 0.3);
 }
+/* outlined white */
+[button].outlined.white {
+	color: hsla(0, 0%, 100%, 0.8);
+	--color-Prime: hsla(0, 0%, 100%, 0.08);
+	--color-Hover: hsla(0, 0%, 100%, 0.07);
+	--color-Press: hsla(0, 0%, 100%, 0.06);
+	--borderPrime: hsla(0, 0%, 100%, 0.3);
+	--borderHover: hsla(0, 0%, 100%, 0.4);
+	--borderPress: hsla(0, 0%, 100%, 0.6);
+}
 /* link */
 [button].link {
 	padding-left: 0;
@@ -239,7 +250,7 @@ export default {
 	color: var(--gray-bright);
 }
 [button].link:not(.disabled):hover {
-	color: var(--gray-brighter);
+	opacity: 0.8;
 }
 [button].link:not(.disabled):active,
 [button].link:not(.disabled).active {

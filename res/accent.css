@@ -44,6 +44,7 @@
 }
 
 .accent {
+	color: var(--color);
 	--color: var(--accent);
 	--color-text: var(--accent);
 	--color-dark: var(--accent-dark);
@@ -54,6 +55,7 @@
 }
 
 .green {
+	color: var(--color);
 	--color: var(--green);
 	--color-text: var(--green);
 	--color-dark: var(--green-dark);
@@ -64,6 +66,7 @@
 }
 
 .red {
+	color: var(--color);
 	--color: var(--red);
 	--color-text: var(--red);
 	--color-dark: var(--red-dark);
@@ -74,6 +77,7 @@
 }
 
 .yellow {
+	color: var(--color);
 	--color: var(--yellow);
 	--color-text: var(--yellow);
 	--color-dark: var(--yellow-dark);
@@ -84,6 +88,7 @@
 }
 
 .gray {
+	color: var(--color);
 	--color: var(--gray);
 	--color-text: var(--gray);
 	--color-dark: var(--gray-dark);
@@ -94,11 +99,12 @@
 }
 
 .white {
+	color: var(--color);
 	--color: white;
-	--color-text: var(--gray);
-	--color-dark: var(--gray-dark);
-	--color-bright: var(--gray-bright);
-	--color-brighter: var(--gray-brighter);
-	--color-light: var(--gray-light);
-	--color-background: var(--gray-background);
+	--color-text: var(--white);
+	--color-dark: var(--white-dark);
+	--color-bright: var(--white-bright);
+	--color-brighter: var(--white-brighter);
+	--color-light: var(--white-light);
+	--color-background: var(--white-background);
 }
