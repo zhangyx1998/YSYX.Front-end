@@ -1,5 +1,5 @@
 <script setup>
-import Responsive from "/space/UI/Common/Responsive.vue";
+import Responsive from "/components/Responsive.vue";
 defineProps({
 	panes: Object,
 	defaultPane: String,
@@ -8,9 +8,9 @@ defineProps({
 
 <template>
 	<span warpper ref="el" @resize="emitHeight">
-		<div PaneSelector :class="platform == 'mobile' ? 'shadow' : ''">
+		<div PaneSelector :class="env.platform == 'mobile' ? 'shadow' : ''">
 			<div animate-under-line :style="underline">
-				<div :class="platform == 'mobile' ? 'shadow' : ''"></div>
+				<div :class="env.platform == 'mobile' ? 'shadow' : ''"></div>
 			</div>
 			<span v-for="(val, ID, i) in panes" :key="ID" :ref="ID">
 				<Responsive
@@ -26,12 +26,12 @@ defineProps({
 </template>
 
 <script>
-import { platform } from "/space/UI/App.vue";
+import { env } from "/util/env.js";
 export default {
 	emits: ["select", "slide-to", "el-height"],
 	data() {
 		return {
-			platform,
+			env,
 			underline: {
 				left: "0px",
 				width: "0px",

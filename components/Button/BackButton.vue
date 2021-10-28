@@ -1,5 +1,5 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
+import Button from "/components/Button.vue";
 </script>
 
 <template>
@@ -13,7 +13,6 @@ import Button from "/space/UI/Common/Button.vue";
 
 
 <script>
-import { locale } from '/util/locale.js';
 export default {
 	emits: ['back'],
 };

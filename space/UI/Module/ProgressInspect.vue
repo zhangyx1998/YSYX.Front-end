@@ -1,16 +1,16 @@
 <script setup>
-import PaneSelector from "/space/UI/Common/PaneSelector.vue";
+import PaneSelector from "/components/AppView/PaneSelector.vue";
 import Inspect from "./ProgressInspect/Inspect.vue";
 import History from "./ProgressInspect/History.vue";
 import Settings from "./ProgressInspect/Settings.vue";
 // Mobile only
 import MobileTitleBar from "../Mobile/TitleBar.vue";
-import BackButton from "/space/UI/Common/BackButton.vue";
+import BackButton from "/components/Button/BackButton.vue";
 </script>
 
 <template>
 	<MobileTitleBar
-		:title="{ 'en-US': 'Progress Inspect', 'zh-CN': '进度检查' }[locale.$]"
+		:title="intl({ 'en-US': 'Progress Inspect', 'zh-CN': '进度检查' })"
 	>
 		<template #left><BackButton @back="$emit('back')" /></template>
 	</MobileTitleBar>
@@ -61,7 +61,7 @@ import BackButton from "/space/UI/Common/BackButton.vue";
 									PaneSelectorHeight || 0
 								}px`,
 							},
-						}[platform]
+						}[env.platform]
 					"
 				/>
 			</keep-alive>
@@ -70,16 +70,16 @@ import BackButton from "/space/UI/Common/BackButton.vue";
 </template>
 
 <script>
-import { platform } from "/space/UI/App.vue";
-import { locale } from "/util/locale.js";
+import { env, intl } from "/util/env.js";
 import { DesktopView } from "/space/View.js";
 import { Session } from "/space/Session.js";
-import { $select } from "/space/UI/Common/PaneSelector.vue";
+import { $select } from "/components/AppView/PaneSelector.vue";
 
 export default {
 	emits: ["show-pane", "back"],
 	data() {
 		return {
+			env,
 			display: "Inspect",
 			slideTo: "",
 			PaneSelectorHeight: 0,
@@ -99,6 +99,7 @@ export default {
 		},
 	},
 	methods: {
+		intl,
 		select(name) {
 			$select(this, name);
 		},

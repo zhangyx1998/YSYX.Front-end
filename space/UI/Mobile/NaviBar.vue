@@ -1,5 +1,5 @@
 <script setup>
-import Responsive from "/space/UI/Common/Responsive.vue";
+import Responsive from "/components/Responsive.vue";
 defineProps({
 	display: String,
 });
@@ -14,19 +14,17 @@ defineProps({
 			:class="active(ID)"
 		>
 			<i :class="el.icon[active(ID)]"></i>
-			<span>{{ el.name[locale.$] }}</span>
+			<span>{{ intl(el.name) }}</span>
 		</Responsive>
 	</div>
 </template>
 
 <script>
-import { locale } from "/util/locale.js";
-
+import { intl } from "/util/env.js";
 export default {
 	emits: ["switch", "slide-to"],
 	data() {
 		return {
-			locale,
 			order: null,
 			entries: {
 				Forum: {
@@ -73,6 +71,7 @@ export default {
 		};
 	},
 	methods: {
+		intl,
 		active(ID) {
 			return ID === this.display ? "active" : "inactive";
 		},

@@ -1,5 +1,5 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
+import Button from "/components/Button.vue";
 </script>
 
 <template>
@@ -11,57 +11,66 @@ import Button from "/space/UI/Common/Button.vue";
 				tabindex="0"
 				ref="UserIDInput"
 				:placeholder="
-					{
+					intl({
 						'en-US': 'ID, Cell or Email',
 						'zh-CN': 'ID / 电话 / 邮箱',
-					}[locale.$]
+					})
 				"
 				spellcheck="false"
 				v-model="login_ID"
-				:class="
-					[login_ID_Valid === null
+				:class="[
+					login_ID_Valid === null
 						? ''
-						: (login_ID_Valid
+						: login_ID_Valid
 						? 'valid'
-						: 'invalid')]
-				"
+						: 'invalid',
+				]"
 				@keydown.enter="this.$refs.PasswordInput.focus()"
 			/>
 			<input
 				tabindex="0"
 				ref="PasswordInput"
 				:placeholder="
-					(login_Successful === false
-						? {
-								'en-US': 'Invalid Credentials',
-								'zh-CN': '无效的用户名或密码',
-						  }
-						: {
-								'en-US': 'Password',
-								'zh-CN': '密码',
-						  })[locale.$]
+					intl(
+						login_Successful === false
+							? {
+									'en-US': 'Invalid Credentials',
+									'zh-CN': '无效的用户名或密码',
+							  }
+							: {
+									'en-US': 'Password',
+									'zh-CN': '密码',
+							  }
+					)
 				"
 				type="password"
 				v-model="login_Password"
-				:class="
-					[(login_Password_Valid || login_Successful) === null
+				:class="[
+					(login_Password_Valid || login_Successful) === null
 						? ''
-						: ((login_Password_Valid || login_Successful)
+						: login_Password_Valid || login_Successful
 						? 'valid'
-						: 'invalid')]
-				"
+						: 'invalid',
+				]"
 				@keydown.enter="login()"
 			/>
-			<div style="display: flex; justify-content: end; font-size: 0.9em; --button-margin: 0;">
+			<div
+				style="
+					display: flex;
+					justify-content: end;
+					font-size: 0.9em;
+					--button-margin: 0;
+				"
+			>
 				<Button type="link" name="Apply" />
 				<span style="flex-grow: 1"></span>
 				<Button
 					type="solid green"
 					:name="
-						{
+						intl({
 							'en-US': 'Login',
 							'zh-CN': '登录',
-						}[locale.$]
+						})
 					"
 					@click="login()"
 				/>
@@ -73,11 +82,10 @@ import Button from "/space/UI/Common/Button.vue";
 <script>
 import { Session } from "/space/Session.js";
 import { Popup, DesktopView } from "/space/View.js";
-import { locale } from "/util/locale.js";
+import { intl } from "/util/env.js";
 export default {
 	data() {
 		return {
-			locale,
 			_popup_: {
 				ID: 0,
 				show: false,
@@ -89,6 +97,7 @@ export default {
 		};
 	},
 	methods: {
+		intl,
 		login() {
 			this.pend = true;
 			this.$forceUpdate();
@@ -105,13 +114,13 @@ export default {
 					}
 				);
 			else {
-				alert('Invalid credentials')
+				alert("Invalid credentials");
 			}
 		},
 	},
 	computed: {
 		login_ID_Valid() {
-			const val = this.login_ID || '';
+			const val = this.login_ID || "";
 			if (typeof val === "string" && val.trim().length >= 5) {
 				return true;
 			} else {
@@ -120,14 +129,14 @@ export default {
 			}
 		},
 		login_Password_Valid() {
-			const val = this.login_Password || '';
+			const val = this.login_Password || "";
 			if (typeof val === "string" && val.length >= 5) {
 				return true;
 			} else {
 				if (val.length) return false;
 				else return null;
 			}
-		}
+		},
 	},
 	created() {
 		console.log(this);
@@ -135,7 +144,7 @@ export default {
 		Session.on("logout", () => {
 			Popup.show(this);
 		});
-	}
+	},
 };
 </script>
 

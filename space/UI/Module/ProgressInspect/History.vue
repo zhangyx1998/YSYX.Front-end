@@ -1,25 +1,23 @@
 <script setup>
-import Dialog from "/space/UI/Common/Panes/Dialog.vue";
+import Dialog from "/components/AppView/Panes/Dialog.vue";
 </script>
 
 <template>
 	<Dialog
 		class="gray"
 		style="opacity: 0.8;"
-		:title="{
+		:title="intl({
 			'en-US': 'Feature under development',
 			'zh-CN': '该功能正在开发中'
-		}[locale.$]"
+		})"
 	/>
 </template>
 
 <script>
-import { locale } from "/util/locale.js";
+import { intl } from "/util/env.js";
 export default {
-	data() {
-		return {
-			locale
-		}
+	methods: {
+		intl
 	}
 }
 </script>

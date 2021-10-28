@@ -1,6 +1,6 @@
 <script setup>
-import Badge from "/space/UI/Common/Badge.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
+import Badge from "/components/Badge.vue";
+import Paragraph from "/components/Paragraph.vue";
 defineProps({
 	state: String,
 	pending: Array,

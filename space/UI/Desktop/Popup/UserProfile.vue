@@ -1,5 +1,5 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
+import Button from "/components/Button.vue";
 </script>
 
 <template>
@@ -17,27 +17,27 @@ import Button from "/space/UI/Common/Button.vue";
 					--button-margin: 0;
 				"
 			>
-				<!-- <span style="margin-right: 0.6em">
+				<!-- <span styl      e="margin-right: 0.6em">
 					<h4 zh-CN>语言</h4>
 					<h4 en-US>Language</h4>
 				</span> -->
 				<Button
 					style="border-radius: 0.4em 0 0 0.4em; border: none"
 					:type="type_default()"
-					:name="{ 'en-US': 'default', 'zh-CN': '默认' }[locale.$]"
-					@click="locale.unsetOverride()"
+					:name="intl({ 'en-US': 'default', 'zh-CN': '默认' })"
+					@click="setLocaleOverride()"
 				/>
 				<Button
 					style="border-radius: 0; border: none"
 					:type="type_CN()"
 					name="中文"
-					@click="locale.setOverride('zh-CN')"
+					@click="setLocaleOverride('zh-CN')"
 				/>
 				<Button
 					style="border-radius: 0 0.4em 0.4em 0; border: none"
 					:type="type_EN()"
 					name="English"
-					@click="locale.setOverride('en-US')"
+					@click="setLocaleOverride('en-US')"
 				/>
 			</div>
 			<div style="display: flex; justify-content: end; font-size: 0.9em">
@@ -46,10 +46,10 @@ import Button from "/space/UI/Common/Button.vue";
 				<Button
 					type="solid red"
 					:name="
-						{
+						intl({
 							'en-US': 'Sign out',
 							'zh-CN': '退出登录',
-						}[locale.$]
+						})
 					"
 					@click="logout()"
 				/>
@@ -61,11 +61,11 @@ import Button from "/space/UI/Common/Button.vue";
 <script>
 import { Session } from "/space/Session.js";
 import { Popup, DesktopView } from "/space/View.js";
-import { locale, Locale } from "/util/locale.js";
+import { env, intl, setLocaleOverride } from '/util/env.js';
 export default {
 	data() {
 		return {
-			locale,
+			env,
 			_popup_: {
 				ID: 0,
 				show: false,
@@ -75,20 +75,22 @@ export default {
 		};
 	},
 	methods: {
+		intl,
+		setLocaleOverride,
 		logout() {
 			Popup.close(this);
 			Session.logout().then();
 		},
 		type_default() {
-			return !locale.override ? "gray solid" : "gray outlined";
+			return !env.localeOverride ? "gray solid" : "gray outlined";
 		},
 		type_EN() {
-			return locale.override && locale.$ == "en-US"
+			return env.localeOverride && env.locale == "en-US"
 				? "gray solid"
 				: "gray outlined";
 		},
 		type_CN() {
-			return locale.override && locale.$ == "zh-CN"
+			return env.localeOverride && env.locale == "zh-CN"
 				? "gray solid"
 				: "gray outlined";
 		},
@@ -102,7 +104,7 @@ export default {
 			this.Profile = Profile;
 		});
 		// Force Update on language change
-		Locale.on("update", () => {
+		env.on("update", () => {
 			this.$forceUpdate();
 		});
 	},

@@ -2,7 +2,7 @@ import { digVal } from './object.js';
 import { assert } from './diagnostics.js';
 import { Callable } from './Callable.js';
 
-function fallback(locale) {
+function localeFallback(locale) {
 	if (/zh\-\w{2}/.test(locale)) locale = "zh-CN";
 	if (fallbackList.indexOf(locale) >= 0) {
 		return locale;
@@ -37,7 +37,7 @@ export class Locale extends Callable {
 	}
 	// Update $
 	update() {
-		this.$ = fallback((this.override = this.#override) || this.#native);
+		this.$ = localeFallback((this.override = this.#override) || this.#native);
 		if (this.$ in this.title) {
 			document.title = this.title[this.$];
 		}

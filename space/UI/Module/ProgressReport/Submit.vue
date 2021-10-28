@@ -1,13 +1,11 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
-import Badge from "/space/UI/Common/Badge.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
+import Button from "/components/Button.vue";
+import Badge from "/components/Badge.vue";
+import Paragraph from "/components/Paragraph.vue";
 </script>
 
 <template>
-	<div
-		Content _1024_
-	>
+	<div Content _1024_>
 		<h2 w100 v-if="!updateID">
 			<span en-US>Report your awesome progress</span>
 			<span zh-CN>记录你的进展</span>
@@ -36,10 +34,10 @@ import Paragraph from "/space/UI/Common/Paragraph.vue";
 		<textarea
 			v-model="text"
 			:placeholder="
-				{
+				intl({
 					'en-US': 'Report text goes here ...',
 					'zh-CN': '在这里输入报告正文',
-				}[locale.$]
+				})
 			"
 			style="min-height: 12em"
 		/>
@@ -52,7 +50,7 @@ import Paragraph from "/space/UI/Common/Paragraph.vue";
 				<Badge
 					type="accent interactive"
 					:state="badgeState(ID, el)"
-					:name="el.name[locale.$]"
+					:name="intl(el.name)"
 					@click="el.selected = !el.selected"
 					style="--badge-margin: 0 0.8em 0.6em 0"
 				/>
@@ -69,19 +67,19 @@ import Paragraph from "/space/UI/Common/Paragraph.vue";
 		>
 			<Button
 				type="outlined gray"
-				:name="{ 'en-US': 'Clear', 'zh-CN': '清空' }[locale.$]"
+				:name="intl({ 'en-US': 'Clear', 'zh-CN': '清空' })"
 				@click="clear()"
 			/>
 			<Button
 				v-if="!updateID"
 				type="solid green"
-				:name="{ 'en-US': 'Submit', 'zh-CN': '提交' }[locale.$]"
+				:name="intl({ 'en-US': 'Submit', 'zh-CN': '提交' })"
 				@click="submit()"
 			/>
 			<Button
 				v-else
 				type="solid green"
-				:name="{ 'en-US': 'Update', 'zh-CN': '更新' }[locale.$]"
+				:name="intl({ 'en-US': 'Update', 'zh-CN': '更新' })"
 				@click="update()"
 			/>
 		</div>
@@ -94,12 +92,11 @@ import { OPTIONS } from "../ProgressReport.vue";
 import { timeZone } from "/util/date.js";
 import { assert } from "/util/diagnostics.js";
 import { digVal } from "/util/object.js";
-import { locale } from "/util/locale.js";
+import { intl } from "/util/env.js";
 
 export default {
 	data() {
 		return {
-			locale,
 			options: OPTIONS,
 			text: "",
 			updateID: "",
@@ -112,6 +109,7 @@ export default {
 		},
 	},
 	methods: {
+		intl,
 		init() {
 			this.text = "";
 			this.updateID = "";

@@ -1,7 +1,7 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
-import Badge from "/space/UI/Common/Badge.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
+import Button from "/components/Button.vue";
+import Badge from "/components/Badge.vue";
+import Paragraph from "/components/Paragraph.vue";
 defineProps({
 	userID: String,
 	reportID: String,
@@ -19,11 +19,11 @@ defineProps({
 		<textarea
 			v-model="commentPublic"
 			:placeholder="
-				{
+				intl({
 					'en-US':
 						'[optional] Student will see the content you typed here',
 					'zh-CN': '[选填] 学生可以看见在此处填写的评论',
-				}[locale.$]
+				})
 			"
 			style="margin: 1em 0 1.2em 0; min-height: 1em"
 		/>
@@ -34,11 +34,11 @@ defineProps({
 		<textarea
 			v-model="commentPrivate"
 			:placeholder="
-				{
+				intl({
 					'en-US':
 						'[optional] Only administrators and teaching assistants will see what you typed here',
 					'zh-CN': '[选填] 在此处填写的评论仅对管理员和助教可见',
-				}[locale.$]
+				})
 			"
 			style="margin: 1em 0 0.6em 0; min-height: 1em"
 		/>
@@ -48,7 +48,7 @@ defineProps({
 			type="outlined gray"
 			icon="fas fa-paper-plane"
 			:name="
-				{ 'en-US': 'Reallocate', 'zh-CN': '无法解决' }[locale.$]
+				intl({ 'en-US': 'Reallocate', 'zh-CN': '无法解决' })
 			"
 			@click="reallocate()"
 		/>
@@ -57,10 +57,10 @@ defineProps({
 			icon="fas fa-check"
 			ref="inspect"
 			:name="
-				{
+				intl({
 					'en-US': 'Check',
 					'zh-CN': '已阅',
-				}[locale.$]
+				})
 			"
 			@click="inspect()"
 		/>
@@ -92,12 +92,11 @@ defineProps({
 
 <script>
 import { Session } from "/space/Session.js";
-import { locale } from "/util/locale.js";
+import { intl } from "/util/env.js";
 
 export default {
 	data() {
 		return {
-			locale,
 			commentPublic: "",
 			commentPrivate: "",
 		};
@@ -108,6 +107,7 @@ export default {
 		},
 	},
 	methods: {
+		intl,
 		reallocate() {
 			const { userID, reportID, fields } = this;
 			Session.post("ProgressInspect/Reallocate", {

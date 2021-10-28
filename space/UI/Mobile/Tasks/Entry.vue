@@ -1,5 +1,5 @@
 <script setup>
-import Responsive from "/space/UI/Common/Responsive.vue";
+import Responsive from "/components/Responsive.vue";
 defineProps({
 	el: Object,
 });
@@ -14,7 +14,6 @@ defineProps({
 </template>
 
 <script>
-import { locale } from "/util/locale.js";
 export default {
 	methods: {
 		navigate() {

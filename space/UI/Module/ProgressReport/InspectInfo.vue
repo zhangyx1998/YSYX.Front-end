@@ -1,7 +1,7 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
-import Badge from "/space/UI/Common/Badge.vue";
-import Paragraph from "/space/UI/Common/Paragraph.vue";
+import Button from "/components/Button.vue";
+import Badge from "/components/Badge.vue";
+import Paragraph from "/components/Paragraph.vue";
 defineProps({
 	inspections: Object,
 });
