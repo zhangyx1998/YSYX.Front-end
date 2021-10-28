@@ -1,19 +1,11 @@
 [zh-CN],
 [en-US] {
-<<<<<<< HEAD
-		display: none !important;
-=======
 	display: none !important;
->>>>>>> origin
 }
 
 .zh-CN zh-CN,
 .zh-CN [zh-CN],
 .en-US en-US,
 .en-US [en-US] {
-<<<<<<< HEAD
-		display: inherit !important;
-=======
 	display: inherit !important;
->>>>>>> origin
 }
