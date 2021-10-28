@@ -1,5 +1,5 @@
 <script setup>
-import Button from "/space/UI/Common/Button.vue";
+import Button from "/components/Button.vue";
 import DirectInputEntry from "../Common/DirectInputEntry.vue";
 </script>
 
@@ -43,12 +43,10 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 	</div>
 </template>
 <script>
-import { locale } from "/util/locale.js";
 export default {
 	emits: ["update"],
 	data() {
 		return {
-			locale,
 		};
 	},
 	watch: {

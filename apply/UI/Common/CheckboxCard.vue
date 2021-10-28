@@ -1,12 +1,12 @@
 <script setup>
-import Responsive from "/space/UI/Common/Responsive.vue";
+import Responsive from "/components/Responsive.vue";
 </script>
 
 <template>
 	<div>
 		<Responsive class="container">
 			<div class="name-container">
-				<span><slot name="content"></slot></span>
+				<span><slot></slot></span>
 			</div>
 		</Responsive>
 	</div>

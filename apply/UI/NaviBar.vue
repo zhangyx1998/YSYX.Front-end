@@ -1,6 +1,6 @@
 <script setup>
-import Responsive from "/space/UI/Common/Responsive.vue";
-import Button from "/space/UI/Common/Button.vue";
+import Responsive from "/components/Responsive.vue";
+import Button from "/components/Button.vue";
 defineProps({
 	back: Boolean,
 	forward: Boolean,
