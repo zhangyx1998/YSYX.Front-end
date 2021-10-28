@@ -14,10 +14,10 @@ defineProps({
 				<div EntryGroup>
 					<DirectInputEntry
 						:validate="(val) => !!val"
-						property="School"
-						@update="(val) => this.$emit('update', 'School', val)"
+						property="institution"
+						@update="(val) => this.$emit('update', 'institution', val)"
 					>
-						<span en-US>School</span>
+						<span en-US>Institution</span>
 						<span zh-CN>所属学校或机构</span>
 					</DirectInputEntry>
 					<div
@@ -30,17 +30,17 @@ defineProps({
 						>
 						<CheckboxCard
 							:class="
-								likes.indexOf('architectureDesign') > -1
+								direction.indexOf('architectureDesign') > -1
 									? 'selected'
 									: 'unselected'
 							"
 							@click="
-								likes.indexOf('architectureDesign') > -1
-									? (likes = likes.filter(
+								direction.indexOf('architectureDesign') > -1
+									? (direction = direction.filter(
 										  (item) =>
 											  item !== 'architectureDesign'
 									  ))
-									: likes.push('architectureDesign')
+									: direction.push('architectureDesign')
 							"
 						>
 							<template #content>
@@ -49,16 +49,16 @@ defineProps({
 						</CheckboxCard>
 						<CheckboxCard
 							:class="
-								likes.indexOf('rtl') > -1
+								direction.indexOf('rtl') > -1
 									? 'selected'
 									: 'unselected'
 							"
 							@click="
-								likes.indexOf('rtl') > -1
-									? (likes = likes.filter(
+								direction.indexOf('rtl') > -1
+									? (direction = direction.filter(
 										  (item) => item !== 'rtl'
 									  ))
-									: likes.push('rtl')
+									: direction.push('rtl')
 							"
 						>
 							<template #content>
@@ -67,16 +67,16 @@ defineProps({
 						</CheckboxCard>
 						<CheckboxCard
 							:class="
-								likes.indexOf('soc') > -1
+								direction.indexOf('soc') > -1
 									? 'selected'
 									: 'unselected'
 							"
 							@click="
-								likes.indexOf('soc') > -1
-									? (likes = likes.filter(
+								direction.indexOf('soc') > -1
+									? (direction = direction.filter(
 										  (item) => item !== 'soc'
 									  ))
-									: likes.push('soc')
+									: direction.push('soc')
 							"
 						>
 							<template #content>
@@ -85,16 +85,16 @@ defineProps({
 						</CheckboxCard>
 						<CheckboxCard
 							:class="
-								likes.indexOf('ic') > -1
+								direction.indexOf('ic') > -1
 									? 'selected'
 									: 'unselected'
 							"
 							@click="
-								likes.indexOf('ic') > -1
-									? (likes = likes.filter(
+								direction.indexOf('ic') > -1
+									? (direction = direction.filter(
 										  (item) => item !== 'ic'
 									  ))
-									: likes.push('ic')
+									: direction.push('ic')
 							"
 						>
 							<template #content>
@@ -105,17 +105,17 @@ defineProps({
 					<DirectInputEntry
 						v-if="identity === 'teacher'"
 						:validate="(val) => !!val"
-						property="College"
-						@update="(val) => this.$emit('update', 'College', val)"
+						property="faculty"
+						@update="(val) => this.$emit('update', 'faculty', val)"
 					>
-						<span en-US>College</span>
+						<span en-US>Faculty</span>
 						<span zh-CN>所属学院</span>
 					</DirectInputEntry>
 					<DirectInputEntry
 						v-if="identity === 'teacher'"
 						:validate="(val) => !!val"
 						property="Title"
-						@update="(val) => this.$emit('update', 'Title', val)"
+						@update="(val) => this.$emit('update', 'title', val)"
 					>
 						<span en-US>Title</span>
 						<span zh-CN>职称</span>
@@ -124,7 +124,7 @@ defineProps({
 						v-if="identity === 'ta' || identity === 'student'"
 						:validate="(val) => !!val"
 						property="Major"
-						@update="(val) => this.$emit('update', 'Major', val)"
+						@update="(val) => this.$emit('update', 'major', val)"
 					>
 						<span en-US>Major</span>
 						<span zh-CN>专业</span>
@@ -143,16 +143,19 @@ defineProps({
 								ref="fileInput"
 								style="display: none"
 							/>
-							<div>
+							<div v-if="!resumeName">
 								<i class="fa fa-upload"></i>
 								<span>选择文件(最大限10M)</span>
+							</div>
+							<div v-else>
+								<span>{{resumeName}}</span>
 							</div>
 						</div>
 					</div>
 					<DirectInputEntry
 						:validate="(val) => !!val"
 						property="Remark"
-						@update="(val) => this.$emit('update', 'Remark', val)"
+						@update="(val) => this.$emit('update', 'remark', val)"
 					>
 						<span en-US>Remark(Optional)</span>
 						<span zh-CN>备注(选填)</span>
@@ -171,14 +174,15 @@ export default {
 	data() {
 		return {
 			locale,
-			likes: [],
+			direction: [],
+			resumeName: "",
 		};
 	},
 	watch: {
-		likes: {
+		direction: {
 			deep: true,
 			handler(val) {
-				this.$emit("update", "likes", val);
+				this.$emit("update", "direction", val);
 			},
 		},
 	},
@@ -188,8 +192,8 @@ export default {
 			fileInput.click();
 			fileInput.onchange = () => {
 				let file = fileInput.files[0];
-				
-				this.$emit("update", "Resume", file);
+				this.resumeName = file.name;
+				this.$emit("update", "resume", file);
 			};
 		},
 	},
