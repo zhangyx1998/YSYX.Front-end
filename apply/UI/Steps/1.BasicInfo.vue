@@ -11,7 +11,7 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 					<DirectInputEntry
 						:validate="(val) => val.trim().length >= 2"
 						property="name"
-						@update="(val) => this.$emit('update', 'Name', val)"
+						@update="(val) => this.$emit('update', 'name', val)"
 					>
 						<span en-US>Name</span>
 						<span zh-CN>姓名</span>
@@ -24,7 +24,7 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 								)
 						"
 						property="email"
-						@update="(val) => this.$emit('update', 'Mail', val)"
+						@update="(val) => this.$emit('update', 'mail', val)"
 					>
 						<span en-US>Mail</span>
 						<span zh-CN>邮箱</span>
@@ -32,7 +32,7 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 					<DirectInputEntry
 						:validate="(val) => /^1(3|4|5|6|7|8|9)\d{9}$/.test(val)"
 						property="tel"
-						@update="(val) => this.$emit('update', 'Cell', val)"
+						@update="(val) => this.$emit('update', 'cell', val)"
 					>
 						<span en-US>phone</span>
 						<span zh-CN>电话</span>

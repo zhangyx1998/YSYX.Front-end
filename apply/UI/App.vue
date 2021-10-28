@@ -54,17 +54,17 @@ export default {
 			step: null,
 			slideTo: "",
 			formData: {
-				Name: "",
-				Cell: "",
-				Mail: "",
+				name: "",
+				cell: "",
+				mail: "",
 				identity: "",
-				School: "",
-				likes: [],
-				College: "",
-				Title: "",
-				Major: "",
-				Resume: null,
-				Remark: "",
+				institution: "",
+				direction: [],
+				faculty: "",
+				title: "",
+				major: "",
+				resume: null,
+				remark: "",
 			},
 		};
 	},
@@ -81,65 +81,65 @@ export default {
 		stepValid() {
 			return !![
 				true,
-				this.formData.Name && this.formData.Cell && this.formData.Mail,
+				this.formData.name && this.formData.cell && this.formData.mail,
 				this.formData.identity,
-				this.formData.School &&
+				this.formData.institution &&
 					(this.formData.identity === "student"
-						? this.formData.likes.length && this.formData.Major
+						? this.formData.direction.length && this.formData.major
 						: this.formData.identity === "teacher"
-						? this.formData.College && this.formData.Title
-						: this.formData.Major),
+						? this.formData.faculty && this.formData.title
+						: this.formData.major),
 				true,
 			][this.step];
 		},
 		FormData() {
 			let {
-				Name,
-				Cell,
-				Mail,
+				name,
+				cell,
+				mail,
 				identity,
-				School,
-				likes,
-				College,
-				Title,
-				Major,
-				Resume,
-				Remark,
+				institution,
+				direction,
+				faculty,
+				title,
+				major,
+				resume,
+				remark,
 			} = this.formData;
 			if (this.formData.identity === "student") {
 				return {
-					Name,
-					Cell,
-					Mail,
+					name,
+					cell,
+					mail,
 					identity,
-					School,
-					likes,
-					Major,
-					Resume: !Resume ? "(未上传)" : Resume,
-					Remark: !Remark ? "(未填写)" : Remark,
+					institution,
+					direction,
+					major,
+					resume: !resume ? "(未上传)" : resume.name,
+					remark: !remark ? "(未填写)" : remark,
 				};
 			} else if (this.formData.identity === "ta") {
 				return {
-					Name,
-					Cell,
-					Mail,
+					name,
+					cell,
+					mail,
 					identity,
-					School,
-					Major,
-					Resume: !Resume ? "(未上传)" : Resume,
-					Remark: !Remark ? "(未填写)" : Remark,
+					institution,
+					major,
+					resume: !resume ? "(未上传)" : resume.name,
+					remark: !remark ? "(未填写)" : remark,
 				};
 			} else {
 				return {
-					Name,
-					Cell,
-					Mail,
+					name,
+					cell,
+					mail,
 					identity,
-					School,
-					College,
-					Title,
-					Resume: !Resume ? "(未上传)" : Resume,
-					Remark: !Remark ? "(未填写)" : Remark,
+					institution,
+					faculty,
+					title,
+					resume: !resume ? "(未上传)" : resume.name,
+					remark: !remark ? "(未填写)" : remark,
 				};
 			}
 		},
@@ -155,9 +155,9 @@ export default {
 		},
 		async submit() {
 			let data = Object.assign({}, this.formData);
-			data.Resume = await new Promise((resolve, reject) => {
+			data.resume = await new Promise((resolve, reject) => {
 				var reader = new FileReader();
-				reader.readAsBinaryString(this.formData.Resume);
+				reader.readAsBinaryString(this.formData.resume);
 				reader.onload = function (e) {
 					var urlData = this.result;
 					resolve(btoa(urlData));

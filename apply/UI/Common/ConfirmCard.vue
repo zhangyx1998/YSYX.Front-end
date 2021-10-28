@@ -7,7 +7,7 @@
 			<div>
 				{{
 					Array.isArray(val)
-						? val.map((item) => likesMap[item]).join(",")
+						? val.map((item) => directionMap[item]).join(",")
 						: val
 				}}
 			</div>
@@ -23,7 +23,7 @@ export default {
 	props: ["attr", "val"],
 	data() {
 		return {
-			likesMap: {
+			directionMap: {
 				architectureDesign: "体系结构设计",
 				rtl: "RTL开发和验证",
 				soc: "SoC集成和验证",
