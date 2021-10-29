@@ -19,8 +19,12 @@ defineProps({
                             (val) => this.$emit('update', 'institution', val)
                         "
                     >
-                        <span en-US>Institution</span>
-                        <span zh-CN>所属学校或机构</span>
+                        <span>{{
+                            intl({
+                                "en-US": "Institution",
+                                "zh-CN": "所属学校或机构",
+                            })
+                        }}</span>
                     </DirectInputEntry>
                     <div
                         Entry
@@ -44,6 +48,9 @@ defineProps({
                                       ))
                                     : direction.push('architectureDesign')
                             "
+                            :isSelected="
+                                direction.indexOf('architectureDesign') > -1
+                            "
                         >
                             <span>体系结构设计</span>
                         </CheckboxCard>
@@ -59,6 +66,9 @@ defineProps({
                                           (item) => item !== 'rtl'
                                       ))
                                     : direction.push('rtl')
+                            "
+							:isSelected="
+                                direction.indexOf('rtl') > -1
                             "
                         >
                             <span>RTL开发和验证</span>
@@ -76,6 +86,9 @@ defineProps({
                                       ))
                                     : direction.push('soc')
                             "
+							:isSelected="
+                                direction.indexOf('soc') > -1
+                            "
                         >
                             <span>SoC集成和验证</span>
                         </CheckboxCard>
@@ -92,6 +105,9 @@ defineProps({
                                       ))
                                     : direction.push('ic')
                             "
+							:isSelected="
+                                direction.indexOf('ic') > -1
+                            "
                         >
                             <span>IC后端设计</span>
                         </CheckboxCard>
@@ -102,8 +118,12 @@ defineProps({
                         property="faculty"
                         @update="(val) => this.$emit('update', 'faculty', val)"
                     >
-                        <span en-US>Faculty</span>
-                        <span zh-CN>所属学院</span>
+                        <span>{{
+                            intl({
+                                "en-US": "Faculty",
+                                "zh-CN": "所属学院",
+                            })
+                        }}</span>
                     </DirectInputEntry>
                     <DirectInputEntry
                         v-if="identity === 'teacher'"
@@ -111,8 +131,12 @@ defineProps({
                         property="Title"
                         @update="(val) => this.$emit('update', 'title', val)"
                     >
-                        <span en-US>Title</span>
-                        <span zh-CN>职称</span>
+                        <span>{{
+                            intl({
+                                "en-US": "Title",
+                                "zh-CN": "职称",
+                            })
+                        }}</span>
                     </DirectInputEntry>
                     <DirectInputEntry
                         v-if="identity === 'ta' || identity === 'student'"
@@ -120,8 +144,12 @@ defineProps({
                         property="Major"
                         @update="(val) => this.$emit('update', 'major', val)"
                     >
-                        <span en-US>Major</span>
-                        <span zh-CN>专业</span>
+                        <span>{{
+                            intl({
+                                "en-US": "Major",
+                                "zh-CN": "专业",
+                            })
+                        }}</span>
                     </DirectInputEntry>
                     <div
                         Entry
@@ -151,8 +179,12 @@ defineProps({
                         property="Remark"
                         @update="(val) => this.$emit('update', 'remark', val)"
                     >
-                        <span en-US>Remark(Optional)</span>
-                        <span zh-CN>备注(选填)</span>
+                        <span>{{
+                            intl({
+                                "en-US": "Remark(Optional)",
+                                "zh-CN": "备注(选填)",
+                            })
+                        }}</span>
                     </DirectInputEntry>
                 </div>
             </div>
@@ -160,6 +192,7 @@ defineProps({
     </div>
 </template>
 <script>
+import { intl } from "/util/env.js";
 import Button from "/components/Button.vue";
 export default {
     components: { Button },
@@ -188,6 +221,7 @@ export default {
                 this.$emit("update", "resume", file);
             };
         },
+        intl,
     },
 };
 </script>
@@ -199,7 +233,6 @@ export default {
 
 ::v-deep(.unselected) {
     border-color: var(--gray-brighter);
-    opacity: 0.5;
 }
 .upload {
     width: 100%;

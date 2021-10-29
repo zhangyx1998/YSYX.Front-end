@@ -1,7 +1,7 @@
 <script setup>
 import ConfirmCard from "../Common/ConfirmCard.vue";
 defineProps({
-	FormData: Object,
+	formData: Object,
 });
 </script>
 
@@ -14,7 +14,7 @@ defineProps({
 						请核对您的个人信息。若无误，点击右下角按钮进行提交！谢谢！
 					</h3>
 					<ConfirmCard
-						v-for="(val, attr) in FormData"
+						v-for="(val, attr) in formData"
 						:val="val"
 						:attr="attr"
 						:key="attr"

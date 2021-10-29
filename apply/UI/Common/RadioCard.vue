@@ -15,7 +15,6 @@ import Responsive from '/components/Responsive.vue';
 
 <style scoped>
 .container {
-	width: 100%;
 	margin-top: 1em;
 	border-radius: 1em;
 	border-width: 1.6px;

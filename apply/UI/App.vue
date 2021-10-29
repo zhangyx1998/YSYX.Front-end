@@ -2,7 +2,7 @@
 // UI Components
 import MobileTitleBar from "/components/MobileTitleBar.vue";
 import NaviBar from "./NaviBar.vue";
-import Progress from './Progress.vue'
+import Progress from "./Progress.vue";
 // Form Components
 import Step_0 from "./Steps/0.Blank.vue";
 import Step_1 from "./Steps/1.BasicInfo.vue";
@@ -17,7 +17,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
             <MobileTitleBar
                 :title="intl({ 'en-US': 'Apply', 'zh-CN': '一生一芯报名表' })"
             />
-			<Progress />
+            <Progress />
             <div ContentView>
                 <transition :name="slideTo ? `slide-${slideTo}` : 'spring-up'">
                     <keep-alive>
@@ -25,7 +25,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
                             :is="el"
                             @update="update"
                             :identity="this.formData.identity"
-                            :FormData="FormData"
+                            :formData="formData"
                         />
                     </keep-alive>
                 </transition>
@@ -36,7 +36,6 @@ import Step_4 from "./Steps/4.Confirm.vue";
                 :valid="stepValid"
                 @forward="step++"
                 @back="step--"
-                :FormData="FormData"
                 @submit="submit"
             />
         </div>
@@ -47,7 +46,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
 import { intl, env } from "/util/env.js";
 
 export default {
-    components: { NaviBar,Progress },
+    components: { NaviBar, Progress },
     data() {
         return {
             env,
@@ -92,57 +91,6 @@ export default {
                 true,
             ][this.step];
         },
-        FormData() {
-            let {
-                name,
-                cell,
-                mail,
-                identity,
-                institution,
-                direction,
-                faculty,
-                title,
-                major,
-                resume,
-                remark,
-            } = this.formData;
-            if (this.formData.identity === "student") {
-                return {
-                    name,
-                    cell,
-                    mail,
-                    identity,
-                    institution,
-                    direction,
-                    major,
-                    resume: !resume ? "(未上传)" : resume.name,
-                    remark: !remark ? "(未填写)" : remark,
-                };
-            } else if (this.formData.identity === "ta") {
-                return {
-                    name,
-                    cell,
-                    mail,
-                    identity,
-                    institution,
-                    major,
-                    resume: !resume ? "(未上传)" : resume.name,
-                    remark: !remark ? "(未填写)" : remark,
-                };
-            } else {
-                return {
-                    name,
-                    cell,
-                    mail,
-                    identity,
-                    institution,
-                    faculty,
-                    title,
-                    resume: !resume ? "(未上传)" : resume.name,
-                    remark: !remark ? "(未填写)" : remark,
-                };
-            }
-        },
     },
     methods: {
         update(entryName, data) {
@@ -155,14 +103,16 @@ export default {
         },
         async submit() {
             let data = Object.assign({}, this.formData);
-            data.resume = await new Promise((resolve, reject) => {
-                var reader = new FileReader();
-                reader.readAsBinaryString(this.formData.resume);
-                reader.onload = function (e) {
-                    var urlData = this.result;
-                    resolve(btoa(urlData));
-                };
-            });
+            if (!!this.formData.resume) {
+                data.resume = await new Promise((resolve, reject) => {
+                    var reader = new FileReader();
+                    reader.readAsBinaryString(this.formData.resume);
+                    reader.onload = function (e) {
+                        var urlData = this.result;
+                        resolve(btoa(urlData));
+                    };
+                });
+            }
             console.log(data);
         },
         intl,
@@ -189,16 +139,16 @@ export default {
         var(--mobile-navibar-content) + var(--mobile-bottom-safearea)
     );
     --mobile-titlebar-height: 3.6em;
-	font-family: "-apple-system", "BlinkMacSystemFont", "Segoe UI", Helvetica,
-		Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	/* Common Variables */
-	--TitleBarHeight: 3rem;
-	--SideBarWidth: 13rem;
-	--padding: 1rem;
-	--padding-large: 2rem;
-	--padding-small: 0.6rem;
+    font-family: "-apple-system", "BlinkMacSystemFont", "Segoe UI", Helvetica,
+        Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Common Variables */
+    --TitleBarHeight: 3rem;
+    --SideBarWidth: 13rem;
+    --padding: 1rem;
+    --padding-large: 2rem;
+    --padding-small: 0.6rem;
 }
 * {
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -208,11 +158,16 @@ input {
     width: 100%;
 }
 
+[ContentView] {
+    width: 100%;
+}
+
 [Form] {
     font-size: 1.2em;
     display: block;
     width: 100%;
     height: 110vh;
+    margin-top: 2em;
 }
 
 [Form] > * {

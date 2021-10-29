@@ -5,7 +5,6 @@ defineProps({
 	back: Boolean,
 	forward: Boolean,
 	valid: Boolean,
-	FormData: Object,
 });
 </script>
 
