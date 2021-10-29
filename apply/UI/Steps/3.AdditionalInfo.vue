@@ -123,6 +123,14 @@ defineProps({
                         <span en-US>Major</span>
                         <span zh-CN>专业</span>
                     </DirectInputEntry>
+					<DirectInputEntry
+                        :validate="(val) => !!val"
+                        property="Remark"
+                        @update="(val) => this.$emit('update', 'remark', val)"
+                    >
+                        <span en-US>Remark(Optional)</span>
+                        <span zh-CN>备注(选填)</span>
+                    </DirectInputEntry>
                     <div
                         Entry
                         style="display: block"
@@ -138,22 +146,14 @@ defineProps({
                                 style="display: none"
                             />
                             <div v-if="!resumeName">
-                                <i class="fa fa-upload"></i>
-                                <span>选择文件(最大限10M)</span>
+                                <i class="fa fa-plus"></i>
+                                <div class="des" style="font-size:0.8em;">选择文件(最大限10M)</div>
                             </div>
                             <div v-else>
                                 <span>{{ resumeName }}</span>
                             </div>
                         </div>
                     </div>
-                    <DirectInputEntry
-                        :validate="(val) => !!val"
-                        property="Remark"
-                        @update="(val) => this.$emit('update', 'remark', val)"
-                    >
-                        <span en-US>Remark(Optional)</span>
-                        <span zh-CN>备注(选填)</span>
-                    </DirectInputEntry>
                 </div>
             </div>
         </div>
@@ -202,13 +202,31 @@ export default {
     opacity: 0.5;
 }
 .upload {
-    width: 100%;
-    height: 2em;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+    width: 80%;
+    height: 6em;
     border: 1px solid var(--gray);
     border-radius: 5px;
-    color: var(--gray);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    background-color:var(--gray-brighter);
+}
+.upload i{
+	-webkit-text-stroke:8px var(--gray-brighter);
+    -moz-text-stroke:8px var(--gray-brighter);
+    -o-text-stroke:8px var(--gray-brighter);
+	font-size: 3em;
+	padding: auto;
+}
+.upload .des,
+.upload .fa{
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	color: var(--gray-bright);
+}
+.upload .des{
+	margin-top: 2.5em;
 }
 </style>
