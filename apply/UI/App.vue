@@ -2,6 +2,7 @@
 // UI Components
 import MobileTitleBar from "/components/MobileTitleBar.vue";
 import NaviBar from "./NaviBar.vue";
+import Progress from './Progress.vue'
 // Form Components
 import Step_0 from "./Steps/0.Blank.vue";
 import Step_1 from "./Steps/1.BasicInfo.vue";
@@ -16,6 +17,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
             <MobileTitleBar
                 :title="intl({ 'en-US': 'Apply', 'zh-CN': '一生一芯报名表' })"
             />
+			<Progress />
             <div ContentView>
                 <transition :name="slideTo ? `slide-${slideTo}` : 'spring-up'">
                     <keep-alive>
@@ -45,7 +47,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
 import { intl, env } from "/util/env.js";
 
 export default {
-    components: { NaviBar },
+    components: { NaviBar,Progress },
     data() {
         return {
             env,
