@@ -1,18 +1,23 @@
 <template>
 	<div Progress style="width:100%;height:3em;"> 
-		<span class="number">1</span>
-		<span class="number">2</span>
-		<span class="number">3</span>
-		<span class="number">4</span>
+		<span class="number" :class="this.$parent.step===1 || this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'bgc':''">1</span>
+		<span class="number" :class="this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'bgc':''">2</span>
+		<span class="number" :class="this.$parent.step===3 || this.$parent.step===4?'bgc':''">3</span>
+		<span class="number" :class="this.$parent.step===4?'bgc':''">4</span>
 	</div>
 </template>
+<script>
+export default {
+	props:['step']	
+}
+</script>
 <style scoped>
 [Progress]{
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: absolute;
-	top:var(--mobile-navibar-height);
+	top:var(--mobile-titlebar-height);
 	left: 0;
 	background-color: var(--accent-light);
 }
@@ -21,11 +26,11 @@
 	width:2.2em;
 	height:2.2em;
 	border-radius:50%;
-	background-color:var(--green);
+	background-color:var(--gray-bright);
 	line-height:2.2em;
 	text-align:center;
 	vertical-align:middle;
-	margin-right: 3.6em;	
+	margin-right: 4.4em;	
 	color:#fff;
    /* 让子元素 呈现3D转换 */
 	transform-style: preserve-3d;
@@ -33,8 +38,8 @@
 .number::after{
 	content: '';
 	height: 1px;
-	width: 5.5em;
-	background-color: var(--gray);
+	width: 6em;
+	background-color: var(--gray-bright);
 	position: absolute;
     top: 1.1em;
     left: 1.1em;
@@ -49,5 +54,9 @@
 	height: 0;
 	width: 0;
 }
-
+.bgc,
+.bgc::after
+{
+	background-color:var(--green);
+}
 </style>
