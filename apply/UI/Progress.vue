@@ -41,8 +41,8 @@ export default {
 	width: 6em;
 	background-color: var(--gray-bright);
 	position: absolute;
-    top: 1.1em;
-    left: 1.1em;
+	top: 1.1em;
+	left: 1.1em;
    /* 使用Z轴进行3D 转换  */
 	transform: translateZ(-10px)
 }
