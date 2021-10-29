@@ -13,8 +13,9 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 						property="name"
 						@update="(val) => this.$emit('update', 'name', val)"
 					>
-						<span en-US>Name</span>
-						<span zh-CN>姓名</span>
+						<span>{{
+							intl({ "en-US": "Name", "zh-CN": "姓名" })
+						}}</span>
 					</DirectInputEntry>
 					<DirectInputEntry
 						:validate="
@@ -26,16 +27,18 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 						property="email"
 						@update="(val) => this.$emit('update', 'mail', val)"
 					>
-						<span en-US>Mail</span>
-						<span zh-CN>邮箱</span>
+						<span>{{
+							intl({ "en-US": "Mail", "zh-CN": "邮箱" })
+						}}</span>
 					</DirectInputEntry>
 					<DirectInputEntry
 						:validate="(val) => /^1(3|4|5|6|7|8|9)\d{9}$/.test(val)"
 						property="tel"
 						@update="(val) => this.$emit('update', 'cell', val)"
 					>
-						<span en-US>phone</span>
-						<span zh-CN>电话</span>
+						<span>{{
+							intl({ "en-US": "Cell", "zh-CN": "电话" })
+						}}</span>
 					</DirectInputEntry>
 				</div>
 			</div>
@@ -43,11 +46,11 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 	</div>
 </template>
 <script>
+import { intl } from "/util/env.js";
 export default {
 	emits: ["update"],
 	data() {
-		return {
-		};
+		return {};
 	},
 	watch: {
 		name(val) {
@@ -59,6 +62,9 @@ export default {
 		mail(val) {
 			console.log(val);
 		},
+	},
+	methods: {
+		intl,
 	},
 };
 </script>

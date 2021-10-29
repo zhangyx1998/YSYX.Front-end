@@ -1,7 +1,7 @@
 
 
 <template>
-	<div Entry>
+	<div Entry v-if="Array.isArray(val) ? !!val.length : !!val">
 		<div EntryVal>
 			<div>{{ attr }}</div>
 			<div>
