@@ -235,34 +235,6 @@ export default {
 	border-color: var(--gray-brighter);
 }
 .upload {
-<<<<<<< HEAD
-	position: relative;
-	left: 50%;
-	transform: translateX(-50%);
-    width: 80%;
-    height: 6em;
-    border: 1px solid var(--gray);
-    border-radius: 5px;
-    background-color:var(--gray-brighter);
-}
-.upload i{
-	-webkit-text-stroke:8px var(--gray-brighter);
-    -moz-text-stroke:8px var(--gray-brighter);
-    -o-text-stroke:8px var(--gray-brighter);
-	font-size: 3em;
-	padding: auto;
-}
-.upload .des,
-.upload .fa{
-	position: absolute;
-	top: 45%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-	color: var(--gray-bright);
-}
-.upload .des{
-	margin-top: 2.5em;
-=======
 	width: 100%;
 	height: 2em;
 	border: 1px solid var(--gray);
@@ -271,6 +243,5 @@ export default {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
->>>>>>> 76157c06c6aae4d1b2ae1e101506c796b9b42fc9
 }
 </style>

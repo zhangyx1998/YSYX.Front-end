@@ -167,7 +167,9 @@ input {
 	display: block;
 	width: 100%;
 	height: 110vh;
-	margin-top: 2em;
+	margin-top: calc(
+		var(--mobile-titlebar-height) + var(--padding)
+	);
 }
 
 [Form] > * {
