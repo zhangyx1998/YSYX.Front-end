@@ -133,22 +133,22 @@ defineProps({
 			</DirectInputEntry>
 
 			<DirectInputEntry
-				:validate="(val) => !!val"
+				:validate="(val) => true"
 				property="Remark"
 				@update="(val) => this.$emit('update', 'remark', val)"
 			>
 				<span>{{
 					intl({
-						"en-US": "Remark(Optional)",
-						"zh-CN": "备注(选填)",
+						"en-US": "Remark (Optional)",
+						"zh-CN": "备注 (可选)",
 					})
 				}}</span>
 			</DirectInputEntry>
 			<Resume v-if="identity === 'student' || identity === 'ta'">
 				<span>{{
 					intl({
-						"en-US": "Resume(Optional)",
-						"zh-CN": "简历(选填)",
+						"en-US": "Resume (Optional)",
+						"zh-CN": "简历 (可选)",
 					})
 				}}</span>
 			</Resume>
