@@ -20,40 +20,40 @@
 	overflow: hidden;
 }
 
-::v-deep([EntryGroup] > [Entry]) {
+[EntryGroup] > [Entry] {
 	padding: 0.2em var(--padding);
 	margin: var(--padding) 0;
 }
 
-::v-deep([Entry]) {
+[Entry] {
 	display: flex;
 	margin: -2px 0;
 	border-bottom: 1px solid var(--white-background);
 }
 
-::v-deep([Entry]:focus),
-::v-deep([Entry]:focus-within) {
+[Entry]:focus,
+[Entry]:focus-within {
 	background-color: var(--accent-background);
 }
 
-::v-deep([Entry] > *) {
+[Entry] > * {
 }
 
-::v-deep([EntryVal]) {
+[EntryVal] {
 	flex-grow: 1;
 	display: block;
 }
 
-::v-deep([EntryAction]) {
+[EntryAction] {
 }
 
-::v-deep([EntryVal] > [title]) {
+[EntryVal] > [title] {
 	padding: 0.4em 0;
 	font-size: 0.8em;
 	opacity: 0.6;
 }
 
-::v-deep(input) {
+input {
 	padding: 0.6em 0;
 	outline: none;
 	border: none;

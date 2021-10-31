@@ -40,7 +40,7 @@ defineProps({
           <div Entry
                style="display: block"
                v-if="identity === 'student'">
-            <span style="font-size: 0.8em; opacity: 0.6;padding: 0.4em 0;">你对一生一芯计划的哪些部分比较感兴趣</span>
+            <span class="title">你对一生一芯计划的哪些部分比较感兴趣</span>
             <CheckboxCard :class="
 								direction.indexOf('architectureDesign') > -1
 									? 'selected'
