@@ -78,7 +78,7 @@ textarea {
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	background-color: var(--white-brighter);
+	background-color: var(--white);
 }
 
 .desktop [ContentView] {
@@ -114,7 +114,7 @@ textarea {
 	overflow-y: scroll;
 	/* Center */
 	margin: 0 auto !important;
-	background-color: var(--white-brighter);
+	background-color: var(--white);
 	padding-bottom: var(--mobile-bottom-safearea);
 }
 

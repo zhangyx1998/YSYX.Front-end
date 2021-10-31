@@ -90,9 +90,9 @@ export default {
 
 [action-group] {
 	overflow: hidden;
-	border-radius: 0.4em;
+	border-radius: 0.8em;
 	/* border: 0.06px solid var(--gray-brighter); */
-	background-color: white;
+	background-color: var(--white-light);
 	margin: -1px;
 }
 </style>
