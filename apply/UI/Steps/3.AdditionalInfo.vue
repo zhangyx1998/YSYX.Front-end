@@ -49,7 +49,7 @@ defineProps({
 							direction.indexOf('architectureDesign') > -1
 								? (direction = direction.filter(
 										(item) => item !== 'architectureDesign'
-									))
+								  ))
 								: direction.push('architectureDesign')
 						"
 						:isSelected="
@@ -68,7 +68,7 @@ defineProps({
 							direction.indexOf('rtl') > -1
 								? (direction = direction.filter(
 										(item) => item !== 'rtl'
-									))
+								  ))
 								: direction.push('rtl')
 						"
 						:isSelected="direction.indexOf('rtl') > -1"
@@ -85,7 +85,7 @@ defineProps({
 							direction.indexOf('soc') > -1
 								? (direction = direction.filter(
 										(item) => item !== 'soc'
-									))
+								  ))
 								: direction.push('soc')
 						"
 						:isSelected="direction.indexOf('soc') > -1"
@@ -102,7 +102,7 @@ defineProps({
 							direction.indexOf('ic') > -1
 								? (direction = direction.filter(
 										(item) => item !== 'ic'
-									))
+								  ))
 								: direction.push('ic')
 						"
 						:isSelected="direction.indexOf('ic') > -1"

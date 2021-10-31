@@ -6,7 +6,6 @@ import RadioCard from "../Common/RadioCard.vue";
 	<div Content>
 		<div Form ref="IdCard">
 			<div EntryGroup>
-				<!-- <h3>请选择您的身份</h3> -->
 				<RadioCard
 					:class="identity === 'student' ? 'selected' : 'unselected'"
 					@click="identity = 'student'"

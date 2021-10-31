@@ -216,9 +216,6 @@ input {
 	border-bottom: 1px solid var(--white-background);
 }
 
-[Entry] > * {
-}
-
 [EntryVal] {
 	flex-grow: 1;
 	display: block;
