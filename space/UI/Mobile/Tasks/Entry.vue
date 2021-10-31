@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-	<Responsive>
+	<Responsive Entry>
 		<i :class="el.icon"></i>
 		<span en-US>{{ el.name["en-US"] }}</span>
 		<span zh-CN>{{ el.name["zh-CN"] }}</span>
@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style scoped>
-div {
+[Entry] {
 	display: flex;
 	align-items: center;
 	padding: 0;
@@ -44,6 +44,6 @@ i {
 span {
 	flex-grow: 1;
 	padding: 0.8em 0;
-	border-bottom: 0.8px solid var(--gray-brighter);
+	border-bottom: 1px solid var(--gray-brighter);
 }
 </style>
