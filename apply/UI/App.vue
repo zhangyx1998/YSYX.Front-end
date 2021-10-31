@@ -17,8 +17,13 @@ import Step_4 from "./Steps/4.Confirm.vue";
 			<MobileTitleBar
 				:title="intl({ 'en-US': 'Apply', 'zh-CN': '一生一芯报名表' })"
 			/>
-			<Progress />
 			<div ContentView>
+				<Progress :step="step" :class="contentScrolled ? 'shadow' : ''" :steps="[
+						{ 'zh-CN': '基本信息' },
+						{ 'zh-CN': '身份选择' },
+						{ 'zh-CN': '详细信息' },
+						{ 'zh-CN': '确认 & 提交' },
+					]" />
 				<transition :name="slideTo ? `slide-${slideTo}` : 'spring-up'">
 					<keep-alive>
 						<component
@@ -26,6 +31,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
 							@update="update"
 							:identity="this.formData.identity"
 							:formData="formData"
+							:scroll="updateScroll"
 						/>
 					</keep-alive>
 				</transition>
@@ -51,6 +57,7 @@ export default {
 		return {
 			env,
 			step: null,
+			contentScrolled: false,
 			slideTo: "",
 			formData: {
 				name: "",
@@ -100,6 +107,9 @@ export default {
 			console.log(entryName, data);
 
 			this.$forceUpdate();
+		},
+		updateScroll(...args) {
+			console.log(args);
 		},
 		async submit() {
 			let data = Object.assign({}, this.formData);

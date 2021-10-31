@@ -1,107 +1,102 @@
+<script setup>
+defineProps({
+	step: Number,
+	steps: Array,
+});
+</script>
+
 <template>
-	<div Progress
-		 style="padding:var(--padding);">
-	<span>
-		<span class="number"
-			:class="this.$parent.step===1 || this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'bgc':''">
-		<span class="num">1</span>
-		</span>
-		<span class="description"
-			:style="'color:'+(this.$parent.step===1 || this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'black':'')">
-		基本信息
-		</span>
-	</span>
-	<span>
-		<span class="number"
-			:class="this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'bgc':''">
-		<span class="num">2</span>
-		</span>
-		<span class="description"
-			:style="'color:'+(this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'black':'')">
-		选择身份
-		</span>
-	</span>
-	<span>
-		<span class="number"
-			:class="this.$parent.step===3 || this.$parent.step===4?'bgc':''">
-		<span class="num">3</span>
-		</span>
-		<span class="description"
-			:style="'color:'+(this.$parent.step===3 || this.$parent.step===4?'black':'')">
-		上传简历
-		</span>
-	</span>
-	<span>
-		<span class="number last"
-			:class="this.$parent.step===4?'bgc':''">
-		<span class="num">4</span>
-		</span>
-		<span class="description"
-			:style="'color:'+(this.$parent.step===4?'black':'')">
-		确认提交
-		</span>
-	</span>
+	<div Progress>
+		<template v-for="(name, i) in steps" :key="i">
+			<div
+				class="line"
+				v-if="i"
+				:class="step >= i + 1 ? 'solid' : ''"
+			></div>
+			<span
+				class="node-warpper"
+				:class="step >= i + 1 ? 'solid' : ''"
+			>
+				<span class="node">
+					<span>{{ i + 1 }}</span>
+				</span>
+				<span class="description">{{ intl(name) }}</span>
+			</span>
+		</template>
 	</div>
 </template>
 
 <script>
+import { intl } from "/util/env.js";
 export default {
-	props: ['step'],
-}
+	methods: {
+		intl,
+	},
+};
 </script>
 <style scoped>
+* {
+	transition: var(--animation-duration) var(--animation-curve);
+}
+
 [Progress] {
-	display: flex;
-	justify-content: space-around;
-	position: absolute;
-	top: var(--mobile-titlebar-height);
+	pointer-events: none;
+	/* Position */
+	top: 0;
 	left: 0;
 	right: 0;
-	background-color: var(--accent-light);
-}
-.number {
-	display: inline-block;
-	width: 2.2em;
-	height: 2.2em;
-	border-radius: 50%;
-	background-color: var(--gray-bright);
-	line-height: 2.2em;
-	text-align: center;
-	vertical-align: middle;
-	margin-left:0.4em;
-	color: var(--white);
-	/* 让子元素 呈现3D转换 */
-	transform-style: preserve-3d;
-}
-.number::after {
-	content: '';
-	height: 1px;
-	width: 6em;
-	background-color: var(--gray-bright);
+	z-index: 1000;
+	/* Layout */
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	position: absolute;
-	top: 1.1em;
-	left: 1.1em;
-	/* 使用Z轴进行3D 转换  */
-	transform: translateZ(-10px);
+	padding: var(--padding) var(--padding-large);
+	padding-bottom: 2em;
+	/* Appearance */
+	background-color: var(--white);
 }
-.number .num {
-	font-size: 1.6em;
+
+.line {
+	flex-grow: 1;
+	background-color: var(--gray-brighter);
+	height: 0.1em;
 }
-.last {
-	margin-right: 0;
+
+.node-warpper {
+	display: block;
+	width: 1.6em;
+	height: 1.6em;
+	overflow: visible;
 }
-.last::after {
-	content: '';
-	width: 0px;
-	height: 0;
+
+.node {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background-color: var(--gray-brighter);
+	/* Appearance */
+	font-weight: 600;
+	color: var(--white);
 }
+
 .description {
 	display: block;
 	font-size: 0.6em;
-	color: var(--gray-bright);
+	font-weight: 600;
+	color: var(--gray-brighter);
+	margin: 0.5em -2em;
+	text-align: center;
 }
-.bgc,
-.bgc::after {
-	background-color: var(--green);
+
+.solid .node,
+.solid.line {
+	background-color: var(--accent);
+}
+.solid .description {
+	color: var(--accent);
 }
 </style>
