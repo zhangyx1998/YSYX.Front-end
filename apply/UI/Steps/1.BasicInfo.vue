@@ -5,7 +5,7 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 
 <template>
 	<div Content>
-		<div EntryGroup>
+		
 			<div Form ref="IdCard">
 				<div EntryGroup>
 					<DirectInputEntry
@@ -42,7 +42,7 @@ import DirectInputEntry from "../Common/DirectInputEntry.vue";
 					</DirectInputEntry>
 				</div>
 			</div>
-		</div>
+		
 	</div>
 </template>
 <script>

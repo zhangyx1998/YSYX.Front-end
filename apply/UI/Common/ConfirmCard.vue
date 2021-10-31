@@ -3,8 +3,8 @@
 <template>
 	<div Entry v-if="Array.isArray(val) ? !!val.length : !!val">
 		<div EntryVal>
-			<div>{{ attr }}</div>
-			<div>
+			<div title>{{ attr }}</div>
+			<div style="font-size:1em;color:var(--gray-dark)">
 				{{
 					Array.isArray(val)
 						? val.map((item) => directionMap[item]).join(",")

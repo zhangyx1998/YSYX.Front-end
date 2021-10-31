@@ -19,17 +19,15 @@ defineProps({
 
 <style scoped>
 .container {
-	height: 1.5em;
 	display: flex;
 	align-items: center;
 }
-
-span.fas,
-span.far {
+span{
+	font-size: 0.8em;
+}
+.fas,
+.far {
 	margin-right: 0.3em;
 	color: var(--gray-dark);
-}
-
-.name-container {
 }
 </style>
