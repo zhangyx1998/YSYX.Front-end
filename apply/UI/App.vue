@@ -214,18 +214,6 @@ input {
     display: block;
 }
 
-[EntryAction] {
-}
-
-[EntryVal] > [title] {
-    padding: 0.4em 0;
-    font-size: 0.8em;
-    opacity: 0.6;
-    display: block;
-    margin-bottom: 7px;
-    font-weight: 400;
-}
-
 input {
     width: 100%;
     padding: 0.6em 0;

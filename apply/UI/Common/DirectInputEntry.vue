@@ -60,4 +60,9 @@ input {
 	box-sizing: border-box;
     padding: 11px 12px;
 }
+
+input:focus{
+	border-color: var(--accent-emphasis);
+	box-shadow: 0 0 0 3px var(--accent-shadow);
+}
 </style>

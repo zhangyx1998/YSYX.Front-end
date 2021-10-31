@@ -3,6 +3,9 @@
 	--accent: hsl(212, 65%, 31%);
 	--accent-bright: hsl(212, 45%, 50%);
 	--accent-brighter: hsl(212, 60%, 75%);
+	--accent-emphasis: hsl(212, 92%, 45%);
+	--accent-shadow: hsla(212, 92%, 45%, 0.3);
+	--accent-selected: hsl(212, 100%, 50%);
 	--accent-dark: hsl(212, 60%, 24%);
 	--accent-light: hsl(212, 60%, 96%);
 	--accent-background: hsla(212, 45%, 50%, 0.06);
