@@ -67,9 +67,7 @@ defineProps({
 									  ))
 									: direction.push('rtl')
 							"
-							:isSelected="
-								direction.indexOf('rtl') > -1
-							"
+							:isSelected="direction.indexOf('rtl') > -1"
 						>
 							<span>RTL开发和验证</span>
 						</CheckboxCard>
@@ -86,9 +84,7 @@ defineProps({
 									  ))
 									: direction.push('soc')
 							"
-							:isSelected="
-								direction.indexOf('soc') > -1
-							"
+							:isSelected="direction.indexOf('soc') > -1"
 						>
 							<span>SoC集成和验证</span>
 						</CheckboxCard>
@@ -105,9 +101,7 @@ defineProps({
 									  ))
 									: direction.push('ic')
 							"
-							:isSelected="
-								direction.indexOf('ic') > -1
-							"
+							:isSelected="direction.indexOf('ic') > -1"
 						>
 							<span>IC后端设计</span>
 						</CheckboxCard>
@@ -243,5 +237,11 @@ export default {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+}
+::v-deep(.selected) {
+
+}
+::v-deep(.unselected) {
+	opacity: .7;
 }
 </style>

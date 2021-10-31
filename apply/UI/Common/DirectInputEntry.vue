@@ -51,3 +51,14 @@ export default {
 	},
 };
 </script>
+
+<style scoped>
+input{
+	border: 1px solid var(--gray-bright);
+	border-radius: 5px;
+	padding-left: 5px;
+}
+input:focus{
+	border-color: transparent;
+}
+</style>

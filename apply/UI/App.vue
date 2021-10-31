@@ -165,7 +165,6 @@ input {
 [Form] {
 	font-size: 1.2em;
 	display: block;
-	width: 100%;
 	height: 110vh;
 	margin-top: calc(
 		var(--mobile-titlebar-height) + var(--padding)

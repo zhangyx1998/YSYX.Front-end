@@ -1,46 +1,46 @@
 <template>
   <div Progress
-       style="padding:var(--padding);">
-    <span>
-      <span class="number"
-            :class="this.$parent.step===1 || this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'bgc':''">
-        <span class="num">1</span>
-      </span>
-      <span class="description"
-            :style="'color:'+(this.$parent.step===1 || this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'black':'')">
-        基本信息
-      </span>
-    </span>
-    <span>
-      <span class="number"
-            :class="this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'bgc':''">
-        <span class="num">2</span>
-      </span>
-      <span class="description"
-            :style="'color:'+(this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'black':'')">
-        选择身份
-      </span>
-    </span>
-    <span>
-      <span class="number"
-            :class="this.$parent.step===3 || this.$parent.step===4?'bgc':''">
-        <span class="num">3</span>
-      </span>
-      <span class="description"
-            :style="'color:'+(this.$parent.step===3 || this.$parent.step===4?'black':'')">
-        上传简历
-      </span>
-    </span>
-    <span>
-      <span class="number last"
-            :class="this.$parent.step===4?'bgc':''">
-        <span class="num">4</span>
-      </span>
-      <span class="description"
-            :style="'color:'+(this.$parent.step===4?'black':'')">
-        确认提交
-      </span>
-    </span>
+	   style="padding:var(--padding);">
+	<span>
+	  <span class="number"
+			:class="this.$parent.step===1 || this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'bgc':''">
+		<span class="num">1</span>
+	  </span>
+	  <span class="description"
+			:style="'color:'+(this.$parent.step===1 || this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'black':'')">
+		基本信息
+	  </span>
+	</span>
+	<span>
+	  <span class="number"
+			:class="this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'bgc':''">
+		<span class="num">2</span>
+	  </span>
+	  <span class="description"
+			:style="'color:'+(this.$parent.step===2 || this.$parent.step===3 || this.$parent.step===4?'black':'')">
+		选择身份
+	  </span>
+	</span>
+	<span>
+	  <span class="number"
+			:class="this.$parent.step===3 || this.$parent.step===4?'bgc':''">
+		<span class="num">3</span>
+	  </span>
+	  <span class="description"
+			:style="'color:'+(this.$parent.step===3 || this.$parent.step===4?'black':'')">
+		上传简历
+	  </span>
+	</span>
+	<span>
+	  <span class="number last"
+			:class="this.$parent.step===4?'bgc':''">
+		<span class="num">4</span>
+	  </span>
+	  <span class="description"
+			:style="'color:'+(this.$parent.step===4?'black':'')">
+		确认提交
+	  </span>
+	</span>
   </div>
 </template>
 <script>

@@ -88,11 +88,11 @@ export default {
 }
 
 ::v-deep(.selected) {
-	border-color: var(--accent);
+	border-color: var(--accent-dark);
 }
 
 ::v-deep(.unselected) {
 	border-color: var(--gray-brighter);
-	opacity: 0.5;
+	opacity: 0.7;
 }
 </style>
