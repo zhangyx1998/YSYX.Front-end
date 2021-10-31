@@ -8,34 +8,54 @@ defineProps({
 <template>
 	<div Progress ref="progress">
 		<template v-for="(name, i) in steps" :key="i">
-			<div
-				class="line"
-				v-if="i"
-				:class="step >= i + 1 ? 'solid' : ''"
-			></div>
-			<span
-				class="node-warpper"
-				:class="step >= i + 1 ? 'solid' : ''"
-			>
+			<div :ref="`${i + 1}`" class="line" v-if="i"></div>
+			<span class="node-warpper" :class="step >= i + 1 ? 'solid' : ''">
 				<span class="node">
 					<span>{{ i + 1 }}</span>
 				</span>
 				<span class="description">{{ intl(name) }}</span>
 			</span>
 		</template>
+		<div ProgressBar :style="progressBar"></div>
 	</div>
 </template>
 
 <script>
 import { intl } from "/util/env.js";
 export default {
-	emits: ['update-height'],
+	emits: ["update-height"],
+	data() {
+		return {
+			progressBar: {
+				display: "none",
+			},
+		};
+	},
 	methods: {
 		intl,
 	},
+	watch: {
+		step(val) {
+			console.log(this.$refs);
+			if (val > 1) {
+				this.progressBar.width =
+					this.$refs[val].offsetLeft +
+					this.$refs[val].offsetWidth -
+					this.$refs[2].offsetLeft +
+					"px";
+			} else {
+				this.progressBar.width = "0px";
+			}
+		},
+	},
 	mounted() {
-		this.$emit('update-height', this.$refs.progress.offsetHeight)
-	}
+		this.$emit("update-height", this.$refs.progress.offsetHeight);
+		this.progressBar = {
+			left: this.$refs[2].offsetLeft + "px",
+			top: this.$refs[2].offsetTop + "px",
+			height: this.$refs[2].offsetHeight + "px",
+		};
+	},
 };
 </script>
 <style scoped>
@@ -46,6 +66,7 @@ export default {
 [Progress] {
 	pointer-events: none;
 	/* Position */
+	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -54,7 +75,6 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	position: absolute;
 	padding: var(--padding) var(--padding-large);
 	padding-bottom: 2em;
 	/* Appearance */
@@ -62,6 +82,7 @@ export default {
 }
 
 .line {
+	z-index: -2;
 	flex-grow: 1;
 	background-color: var(--gray-brighter);
 	height: 0.1em;
@@ -96,11 +117,22 @@ export default {
 	text-align: center;
 }
 
-.solid .node,
-.solid.line {
+.solid .node {
 	background-color: var(--accent);
 }
+
 .solid .description {
 	color: var(--accent);
+}
+
+.solid * {
+	transition-duration: var(--animation-duration-short);
+	transition-delay: var(--animation-duration-short);
+}
+/* ProgressBar */
+[ProgressBar] {
+	position: absolute;
+	z-index: -1;
+	background-color: var(--accent);
 }
 </style>
