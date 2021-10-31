@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-	<div Content>
+	<div Content @scroll="e => this.$emit('scroll', e)">
 		<div EntryGroup>
 			<div Form ref="IdCard">
 				<div EntryGroup>

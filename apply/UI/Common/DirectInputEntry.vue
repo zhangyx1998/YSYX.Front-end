@@ -24,7 +24,7 @@ defineProps({
 
 <script>
 export default {
-	emits: ["update"],
+	emits: ["update", "scroll"],
 	data() {
 		return {
 			focus: false,

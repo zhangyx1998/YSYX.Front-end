@@ -1,5 +1,5 @@
 <template>
-	<div Content>
+	<div Content @scroll="e => this.$emit('scroll', e)">
 	</div>
 </template>
 <script>

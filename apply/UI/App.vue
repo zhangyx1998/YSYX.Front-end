@@ -18,12 +18,17 @@ import Step_4 from "./Steps/4.Confirm.vue";
 				:title="intl({ 'en-US': 'Apply', 'zh-CN': '一生一芯报名表' })"
 			/>
 			<div ContentView>
-				<Progress :step="step" :class="contentScrolled ? 'shadow' : ''" :steps="[
+				<Progress
+					:step="step"
+					:class="contentScrolled ? 'shadow' : ''"
+					:steps="[
 						{ 'zh-CN': '基本信息' },
 						{ 'zh-CN': '身份选择' },
 						{ 'zh-CN': '详细信息' },
-						{ 'zh-CN': '确认 & 提交' },
-					]" />
+						{ 'zh-CN': '确认并提交' },
+					]"
+					@update-height="(height) => (this.contentTop = height)"
+				/>
 				<transition :name="slideTo ? `slide-${slideTo}` : 'spring-up'">
 					<keep-alive>
 						<component
@@ -31,7 +36,15 @@ import Step_4 from "./Steps/4.Confirm.vue";
 							@update="update"
 							:identity="this.formData.identity"
 							:formData="formData"
-							:scroll="updateScroll"
+							@scroll="
+								(e) =>
+									(this.contentScrolled =
+										!!e.target.scrollTop)
+							"
+							style="
+								bottom: var(--mobile-navibar-height) !important;
+							"
+							:style="{ 'padding-top': `${contentTop}px` }"
 						/>
 					</keep-alive>
 				</transition>
@@ -58,6 +71,7 @@ export default {
 			env,
 			step: null,
 			contentScrolled: false,
+			contentTop: 0,
 			slideTo: "",
 			formData: {
 				name: "",
@@ -107,9 +121,6 @@ export default {
 			console.log(entryName, data);
 
 			this.$forceUpdate();
-		},
-		updateScroll(...args) {
-			console.log(args);
 		},
 		async submit() {
 			let data = Object.assign({}, this.formData);
@@ -172,17 +183,6 @@ input {
 	width: 100%;
 }
 
-[Form] {
-	font-size: 1.2em;
-	display: block;
-	height: 110vh;
-	margin-top: calc(var(--mobile-titlebar-height) + var(--padding));
-}
-
-[Form] > * {
-	width: auto;
-}
-
 [Entry] {
 	border-left: 2px solid transparent;
 }
@@ -199,12 +199,6 @@ input {
 }
 
 /* EntryGroup */
-
-[EntryGroup] {
-	min-height: 3em;
-	overflow: hidden;
-}
-
 [EntryGroup] > [Entry] {
 	padding: 0.2em var(--padding);
 	margin: var(--padding) 0;

@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-	<div Progress>
+	<div Progress ref="progress">
 		<template v-for="(name, i) in steps" :key="i">
 			<div
 				class="line"
@@ -29,9 +29,13 @@ defineProps({
 <script>
 import { intl } from "/util/env.js";
 export default {
+	emits: ['update-height'],
 	methods: {
 		intl,
 	},
+	mounted() {
+		this.$emit('update-height', this.$refs.progress.offsetHeight)
+	}
 };
 </script>
 <style scoped>
