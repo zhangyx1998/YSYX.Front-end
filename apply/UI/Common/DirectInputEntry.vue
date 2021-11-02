@@ -55,13 +55,6 @@ export default {
 </script>
 
 <style scoped>
-input {
-    font-size: 14px;
-    border: 1px solid var(--gray-border);
-    border-radius: 6px;
-    box-sizing: border-box;
-    padding: 11px 12px;
-}
 
 input:focus {
     border-color: var(--accent-emphasis);

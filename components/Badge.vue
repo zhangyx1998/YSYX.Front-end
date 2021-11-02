@@ -77,6 +77,7 @@ export default {
 	display: flex;
 	padding: var(--badge-padding);
 	/* Content Layout */
+	height: min-content;
 	align-items: center;
 	margin: var(--badge-margin);
 	/* Border Appearance */

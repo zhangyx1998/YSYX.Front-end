@@ -1,10 +1,15 @@
 input,
 [input] {
-	padding: 0.6em 0;
-	outline: none;
-	border: none;
-	background-color: var(--white-brighter) !important;
+	/* Layout */
 	width: 100%;
+    font-size: 14px;
+    box-sizing: border-box;
+    padding: 11px 12px;
+	/* Appearance */
+	outline: none;
+    border: 1px solid var(--gray-border);
+    border-radius: 6px;
+	background-color: var(--white-brighter) !important;
 }
 
 [title] {
