@@ -76,6 +76,7 @@ export default {
 	justify-content: center;
 	align-items: center;
 	padding: var(--padding) var(--padding-large);
+	padding-top: 0.5em;
 	padding-bottom: 2em;
 	/* Appearance */
 	background-color: var(--white);

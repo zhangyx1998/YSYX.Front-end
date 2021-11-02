@@ -21,8 +21,7 @@ defineProps({
 			<span
 				title-alt
 				v-if="!!title"
-				:key="title"
-				>{{ title }}</span
+				>{{ title.trim() }}<slot></slot></span
 			>
 		</transition>
 		<div navi style="justify-content: flex-end">
@@ -57,6 +56,14 @@ h1 {
 	align-items: center;
 	justify-content: center;
 	height: var(--mobile-titlebar-height);
+}
+
+[TitleBar].white {
+	background-color: var(--white);
+}
+
+[TitleBar].white * {
+	color: var(--accent);
 }
 
 [navi] {
