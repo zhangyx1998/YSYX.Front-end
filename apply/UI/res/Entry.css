@@ -1,9 +1,10 @@
-input {
+input,
+[input] {
 	padding: 0.6em 0;
 	outline: none;
 	border: none;
-	background-color: transparent !important;
-	/* color: var(--white); */
+	background-color: var(--white-brighter) !important;
+	width: 100%;
 }
 
 [title] {

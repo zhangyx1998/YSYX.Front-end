@@ -1,61 +1,81 @@
 <script setup>
 import Button from "/components/Button.vue";
 import DirectInputEntry from "../Common/DirectInputEntry.vue";
+defineProps({
+    formData: Object,
+    renderData: Object,
+});
 </script>
 
 <template>
-	<div Content @scroll="(e) => this.$emit('scroll', e)">
-		<div EntryGroup>
-			<DirectInputEntry
-				:validate="(val) => val.trim().length >= 2"
-				property="name"
-				@update="(val) => this.$emit('update', 'name', val)"
-			>
-				<span>{{ intl({ "en-US": "Name", "zh-CN": "姓名" }) }}</span>
-			</DirectInputEntry>
-			<DirectInputEntry
-				:validate="
-					(val) =>
-						/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g.test(
-							val
-						)
-				"
-				property="email"
-				@update="(val) => this.$emit('update', 'mail', val)"
-			>
-				<span>{{ intl({ "en-US": "Mail", "zh-CN": "邮箱" }) }}</span>
-			</DirectInputEntry>
-			<DirectInputEntry
-				:validate="(val) => /^1(3|4|5|6|7|8|9)\d{9}$/.test(val)"
-				property="tel"
-				@update="(val) => this.$emit('update', 'cell', val)"
-			>
-				<span>{{ intl({ "en-US": "Cell", "zh-CN": "电话" }) }}</span>
-			</DirectInputEntry>
-		</div>
-	</div>
+    <div Content @scroll="(e) => this.$emit('scroll', e)">
+        <div EntryGroup>
+            <DirectInputEntry
+                :validate="(val) => val.trim().length >= 2"
+                property="name"
+                @update="(val) => this.$emit('update', 'name', val)"
+            >
+                <span>{{ intl({ "en-US": "Name", "zh-CN": "姓名" }) }}</span>
+            </DirectInputEntry>
+            <DirectInputEntry
+                :validate="
+                    (val) =>
+                        /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g.test(
+                            val
+                        )
+                "
+                property="email"
+                @update="(val) => this.$emit('update', 'mail', val)"
+            >
+                <span>{{ intl({ "en-US": "Mail", "zh-CN": "邮箱" }) }}</span>
+            </DirectInputEntry>
+            <span entry v-if="renderData.mailLoading">...</span>
+            <span
+                entry
+                v-else-if="formData.mail !== '' && !renderData.mailValid"
+                class="red"
+                style="margin-top: -1em; font-size: 0.8em"
+                >{{ intl(formData.mail ? "邮箱已存在" : "邮箱格式错误") }}</span
+            >
+            <DirectInputEntry
+                :validate="(val) => /^1(3|4|5|6|7|8|9)\d{9}$/.test(val)"
+                property="tel"
+                @update="(val) => this.$emit('update', 'cell', val)"
+            >
+                <span>{{ intl({ "en-US": "Cell", "zh-CN": "电话" }) }}</span>
+            </DirectInputEntry>
+            <span entry v-if="renderData.cellLoading">...</span>
+            <span
+                entry
+                v-else-if="formData.cell !== '' && !renderData.cellValid"
+                class="red"
+                style="margin-top: -1em; font-size: 0.8em"
+                >{{ intl(formData.cell ? "电话已存在" : "电话格式错误") }}</span
+            >
+        </div>
+    </div>
 </template>
 <script>
 import { intl } from "/util/env.js";
 export default {
-	emits: ["update", "scroll"],
-	data() {
-		return {};
-	},
-	watch: {
-		name(val) {
-			console.log(val);
-		},
-		cell(val) {
-			console.log(val);
-		},
-		mail(val) {
-			console.log(val);
-		},
-	},
-	methods: {
-		intl,
-	},
+    emits: ["update", "scroll"],
+    data() {
+        return {};
+    },
+    watch: {
+        name(val) {
+            console.log(val);
+        },
+        cell(val) {
+            console.log(val);
+        },
+        mail(val) {
+            console.log(val);
+        },
+    },
+    methods: {
+        intl,
+    },
 };
 </script>
 
