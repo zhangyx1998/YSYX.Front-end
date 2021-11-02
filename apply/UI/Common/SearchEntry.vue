@@ -109,7 +109,7 @@ defineProps({
 			<Checkbox :selected="alt" @click="alt = !alt">{{
 				intl({
 					"zh-CN": "搜索不到想要的结果？",
-					"en-US": "Can't' find approprate search result?",
+					"en-US": "Can't' find appropriate search result?",
 				})
 			}}</Checkbox>
 		</div>
@@ -140,21 +140,21 @@ export default {
 			return val.trim().replace(/[^\x00-\xff]/g, "**").length >= 2;
 		},
 		runSearch(val) {
-			this.loading = true;
-			this.search(val).then((result) => {
-				this.searchResult = result;
-				this.loading = false;
-			});
+			this.searchResult = null;
+			if (this.searchStrValid(val)) {
+				this.loading = true;
+				this.search(val).then((result) => {
+					this.searchResult = result;
+					this.loading = false;
+				});
+			}
 		},
 		intl,
 	},
 	watch: {
 		searchStr(val) {
 			if (!this.alt) {
-				this.searchResult = null;
-				if (this.searchStrValid(val)) {
-					this.runSearch(val);
-				}
+				this.runSearch(val);
 			} else {
 				this.altStr = val;
 			}
