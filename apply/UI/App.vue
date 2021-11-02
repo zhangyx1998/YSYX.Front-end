@@ -13,15 +13,34 @@ import Step_4 from "./Steps/4.Confirm.vue";
 
 <template>
 	<span :class="[env.locale, 'mobile']">
-		<div AppView>
+		<div
+			AppView
+			:style="{
+				left: viewSpace,
+				right: viewSpace,
+			}"
+			class="shadow"
+		>
 			<MobileTitleBar class="white" title=" ">
-				<div style="display: flex; align-items: center; justify-content: center">
-					<img
-						style="height: 1em;"
-						src="/res/YSYX.png"
-					/>
-					<span style="margin: 0 0.6em; width: 0.1em; height: 1em; background-color: var(--accent)"></span>
-					<span style="height: 1em; line-height: 1em; font-weight: 600">
+				<div
+					style="
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					"
+				>
+					<img style="height: 1em" src="/res/YSYX.png" />
+					<span
+						style="
+							margin: 0 0.6em;
+							width: 0.1em;
+							height: 1em;
+							background-color: var(--accent);
+						"
+					></span>
+					<span
+						style="height: 1em; line-height: 1em; font-weight: 600"
+					>
 						{{
 							intl({
 								"en-US": "Apply",
@@ -108,6 +127,7 @@ export default {
 				remark: "",
 				institutionAltName: "",
 			},
+			viewSpace: "0px",
 		};
 	},
 	computed: {
@@ -143,7 +163,6 @@ export default {
 				this.formData[entryName] = data;
 			}
 			console.log(entryName, data);
-
 			this.$forceUpdate();
 		},
 		async submit() {
@@ -159,6 +178,12 @@ export default {
 				});
 			}
 			console.log(data);
+		},
+		updateViewSpace() {
+			console.log(this.viewSpace = (
+				(window.innerWidth > 480 ? (window.innerWidth - 480) / 2 : 0) +
+				"px"
+			));
 		},
 		intl,
 	},
@@ -207,6 +232,8 @@ export default {
 	mounted() {
 		this.step = 1;
 		console.log(this);
+		window.addEventListener("resize", () => this.updateViewSpace());
+		this.updateViewSpace();
 	},
 };
 </script>
