@@ -1,3 +1,7 @@
+<script setup>
+import Responsive from '/components/Responsive.vue'
+</script>
+
 <template>
   <div Entry>
     <div EntryVal>
@@ -6,16 +10,13 @@
       </div>
       <div>
         <input type="file"
+               accept="application/pdf"
                ref="fileInput"
-               style="display:none">
+               style="display:none"
+               @input="update(true)">
         <div class="file_message"
              v-if="resumeName !== ''">
-          <div class="img"
-               v-if="fileType==='pdf'"><i class="far fa-file-pdf"></i></div>
-          <div class="img"
-               v-else-if="fileType==='doc'"><i class="far fa-file-word"></i></div>
-          <div class="img"
-               v-else><i class="far fa-file"></i></div>
+          <div class="img"><i class="far fa-file-pdf"></i></div>
           <div class="content">
             <span class="file_name">{{resumeName}}</span>
             <div class="file_size">{{fileSize}}</div>
@@ -39,6 +40,7 @@
 </template>
 <script>
 export default {
+  emits: ['update'],
   data() {
     return {
       resumeName: '',
@@ -52,25 +54,28 @@ export default {
       fileInput.click()
       fileInput.onchange = () => {
         let file = fileInput.files[0]
+        let resumeSize = file.size
+        if (resumeSize / (1024 * 1024) > 10) {
+          alert('限制10MB以内')
+          return false
+        } else {
+          if (resumeSize >= 1024 && resumeSize < 1048576) {
+            this.fileSize = parseFloat((resumeSize / 1024).toFixed(2)) + 'KB'
+          } else if (resumeSize >= 1048576) {
+            this.fileSize = parseFloat((resumeSize / 1048576).toFixed(2)) + 'M'
+          } else {
+            this.fileSize = parseFloat(resumeSize.toFixed(2)) + 'B'
+          }
+        }
         this.resumeName = file.name
-        if (file.size >= 1000 && file.size < 1000000) {
-          this.fileSize = parseFloat((file.size / 1000).toFixed(2)) + 'KB'
-        } else if (file.size >= 1000000) {
-          this.fileSize = parseFloat((file.size / 1000000).toFixed(2)) + 'M'
-        } else {
-          this.fileSize = 'file size is not correct'
-        }
-        let index = file.name.lastIndexOf('.')
-        let ext = file.name.substr(index + 1)
-        if (ext == 'pdf') {
-          this.fileType = 'pdf'
-        } else if (ext == 'doc' || ext == 'docx') {
-          this.fileType = 'doc'
-        } else {
-          this.fileType = 'txt'
-        }
         console.log(file)
-        this.$emit('update', 'resume', file)
+      }
+    },
+	update(fileInput = false) {
+      if (!fileInput) {
+        this.$refs.fileInput.blur()
+      } else {
+        this.$emit('update', this.$refs.fileInput.files)
       }
     },
     deleteFile() {

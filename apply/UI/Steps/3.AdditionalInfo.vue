@@ -145,7 +145,8 @@ defineProps({
 					})
 				}}</span>
 			</DirectInputEntry>
-			<Resume v-if="identity === 'student' || identity === 'ta'">
+			<Resume @update="(val) => this.$emit('update', 'resume', val)"
+			v-if="identity === 'student' || identity === 'ta'">
 				<span>{{
 					intl({
 						"en-US": "Resume (Optional)",
