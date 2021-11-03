@@ -75,7 +75,7 @@ export default {
       if (!fileInput) {
         this.$refs.fileInput.blur()
       } else {
-        this.$emit('update', this.$refs.fileInput.files)
+        this.$emit('update', this.$refs.fileInput.files[0])
       }
     },
     deleteFile() {
