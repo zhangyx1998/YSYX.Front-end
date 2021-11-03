@@ -11,7 +11,8 @@ defineProps({
   <div Entry>
     <div EntryVal>
       <div title>
-        <slot></slot>
+		    <span en-US>{{ formData[property]["en-US"]}}</span>
+			<span zh-CN>{{ formData[property]["zh-CN"]}}</span>
       </div>
       <input ref="input"
              :autocomplete="property"

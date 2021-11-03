@@ -20,10 +20,8 @@ defineProps({
                             val
                         )
                 "
-                        property="email"
-                        @update="(val) => this.$emit('update', 'mail', val)">
-        <span>{{ intl({ "en-US": "Mail", "zh-CN": "邮箱" }) }}</span>
-      </DirectInputEntry>
+                        property="mail"
+                        @update="(val) => this.$emit('update', 'mail', val)" />
       <span entry
             v-if="renderData.mailLoading">...</span>
       <span entry
@@ -34,9 +32,7 @@ defineProps({
       </span>
       <DirectInputEntry :validate="(val) => /^1(3|4|5|6|7|8|9)\d{9}$/.test(val)"
                         property="tel"
-                        @update="(val) => this.$emit('update', 'cell', val)">
-        <span>{{ intl({ "en-US": "Cell", "zh-CN": "电话" }) }}</span>
-      </DirectInputEntry>
+                        @update="(val) => this.$emit('update', 'cell', val)"/>
       <span entry
             v-if="renderData.cellLoading">...</span>
       <span entry

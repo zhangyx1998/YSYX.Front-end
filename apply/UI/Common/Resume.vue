@@ -71,11 +71,11 @@ export default {
   },
   methods: {
     uploadFile() {
-      let fileInput = this.$refs.fileInput
-      fileInput.click()
+      let fileInput = this.$refs.fileInput;
+      fileInput.click();
       fileInput.onchange = () => {
-        let file = fileInput.files[0]
-        let resumeSize = file.size
+        let file = fileInput.files[0];
+        let resumeSize = file.size;
         if (resumeSize / (1024 * 1024) > 10) {
           alert('限制10MB以内');
           return false;
@@ -88,19 +88,19 @@ export default {
             this.fileSize = parseFloat(resumeSize.toFixed(2)) + 'B';
           }
         }
-        this.resumeName = file.name
-        console.log(file)
+        this.resumeName = file.name;
+        console.log(file);
       }
     },
     update(fileInput = false) {
       if (!fileInput) {
-        this.$refs.fileInput.blur()
+        this.$refs.fileInput.blur();
       } else {
-        this.$emit('update', this.$refs.fileInput.files[0])
+        this.$emit('update', this.$refs.fileInput.files[0]);
       }
     },
     deleteFile() {
-      this.resumeName = ''
+      this.resumeName = '';
     },
     intl,
   },

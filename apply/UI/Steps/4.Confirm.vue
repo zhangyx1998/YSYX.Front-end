@@ -35,15 +35,8 @@ defineProps({
 </style>
 
 <script>
-import { intl } from '/util/env.js'
-// import { formData } from "/apply/formData.json";
+import { intl } from '/util/env.js';
 export default {
-	data(){
-		return{
-			// formData: {...formData},
-		}
-	},
-  computed: {},
   methods: {
     intl,
   },
