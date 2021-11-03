@@ -1,5 +1,4 @@
 <script setup>
-import Dialog from "/components/AppView/Panes/Dialog.vue";
 import Button from "/components/Button.vue";
 import BackButton from "/components/Button/BackButton.vue";
 import MobileTitleBar from "../Mobile/TitleBar.vue";
