@@ -171,9 +171,15 @@ export default {
 				this.institution = null;
 				this.altStr = this.searchStr;
 			} else {
+				this.altStr = '';
 				this.runSearch(this.searchStr);
 			}
 		},
+		institution(val) {
+			if (val == null) {
+				this.$emit('update', null);
+			}
+		}
 	},
 };
 </script>
