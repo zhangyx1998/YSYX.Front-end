@@ -1,0 +1,52 @@
+{
+	"formData": {
+		"name": {
+			"zh-CN": "姓名",
+			"en-US": "name"
+		},
+		"cell": {
+			"zh-CN": "电话",
+			"en-US": "cell"
+		},
+		"mail": {
+			"zh-CN": "邮箱",
+			"en-US": "mail"
+		},
+		"identity": {
+			"zh-CN": "身份",
+			"en-US": "identity"
+		},
+		"institution": {
+			"zh-CN": "学校或机构",
+			"en-US": "institution"
+		},
+		"direction": {
+			"zh-CN": "兴趣方向",
+			"en-US": "direction"
+		},
+		"faculty": {
+			"zh-CN": "教职工",
+			"en-US": "faculty"
+		},
+		"title": {
+			"zh-CN": "标题",
+			"en-US": "title"
+		},
+		"major": {
+			"zh-CN": "专业",
+			"en-US": "major"
+		},
+		"resume": {
+			"zh-CN": "简历",
+			"en-US": "resume"
+		},
+		"remark": {
+			"zh-CN": "备注",
+			"en-US": "remark"
+		},
+		"institutionAltName": {
+			"zh-CN": "可选机构名",
+			"en-US": "institutionAltName"
+		}
+	}
+}
