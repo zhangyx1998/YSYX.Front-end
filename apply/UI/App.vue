@@ -180,10 +180,12 @@ export default {
 			console.log(data);
 		},
 		updateViewSpace() {
-			console.log(this.viewSpace = (
-				(window.innerWidth > 480 ? (window.innerWidth - 480) / 2 : 0) +
-				"px"
-			));
+			console.log(
+				(this.viewSpace =
+					(window.innerWidth > 480
+						? (window.innerWidth - 480) / 2
+						: 0) + "px")
+			);
 		},
 		intl,
 	},

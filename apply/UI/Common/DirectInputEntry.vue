@@ -2,62 +2,61 @@
 import Button from "/components/Button.vue";
 import Responsive from "/components/Responsive.vue";
 defineProps({
-    validate: Function,
-    property: String,
+	validate: Function,
+	property: String,
 });
 </script>
 
 <template>
-    <div Entry>
-        <div EntryVal>
-            <div title><slot></slot></div>
-            <input
-                ref="input"
-                :autocomplete="property"
-                :placeholder="warn || property"
-                @keydown.enter="update"
-                @blur="update"
-                @input="update(true)"
-            />
-        </div>
-    </div>
+	<div Entry>
+		<div EntryVal>
+			<div title><slot></slot></div>
+			<input
+				ref="input"
+				:autocomplete="property"
+				:placeholder="warn || property"
+				@keydown.enter="update"
+				@blur="update"
+				@input="update(true)"
+			/>
+		</div>
+	</div>
 </template>
 
 <script>
 export default {
-    emits: ["update"],
-    data() {
-        return {
-            focus: false,
-            editing: false,
-            warn: "",
-        };
-    },
-    watch: {
-        focus(focused) {
-            if (focused) this.editing = true;
-        },
-    },
-    methods: {
-        update(input = false) {
-            if (!input) {
-                this.$refs.input.blur();
-            }
-            if (this.validate(this.$refs.input.value))
-                this.$emit("update", this.$refs.input.value);
-            else {
-                this.warn = "格式错误，请重新输入";
-                this.$emit("update", this.$refs.input.value && null);
-            }
-        },
-    },
+	emits: ["update"],
+	data() {
+		return {
+			focus: false,
+			editing: false,
+			warn: "",
+		};
+	},
+	watch: {
+		focus(focused) {
+			if (focused) this.editing = true;
+		},
+	},
+	methods: {
+		update(input = false) {
+			if (!input) {
+				this.$refs.input.blur();
+			}
+			if (this.validate(this.$refs.input.value))
+				this.$emit("update", this.$refs.input.value);
+			else {
+				this.warn = "格式错误，请重新输入";
+				this.$emit("update", this.$refs.input.value && null);
+			}
+		},
+	},
 };
 </script>
 
 <style scoped>
-
 input:focus {
-    border-color: var(--accent-emphasis);
-    box-shadow: 0 0 0 3px var(--accent-shadow);
+	border-color: var(--accent-emphasis);
+	box-shadow: 0 0 0 3px var(--accent-shadow);
 }
 </style>

@@ -2,101 +2,101 @@
 import Responsive from "/components/Responsive.vue";
 import Button from "/components/Button.vue";
 defineProps({
-    back: Boolean,
-    forward: Boolean,
-    valid: Boolean,
+	back: Boolean,
+	forward: Boolean,
+	valid: Boolean,
 });
 </script>
 
 <template>
-    <div NaviBar style="--button-margin: 0 var(--padding)">
-        <Button
-            v-if="back"
-            type="outlined gray"
-            style="opacity: 0.8"
-            :name="
-                {
-                    'en-US': 'Previous',
-                    'zh-CN': '返回',
-                }[locale.$]
-            "
-            @click="$emit('back')"
-        />
-        <span v-else></span>
-        <Button
-            v-if="forward"
-            :type="['solid', 'green', valid ? '' : 'disabled'].join(' ')"
-            :name="
-                {
-                    'en-US': 'Next',
-                    'zh-CN': '下一步',
-                }[locale.$]
-            "
-            @click="
-                /* $parent
+	<div NaviBar style="--button-margin: 0 var(--padding)">
+		<Button
+			v-if="back"
+			type="outlined gray"
+			style="opacity: 0.8"
+			:name="
+				{
+					'en-US': 'Previous',
+					'zh-CN': '返回',
+				}[locale.$]
+			"
+			@click="$emit('back')"
+		/>
+		<span v-else></span>
+		<Button
+			v-if="forward"
+			:type="['solid', 'green', valid ? '' : 'disabled'].join(' ')"
+			:name="
+				{
+					'en-US': 'Next',
+					'zh-CN': '下一步',
+				}[locale.$]
+			"
+			@click="
+				/* $parent
                     .mailCellExist('mailCellExist')
                     .then((res) => res.json())
                     .then((data) => {
                         if (data.valid === true) {
                             alertSomething('邮箱或电话已被使用，请检查后输入');
                         } else { */
-                $emit('forward')
-                /* }
+				$emit('forward')
+				/* }
                     }) */
-            "
-            style="flex-grow: 1"
-        />
-        <Button
-            v-if="!forward"
-            :type="['solid', 'blue', valid ? '' : 'disabled'].join(' ')"
-            :name="
-                {
-                    'en-US': 'Confirm and Submit',
-                    'zh-CN': '确认并提交',
-                }[locale.$]
-            "
-            @click="$emit('submit')"
-            style="flex-grow: 1"
-        />
-    </div>
+			"
+			style="flex-grow: 1"
+		/>
+		<Button
+			v-if="!forward"
+			:type="['solid', 'blue', valid ? '' : 'disabled'].join(' ')"
+			:name="
+				{
+					'en-US': 'Confirm and Submit',
+					'zh-CN': '确认并提交',
+				}[locale.$]
+			"
+			@click="$emit('submit')"
+			style="flex-grow: 1"
+		/>
+	</div>
 </template>
 
 <script>
 import { locale } from "/util/locale.js";
 
 export default {
-    emits: ["forward", "back", "submit", "mailCellExist"],
-    data() {
-        return {
-            locale,
-        };
-    },
-    methods: {
-        alertSomething(msg) {
-            alert(msg);
-        },
-    },
+	emits: ["forward", "back", "submit", "mailCellExist"],
+	data() {
+		return {
+			locale,
+		};
+	},
+	methods: {
+		alertSomething(msg) {
+			alert(msg);
+		},
+	},
 };
 </script>
 
 <style scoped>
 [NaviBar] {
-    /* Positioning */
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: var(--mobile-navibar-height);
-    /* Appearance */
-    background-color: white;
-    border-top: 0.06em solid var(--gray-brighter);
-    /* Layout */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+	/* Positioning */
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: var(--mobile-navibar-height);
+	/* Appearance */
+	background-color: white;
+	border-top: 0.06em solid var(--gray-brighter);
+	/* Layout */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 [NaviBar] > * {
-    max-width: 30vw;
+	max-width: 30vw;
 }
 </style>

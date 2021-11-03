@@ -1,5 +1,5 @@
 <script setup>
-import Responsive from '/components/Responsive.vue';
+import Responsive from "/components/Responsive.vue";
 </script>
 
 <template>
@@ -26,7 +26,7 @@ import Responsive from '/components/Responsive.vue';
 .name-container {
 	font-size: 1.1em;
 }
-.des-container{
+.des-container {
 	font-size: 0.8em;
 	color: var(--accent-dark);
 	margin: var(--padding-small) 0;

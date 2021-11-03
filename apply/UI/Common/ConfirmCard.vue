@@ -4,7 +4,7 @@
 	<div Entry v-if="Array.isArray(val) ? !!val.length : !!val">
 		<div EntryVal>
 			<div title>{{ attr }}</div>
-			<div style="font-size:1em;color:var(--gray-dark)">
+			<div style="font-size: 1em; color: var(--gray-dark)">
 				{{
 					Array.isArray(val)
 						? val.map((item) => directionMap[item]).join(",")
