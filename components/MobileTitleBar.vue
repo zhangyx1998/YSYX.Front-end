@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-	<div TitleBar ref="TitleBar" v-if="env.platform == 'mobile'">
+	<div TitleBar ref="TitleBar">
 		<div navi style="justify-content: flex-start">
 			<slot name="left"></slot>
 		</div>

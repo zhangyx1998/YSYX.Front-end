@@ -127,6 +127,10 @@ textarea {
 	padding: var(--padding) var(--padding-large);
 }
 
+.desktop [MobileOnly] {
+	display: none;
+}
+
 .mobile [ContentView]>[Content] {
 	padding: var(--padding);
 }

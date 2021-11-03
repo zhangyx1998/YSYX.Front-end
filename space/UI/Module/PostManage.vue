@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-	<MobileTitleBar :title="AppTitle">
+	<MobileTitleBar MobileOnly :title="AppTitle">
 		<template #left><BackButton @back="$emit('back')" /></template>
 		<template #right v-if="ID"
 			><Button

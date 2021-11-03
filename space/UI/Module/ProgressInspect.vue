@@ -10,6 +10,7 @@ import BackButton from "/components/Button/BackButton.vue";
 
 <template>
 	<MobileTitleBar
+		MobileOnly
 		:title="intl({ 'en-US': 'Progress Inspect', 'zh-CN': '进度检查' })"
 	>
 		<template #left><BackButton @back="$emit('back')" /></template>
