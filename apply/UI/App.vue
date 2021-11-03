@@ -55,10 +55,10 @@ import Step_4 from "./Steps/4.Confirm.vue";
 					:step="step"
 					:class="contentScrolled ? 'shadow' : ''"
 					:steps="[
-						{ 'zh-CN': '基本信息' },
-						{ 'zh-CN': '身份选择' },
-						{ 'zh-CN': '详细信息' },
-						{ 'zh-CN': '确认并提交' },
+						{ 'zh-CN': '基本信息','en-US': 'Basic information' },	
+						{ 'zh-CN': '身份选择' ,'en-US': 'Identity selection'},
+						{ 'zh-CN': '详细信息' ,'en-US':'Detailed information'},
+						{ 'zh-CN': '确认并提交','en-US':'Confirm submission' },
 					]"
 					@update-height="(height) => (this.contentTop = height)"
 				/>

@@ -7,7 +7,7 @@
 			<div style="font-size: 1em; color: var(--gray-dark)">
 				{{
 					Array.isArray(val)
-						? val.map((item) => directionMap[item]).join(",")
+						? val.map((item) => intl({'en-US':directionmap[item],'zh-CN':directionMap[item]})).join(",")
 						: val
 				}}
 			</div>
@@ -19,17 +19,27 @@
 </style>
 
 <script>
+import { intl } from "/util/env.js";
 export default {
 	props: ["attr", "val"],
 	data() {
-		return {
+		return {			
 			directionMap: {
 				architectureDesign: "体系结构设计",
 				rtl: "RTL开发和验证",
 				soc: "SoC集成和验证",
 				ic: "IC后端设计",
 			},
+			directionmap: {
+				architectureDesign: "System architecture design",
+				rtl: "RTL Development & Verification",
+				soc: "SOC Integration & Verification",
+				ic: "IC Backend design",
+			},
 		};
 	},
+	methods:{
+		intl,
+	}
 };
 </script>

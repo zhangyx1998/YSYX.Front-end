@@ -40,7 +40,14 @@ defineProps({
 				}}</DirectInputEntry
 			>
 			<div Entry style="display: block" v-if="identity === 'student'">
-				<div title>你对一生一芯计划的哪些部分比较感兴趣</div>
+				<div title>
+					{{
+						intl({
+							"en-US": "What parts of the life one core plan are you interested in",
+							"zh-CN": "你对一生一芯计划的哪些部分比较感兴趣",
+						})
+					}}
+				</div>
 				<Checkbox
 					@click="
 						direction.indexOf('architectureDesign') > -1

@@ -13,7 +13,12 @@ import RadioCard from "../Common/RadioCard.vue";
 					{{ intl({ "en-US": "student", "zh-CN": "学生" }) }}
 				</template>
 				<template #content>
-					参与⼀⽣⼀芯项⽬各阶段的学习，获取⼀⽣⼀芯助教团队的帮助，通过项⽬组的审核即可获得流⽚机会
+					{{
+						intl({
+							"en-US": "Participate in the learning of each stage of the core project, get the help of the core teaching assistant team, and get the flow opportunity through the review of the project team",
+							"zh-CN": "参与⼀⽣⼀芯项⽬各阶段的学习，获取⼀⽣⼀芯助教团队的帮助，通过项⽬组的审核即可获得流⽚机会",
+						})
+					}}
 				</template>
 			</RadioCard>
 			<RadioCard
@@ -29,7 +34,12 @@ import RadioCard from "../Common/RadioCard.vue";
 					}}
 				</template>
 				<template #content>
-					解答学⽣的问题，对学⽣的代码进⾏审阅和指导，并参与⼀⽣⼀芯各个模块的教案设计和课件制作
+					{{
+						intl({
+							"en-US": "Answer the learning questions, review and guide the learning code, and participate in the teaching plan design and courseware making of each module of the learning core",
+							"zh-CN": "解答学⽣的问题，对学⽣的代码进⾏审阅和指导，并参与⼀⽣⼀芯各个模块的教案设计和课件制作",
+						})
+					}}
 				</template>
 			</RadioCard>
 			<RadioCard
@@ -45,7 +55,12 @@ import RadioCard from "../Common/RadioCard.vue";
 					}}
 				</template>
 				<template #content>
-					获取项⽬的最新资料，与我们的团队进⾏沟通和协作
+					{{
+						intl({
+							"en-US": "Get the latest information of item (and communicate and cooperate with our team",
+							"zh-CN": "获取项⽬的最新资料，与我们的团队进⾏沟通和协作",
+						})
+					}}			
 				</template>
 			</RadioCard>
 		</div>
