@@ -6,14 +6,20 @@ import { assert } from "./diagnostics.js";
  * @param {object} obj 
  * @param {...string} paths 
  */
-export function dig(obj, ...paths) {
-	if (paths.length == 0) return true;
-	else if (
-		typeof obj !== 'object'
+ export function dig(obj, path, ...paths) {
+	if (!path) return true;
+	// Type check
+	if (
+		(typeof obj !== 'object' && typeof obj !== 'function')
 		|| obj === null
-		|| !(paths[0] in obj)
 	) return false;
-	else return dig(obj[paths[0]], ...paths.slice(1));
+	// Exact match
+	if (path in obj) return dig(obj[path], ...paths);
+	// Wildcard search
+	if (path === '*') {
+		return [obj, ...Object.values(obj)].map(el => dig(el, ...paths)).reduce((a, b) => a || b);
+	}
+	return false;
 }
 
 /**
@@ -22,14 +28,20 @@ export function dig(obj, ...paths) {
  * @param {object} obj 
  * @param {...string} paths 
  */
-export function digVal(obj, ...paths) {
-	if (paths.length == 0) return obj;
-	else if (
-		typeof obj !== 'object'
+export function digVal(obj, path, ...paths) {
+	if (!path) return obj;
+	// Type check
+	if (
+		(typeof obj !== 'object' && typeof obj !== 'function')
 		|| obj === null
-		|| !(paths[0] in obj)
-	) return null;
-	else return digVal(obj[paths[0]], ...paths.slice(1));
+	) return undefined;
+	// Exact match
+	if (path in obj) return digVal(obj[path], ...paths);
+	// Wildcard search
+	if (path === '*') {
+		return [obj, ...Object.values(obj)].map(el => digVal(el, ...paths));
+	}
+	return undefined;
 }
 
 /**

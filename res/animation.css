@@ -171,3 +171,17 @@
 .opacity-leave-from {
 	opacity: 1;
 }
+
+
+/* Animation 'fold-up' */
+
+.fold-up-enter-active,
+.fold-up-leave-active {
+	transition-duration: var(--animation-duration);
+	transition-timing-function: var(--animation-curve);
+}
+
+.fold-up-enter-from,
+.fold-up-leave-to {
+	max-height: 0px !important;
+}

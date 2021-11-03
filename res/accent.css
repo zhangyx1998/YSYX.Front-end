@@ -3,6 +3,9 @@
 	--accent: hsl(212, 65%, 31%);
 	--accent-bright: hsl(212, 45%, 50%);
 	--accent-brighter: hsl(212, 60%, 75%);
+	--accent-emphasis: hsl(212, 92%, 45%);
+	--accent-shadow: hsla(212, 92%, 45%, 0.3);
+	--accent-selected: hsl(212, 100%, 50%);
 	--accent-dark: hsl(212, 60%, 24%);
 	--accent-light: hsl(212, 60%, 96%);
 	--accent-background: hsla(212, 45%, 50%, 0.06);
@@ -34,6 +37,7 @@
 	--gray-brighter: hsl(0, 0%, 85%);
 	--gray-light: hsl(0, 00%, 98%);
 	--gray-background: hsla(0, 0%, 60%, 0.1);
+	--gray-border: hsl(0, 0%, 84%);
 	/* Gray */
 	--white: hsl(0, 0%, 95%);
 	--white-dark: hsl(0, 0%, 90%);

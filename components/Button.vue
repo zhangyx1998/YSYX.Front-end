@@ -259,5 +259,7 @@ export default {
 /* disabled */
 [button].disabled {
 	cursor: not-allowed;
+	pointer-events: none;
+	filter: saturate(0);
 }
 </style>
