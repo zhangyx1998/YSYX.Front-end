@@ -5,8 +5,7 @@
        v-if="Array.isArray(val) ? !!val.length : !!val">
     <div EntryVal>
       <div title>
-        <span en-US>{{ formData[attr]["en-US"]}}</span>
-        <span zh-CN>{{ formData[attr]["zh-CN"]}}</span>
+		  {{ intl(formData[attr]) }} 
       </div>
       <div style="font-size: 1em; color: var(--gray-dark)">
         {{

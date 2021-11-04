@@ -15,10 +15,10 @@ defineProps({
 			type="outlined gray"
 			style="opacity: 0.8"
 			:name="
-				{
+				intl({
 					'en-US': 'Previous',
 					'zh-CN': '返回',
-				}[locale.$]
+				})
 			"
 			@click="$emit('back')"
 		/>
@@ -27,10 +27,10 @@ defineProps({
 			v-if="forward"
 			:type="['solid', 'green', valid ? '' : 'disabled'].join(' ')"
 			:name="
-				{
+				intl({
 					'en-US': 'Next',
 					'zh-CN': '下一步',
-				}[locale.$]
+				})
 			"
 			@click="
 				/* $parent
@@ -50,10 +50,10 @@ defineProps({
 			v-if="!forward"
 			:type="['solid', 'blue', valid ? '' : 'disabled'].join(' ')"
 			:name="
-				{
-					'en-US': 'Confirm and Submit',
+				intl({
+					'en-US': 'Submit',
 					'zh-CN': '确认并提交',
-				}[locale.$]
+				})
 			"
 			@click="$emit('submit')"
 			style="flex-grow: 1"
@@ -63,7 +63,7 @@ defineProps({
 
 <script>
 import { locale } from "/util/locale.js";
-
+import { intl } from '/util/env.js';
 export default {
 	emits: ["forward", "back", "submit", "mailCellExist"],
 	data() {
@@ -72,9 +72,7 @@ export default {
 		};
 	},
 	methods: {
-		alertSomething(msg) {
-			alert(msg);
-		},
+		intl,
 	},
 };
 </script>

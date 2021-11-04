@@ -15,8 +15,7 @@ defineProps({
 	<div Entry>
 		<div EntryVal>
 			<div title>
-				<span en-US>{{ formData[property]["en-US"]}}</span>
-				<span zh-CN>{{ formData[property]["zh-CN"]}}</span>
+				{{ intl(formData[property]) }} 
 			</div>
 			<div class="container">
 				<div style="display: block; position: relative">

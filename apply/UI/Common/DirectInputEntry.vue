@@ -11,12 +11,11 @@ defineProps({
   <div Entry>
     <div EntryVal>
       <div title>
-		    <span en-US>{{ formData[property]["en-US"]}}</span>
-			<span zh-CN>{{ formData[property]["zh-CN"]}}</span>
+		  {{ intl(formData[property]) }} 
       </div>
       <input ref="input"
              :autocomplete="property"
-             :placeholder="warn || property"
+             :placeholder="warn || intl(formData[property])"
              @keydown.enter="update"
              @blur="update"
              @input="update(true)" />
@@ -25,7 +24,8 @@ defineProps({
 </template>
 
 <script>
-import { formData } from '/apply/formData.json'
+import { formData } from '/apply/formData.json';
+import { intl } from '/util/env.js';
 export default {
   emits: ['update'],
   data() {
@@ -53,6 +53,7 @@ export default {
         this.$emit('update', this.$refs.input.value && null)
       }
     },
+	intl,
   },
 }
 </script>
