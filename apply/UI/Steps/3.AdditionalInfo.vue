@@ -20,17 +20,11 @@ defineProps({
 				@update-alt="
 					(val) => this.$emit('update', 'institutionAltName', val)
 				"
-				>{{
-					intl({
-						"en-US": "Institution",
-						"zh-CN": "所属学校或机构",
-					})
-				}}</SearchEntry
-			>
+				/>
 			<DirectInputEntry
 				v-if="identity === 'ta' || identity === 'student'"
 				:validate="(val) => !!val"
-				property="Major"
+				property="major"
 				@update="(val) => this.$emit('update', 'major', val)"
 				/>
 			<div Entry style="display: block" v-if="identity === 'student'">
@@ -123,18 +117,11 @@ defineProps({
 
 			<DirectInputEntry
 				:validate="(val) => true"
-				property="Remark"
+				property="remark"
 				@update="(val) => this.$emit('update', 'remark', val)"
 			/>
 			<Resume @update="(val) => this.$emit('update', 'resume', val)"
-			v-if="identity === 'student' || identity === 'ta'">
-				<span>{{
-					intl({
-						"en-US": "Resume (Optional)",
-						"zh-CN": "简历 (可选)",
-					})
-				}}</span>
-			</Resume>
+			v-if="identity === 'student' || identity === 'ta'" />
 		</div>
 	</div>
 </template>

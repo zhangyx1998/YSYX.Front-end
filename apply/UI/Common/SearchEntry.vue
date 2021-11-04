@@ -14,7 +14,10 @@ defineProps({
 <template>
 	<div Entry>
 		<div EntryVal>
-			<div title><slot></slot></div>
+			<div title>
+				<span en-US>{{ formData[property]["en-US"]}}</span>
+				<span zh-CN>{{ formData[property]["zh-CN"]}}</span>
+			</div>
 			<div class="container">
 				<div style="display: block; position: relative">
 					<input
@@ -118,10 +121,12 @@ defineProps({
 
 <script>
 import { intl } from "/util/env.js";
+import { formData } from '/apply/formData.json'
 export default {
 	emits: ["update", "update-alt"],
 	data() {
 		return {
+			formData,
 			searchStr: "",
 			searchResult: null,
 			institution: null,

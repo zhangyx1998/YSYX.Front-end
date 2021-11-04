@@ -6,7 +6,8 @@ import Responsive from "/components/Responsive.vue";
   <div Entry>
     <div EntryVal>
       <div title>
-        <slot></slot>
+       		<span en-US>{{ formData['resume']["en-US"]}}</span>
+			<span zh-CN>{{ formData['resume']["zh-CN"]}}</span>
       </div>
       <div>
         <input type="file"
@@ -59,11 +60,13 @@ import Responsive from "/components/Responsive.vue";
   </div>
 </template>
 <script>
-import { intl } from '/util/env.js'
+import { intl } from '/util/env.js';
+import { formData } from '/apply/formData.json';
 export default {
   emits: ['update'],
   data() {
     return {
+	  formData,
       resumeName: '',
       fileSize: '',
       fileType: '',

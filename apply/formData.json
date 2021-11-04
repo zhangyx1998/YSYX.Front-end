@@ -4,7 +4,7 @@
 			"zh-CN": "姓名",
 			"en-US": "Name"
 		},
-		"tel": {
+		"cell": {
 			"zh-CN": "电话",
 			"en-US": "Cell"
 		},
@@ -32,7 +32,7 @@
 			"zh-CN": "标题",
 			"en-US": "Title"
 		},
-		"Major": {
+		"major": {
 			"zh-CN": "专业",
 			"en-US": "Major"
 		},
@@ -40,7 +40,7 @@
 			"zh-CN": "简历(选填)",
 			"en-US": "Resume"
 		},
-		"Remark": {
+		"remark": {
 			"zh-CN": "备注(选填)",
 			"en-US": "Remark"
 		},

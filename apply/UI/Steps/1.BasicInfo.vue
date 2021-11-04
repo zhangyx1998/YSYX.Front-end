@@ -31,7 +31,7 @@ defineProps({
         {{formData.mail ? intl({"en-US":"Mailbox already exists","zh-CN":"邮箱已存在"}) : intl({"en-US":"Mailbox format error","zh-CN":"邮箱格式错误"})}}
       </span>
       <DirectInputEntry :validate="(val) => /^1(3|4|5|6|7|8|9)\d{9}$/.test(val)"
-                        property="tel"
+                        property="cell"
                         @update="(val) => this.$emit('update', 'cell', val)"/>
       <span entry
             v-if="renderData.cellLoading">...</span>
