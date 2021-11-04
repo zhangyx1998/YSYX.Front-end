@@ -147,7 +147,7 @@ export default {
 					this.renderData.cellValid &&
 					this.renderData.mailValid,
 				this.formData.identity,
-				this.formData.institution &&
+				(this.formData.institution || this.formData.institutionAltName) &&
 					(this.formData.identity === "student"
 						? this.formData.direction.length && this.formData.major
 						: this.formData.identity === "teacher"

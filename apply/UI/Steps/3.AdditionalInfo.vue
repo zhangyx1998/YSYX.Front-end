@@ -115,14 +115,13 @@ defineProps({
 				property="Title"
 				@update="(val) => this.$emit('update', 'title', val)"
 			/>
-
+			<Resume @update="(val) => this.$emit('update', 'resume', val)"
+			v-if="identity === 'student' || identity === 'ta'" />
 			<DirectTextareaEntry
 				:validate="(val) => true"
 				property="remark"
 				@update="(val) => this.$emit('update', 'remark', val)"
 			/>
-			<Resume @update="(val) => this.$emit('update', 'resume', val)"
-			v-if="identity === 'student' || identity === 'ta'" />
 		</div>
 	</div>
 </template>
