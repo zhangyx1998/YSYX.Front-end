@@ -1,4 +1,5 @@
 <script setup>
+import DirectTextareaEntry from "../Common/DirectTextareaEntry.vue"
 import DirectInputEntry from "../Common/DirectInputEntry.vue";
 import RadioCard from "../Common/RadioCard.vue";
 import Checkbox from "../../../components/Checkbox.vue";
@@ -114,14 +115,13 @@ defineProps({
 				property="Title"
 				@update="(val) => this.$emit('update', 'title', val)"
 			/>
-
-			<DirectInputEntry
+			<Resume @update="(val) => this.$emit('update', 'resume', val)"
+			v-if="identity === 'student' || identity === 'ta'" />
+			<DirectTextareaEntry
 				:validate="(val) => true"
 				property="remark"
 				@update="(val) => this.$emit('update', 'remark', val)"
 			/>
-			<Resume @update="(val) => this.$emit('update', 'resume', val)"
-			v-if="identity === 'student' || identity === 'ta'" />
 		</div>
 	</div>
 </template>

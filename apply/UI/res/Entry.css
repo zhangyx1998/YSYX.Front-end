@@ -1,4 +1,5 @@
 input,
+textarea,
 [input] {
 	/* Layout */
 	width: 100%;
@@ -16,4 +17,8 @@ input,
 	padding: 0.4em 0;
 	margin-bottom: 8px !important;
 	font-size: 0.8em;
+}
+
+textarea{
+	min-height: 3em;
 }
