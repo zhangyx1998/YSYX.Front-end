@@ -1,9 +1,11 @@
-
+<script setup>
+import Badge from "/components/Badge.vue";
+</script>
 
 <template>
-    <div Entry v-if="Array.isArray(val) ? !!val.length : !!val">
+    <div Entry v-if="!Array.isArray(val) && !!val">
         <div EntryVal>
-            <div title style="font-weight:600;color:var(--accent)">
+            <div title style="font-weight: 600; color: var(--accent)">
                 <span en-US>{{ formData[attr]["en-US"] }}</span>
                 <span zh-CN>{{ formData[attr]["zh-CN"] }}</span>
             </div>
@@ -22,6 +24,28 @@
                         ? val
                         : val.name
                 }}
+            </div>
+        </div>
+    </div>
+    <div Entry v-if="Array.isArray(val) && !!val">
+        <div EntryVal>
+            <div title style="font-weight: 600; color: var(--accent)">
+                <span en-US>{{ formData[attr]["en-US"] }}</span>
+                <span zh-CN>{{ formData[attr]["zh-CN"] }}</span>
+            </div>
+            <div style="font-size: 1em; color: var(--gray-dark)">
+                <Badge
+                    v-for="(value, index) in val"
+                    :key="index"
+                    type="accent unselected"
+                    :name="
+                        intl({
+                            'en-US': directionmap[value],
+                            'zh-CN': directionMap[value],
+                        })
+                    "
+                    style="font-size: 0.9em; opacity: 0.9"
+                />
             </div>
         </div>
     </div>

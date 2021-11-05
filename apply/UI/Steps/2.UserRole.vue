@@ -100,7 +100,7 @@ export default {
 }
 
 ::v-deep(.selected) {
-	border-color: var(--accent-dark);
+	border-color: var(--gray-dark);
 }
 
 ::v-deep(.unselected) {
