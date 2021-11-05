@@ -1,6 +1,7 @@
 <script setup>
 import Responsive from "/components/Responsive.vue";
 import Button from "/components/Button.vue";
+import popup from "./Common/popup.vue";
 defineProps({
 	back: Boolean,
 	forward: Boolean,
@@ -9,6 +10,7 @@ defineProps({
 </script>
 
 <template>
+<div>
 	<div NaviBar style="--button-margin: 0 var(--padding)">
 		<Button
 			v-if="back"
@@ -55,10 +57,12 @@ defineProps({
 					'zh-CN': '确认并提交',
 				})
 			"
-			@click="$emit('submit')"
+			@click="$emit('submit'),popUp()"
 			style="flex-grow: 1"
-		/>
+		/>	
 	</div>
+	<popup ref="pop"></popup>
+</div>
 </template>
 
 <script>
@@ -72,6 +76,9 @@ export default {
 		};
 	},
 	methods: {
+		popUp(){
+			this.$refs.pop.popShow = !this.$refs.pop.popShow
+		},
 		intl,
 	},
 };
