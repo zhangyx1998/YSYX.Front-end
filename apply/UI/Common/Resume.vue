@@ -5,81 +5,81 @@ import Button from '/components/Button.vue'
 
 <template>
   <div Entry>
-    <div EntryVal>
-      <div title>
-        {{ intl(formData['resume']) }}
-      </div>
-      <div>
-        <input type="file"
-               accept="application/pdf"
-               ref="fileInput"
-               style="display:none"
-               @input="update(true)">
-        <div class="file_message"
-             v-if="resumeName !== ''">
-          <div class="img"><i class="fas fa-file-pdf"></i></div>
-          <div class="content">
-            <span class="file_name">{{resumeName}}</span>
-            <div class="file_size">{{fileSize}}</div>
-            <span class="operation"
-                  style="
+	<div EntryVal>
+	  <div title>
+		{{ intl(formData['resume']) }}
+	  </div>
+	  <div>
+		<input type="file"
+			   accept="application/pdf"
+			   ref="fileInput"
+			   style="display:none"
+			   @input="update(true)">
+		<div class="file_message"
+			 v-if="resumeName !== ''">
+		  <div class="img"><i class="fas fa-file-pdf"></i></div>
+		  <div class="content">
+			<span class="file_name">{{resumeName}}</span>
+			<div class="file_size">{{fileSize}}</div>
+			<span class="operation"
+				  style="
 						display:flex;
 						position: absolute;
 						right: 0.5em;
 						bottom: 0.5em;
 						font-size: 0.6em;">
-              <Button :type="['', 'blue'].join(' ')"
-                      :name="
+			  <Button :type="['', 'blue'].join(' ')"
+					  :name="
 							intl({
 									'en-US': 'Reselect',
 									'zh-CN': '重新选择',
 								})
 						"
-                      @click="uploadFile"
-    			/>
-              <Button :type="['', 'red'].join(' ')"
-                      :name="
+					  @click="uploadFile"
+				/>
+			  <Button :type="['', 'red'].join(' ')"
+					  :name="
 							intl({
 									'en-US': 'Delete',
 									'zh-CN': '删除',
 								})
 						"
-                      @click="deleteFile" />
-              <!-- <span style="color:var(--accent);padding-right:4em;"
-                    @click="uploadFile">
-                {{
+					  @click="deleteFile" />
+			  <!-- <span style="color:var(--accent);padding-right:4em;"
+					@click="uploadFile">
+				{{
 					intl({
 							"en-US": "Reselect",
 							"zh-CN": "重新选择",
 						})
 					}}
-              </span> -->
-              <!-- <span style="color:var(--red)"
-                    @click="deleteFile">
-                {{
+			  </span> -->
+			  <!-- <span style="color:var(--red)"
+					@click="deleteFile">
+				{{
 					intl({
 							"en-US": "Delete",
 							"zh-CN": "删除",
 						})
 					}}</span> -->
-            </span>
-          </div>
-        </div>
-        <div class="upload"
-             v-else
-             @click="uploadFile">
-          <i></i>
-          <span>
-            {{
+			</span>
+		  </div>
+		</div>
+		<div class="upload"
+			 v-else
+			 @click="uploadFile">
+		  <i></i>
+		  <span>
+			{{
 					intl({
 							"en-US": "Select file (maximum 10M)",
 							"zh-CN": "选择文件(最大限10M)",
 						})
 					}}
-          </span>
-        </div>
-      </div>
-    </div>
+		  </span>
+		</div>
+	  </div>
+	</div>
   </div>
 </template>
 <script>
@@ -88,47 +88,47 @@ import { formData } from '/apply/formData.json'
 export default {
   emits: ['update'],
   data() {
-    return {
-      formData,
-      resumeName: '',
-      fileSize: '',
-      fileType: '',
-    }
+	return {
+	  formData,
+	  resumeName: '',
+	  fileSize: '',
+	  fileType: '',
+	}
   },
   methods: {
-    uploadFile() {
-      let fileInput = this.$refs.fileInput
-      fileInput.click()
-      fileInput.onchange = () => {
-        let file = fileInput.files[0]
-        let resumeSize = file.size
-        if (resumeSize / (1024 * 1024) > 10) {
-          alert('限制10MB以内')
-          return false
-        } else {
-          if (resumeSize >= 1024 && resumeSize < 1048576) {
-            this.fileSize = parseFloat((resumeSize / 1024).toFixed(2)) + 'KB'
-          } else if (resumeSize >= 1048576) {
-            this.fileSize = parseFloat((resumeSize / 1048576).toFixed(2)) + 'M'
-          } else {
-            this.fileSize = parseFloat(resumeSize.toFixed(2)) + 'B'
-          }
-        }
-        this.resumeName = file.name
-        console.log(file)
-      }
-    },
-    update(fileInput = false) {
-      if (!fileInput) {
-        this.$refs.fileInput.blur()
-      } else {
-        this.$emit('update', this.$refs.fileInput.files[0])
-      }
-    },
-    deleteFile() {
-      this.resumeName = ''
-    },
-    intl,
+	uploadFile() {
+	  let fileInput = this.$refs.fileInput
+	  fileInput.click()
+	  fileInput.onchange = () => {
+		let file = fileInput.files[0]
+		let resumeSize = file.size
+		if (resumeSize / (1024 * 1024) > 10) {
+		  alert('限制10MB以内')
+		  return false
+		} else {
+		  if (resumeSize >= 1024 && resumeSize < 1048576) {
+			this.fileSize = parseFloat((resumeSize / 1024).toFixed(2)) + 'KB'
+		  } else if (resumeSize >= 1048576) {
+			this.fileSize = parseFloat((resumeSize / 1048576).toFixed(2)) + 'M'
+		  } else {
+			this.fileSize = parseFloat(resumeSize.toFixed(2)) + 'B'
+		  }
+		}
+		this.resumeName = file.name
+		console.log(file)
+	  }
+	},
+	update(fileInput = false) {
+	  if (!fileInput) {
+		this.$refs.fileInput.blur()
+	  } else {
+		this.$emit('update', this.$refs.fileInput.files[0])
+	  }
+	},
+	deleteFile() {
+	  this.resumeName = ''
+	},
+	intl,
   },
 }
 </script>
