@@ -91,6 +91,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
                 @forward="step++"
                 @back="step--"
                 @submit="submit"
+                :submitData="submitData"
             />
         </div>
     </span>
@@ -130,6 +131,7 @@ export default {
                 institutionAltName: "",
             },
             viewSpace: "0px",
+            submitData: {},
         };
     },
     computed: {
@@ -258,7 +260,7 @@ export default {
                 body: JSON.stringify(data),
             })
                 .then((res) => res.json())
-                .then((data) => console.log(data));
+                .then((data) => (this.submitData = data));
         },
         updateViewSpace() {
             console.log(
