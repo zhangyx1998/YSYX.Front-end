@@ -24,6 +24,24 @@
 			"zh-CN": "兴趣方向",
 			"en-US": "Direction"
 		},
+		"directions": {
+			"arch": {
+				"zh-CN": "体系结构设计",
+				"en-US": "System architecture design"
+			},
+			"rtl": {
+				"zh-CN": "RTL开发和验证",
+				"en-US": "RTL Development & Verification"
+			},
+			"soc": {
+				"zh-CN": "SoC集成和验证",
+				"en-US": "RTL Development & Verification"
+			},
+			"ic": {
+				"zh-CN": "SoC集成和验证",
+				"en-US": "RTL Development & Verification"
+			}
+		},
 		"faculty": {
 			"zh-CN": "所属学院",
 			"en-US": "Faculty"

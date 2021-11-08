@@ -1,7 +1,7 @@
 <script setup>
 import ConfirmCard from "../Common/ConfirmCard.vue";
 defineProps({
-    formData: Object,
+    displayFormData: Object,
 });
 </script>
 
@@ -20,7 +20,7 @@ defineProps({
                         }}
                     </h4>
                     <ConfirmCard
-                        v-for="(val, attr) in FormData"
+                        v-for="(val, attr) in displayFormData"
                         :val="val"
                         :attr="attr"
                         :key="attr"
@@ -41,61 +41,8 @@ export default {
     methods: {
         intl,
     },
-    computed: {
-        FormData() {
-            let {
-                name,
-                cell,
-                mail,
-                identity,
-                institution,
-                direction,
-                faculty,
-                title,
-                major,
-                resume,
-                remark,
-                institutionAltName,
-            } = this.formData;
-            if (identity === "student") {
-                return {
-                    name,
-                    cell,
-                    mail,
-                    identity,
-                    institution,
-                    direction,
-                    major,
-                    resume,
-                    remark,
-                    institutionAltName,
-                };
-            } else if (identity === "teacher") {
-                return {
-                    name,
-                    cell,
-                    mail,
-                    identity,
-                    institution,
-                    faculty,
-                    title,
-                    remark,
-                    institutionAltName,
-                };
-            } else {
-                return {
-                    name,
-                    cell,
-                    mail,
-                    identity,
-                    institution,
-                    major,
-                    resume,
-                    remark,
-                    institutionAltName,
-                };
-            }
-        },
+    activated() {
+        console.log(this.displayFormData);
     },
 };
 </script>

@@ -13,6 +13,7 @@ defineProps({
     <div EntryGroup>
       <DirectInputEntry :validate="(val) => val.trim().length >= 2"
                         property="name"
+						autocomplete="name"
                         @update="(val) => this.$emit('update', 'name', val)" />
       <DirectInputEntry :validate="
                     (val) =>
@@ -21,6 +22,7 @@ defineProps({
                         )
                 "
                         property="mail"
+						autocomplete="email"
                         @update="(val) => this.$emit('update', 'mail', val)" />
       <span entry
             v-if="renderData.mailLoading">...</span>
@@ -32,6 +34,7 @@ defineProps({
       </span>
       <DirectInputEntry :validate="(val) => /^1(3|4|5|6|7|8|9)\d{9}$/.test(val)"
                         property="cell"
+						autocomplete="tel"
                         @update="(val) => this.$emit('update', 'cell', val)"/>
       <span entry
             v-if="renderData.cellLoading">...</span>

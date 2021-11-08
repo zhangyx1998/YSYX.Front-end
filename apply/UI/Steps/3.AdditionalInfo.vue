@@ -39,13 +39,13 @@ defineProps({
 				</div>
 				<Checkbox
 					@click="
-						direction.indexOf('architectureDesign') > -1
+						direction.indexOf('arch') > -1
 							? (direction = direction.filter(
-									(item) => item !== 'architectureDesign'
+									(item) => item !== 'arch'
 							  ))
-							: direction.push('architectureDesign')
+							: direction.push('arch')
 					"
-					:selected="direction.indexOf('architectureDesign') > -1"
+					:selected="direction.indexOf('arch') > -1"
 					>{{
 						intl({
 							"en-US": "System architecture design",
