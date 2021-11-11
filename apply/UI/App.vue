@@ -3,6 +3,7 @@
 import MobileTitleBar from "/components/MobileTitleBar.vue";
 import NaviBar from "./NaviBar.vue";
 import Progress from "./Progress.vue";
+import popup from "./Common/popup.vue";
 // Form Components
 import Step_0 from "./Steps/0.Blank.vue";
 import Step_1 from "./Steps/1.BasicInfo.vue";
@@ -93,6 +94,7 @@ import Step_4 from "./Steps/4.Confirm.vue";
 				@submit="submit"
 				:submitData="submitData"
 			/>
+			<popup ref="pop" :submitData="submitData" v-if="submitData"></popup>
 		</div>
 	</span>
 </template>
@@ -131,7 +133,7 @@ export default {
 				institutionAltName: "",
 			},
 			viewSpace: "0px",
-			submitData: {},
+			submitData: null,
 		};
 	},
 	computed: {

@@ -1,7 +1,6 @@
 <script setup>
 import Responsive from "/components/Responsive.vue";
 import Button from "/components/Button.vue";
-import popup from "./Common/popup.vue";
 defineProps({
 	back: Boolean,
 	forward: Boolean,
@@ -58,11 +57,10 @@ defineProps({
 						'zh-CN': '确认并提交',
 					})
 				"
-				@click="$emit('submit'), popUp()"
+				@click="$emit('submit')"
 				style="flex-grow: 1"
 			/>
 		</div>
-		<popup ref="pop" :submitData="submitData"></popup>
 	</div>
 </template>
 
@@ -77,9 +75,6 @@ export default {
 		};
 	},
 	methods: {
-		popUp() {
-			this.$refs.pop.popShow = !this.$refs.pop.popShow;
-		},
 		intl,
 	},
 };

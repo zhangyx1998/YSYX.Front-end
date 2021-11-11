@@ -6,7 +6,7 @@ defineProps({
 
 
 <template>
-	<div v-show="popShow" class="popup">
+	<div class="popup">
 		<div class="success">
 			<div v-if="submitData.valid">
 				<svg width="120" height="120" viewBox="0 0 40 40">
@@ -26,7 +26,8 @@ defineProps({
 			</div>
 			<div v-if="submitData.valid" class="submit_success">提交成功</div>
 			<div v-if="!submitData.valid" class="submit_success">提交失败</div>
-			<div class="ID_number">ID:{{ submitData.id }}</div>
+			<div v-if="submitData.valid" class="ID_number">ID:{{ submitData.id }}</div>
+			<div v-if="!submitData.valid" class="ID_number" style="padding:1.5em .7em;color:var(--gray-dark)">Message:{{ submitData.message }}</div>
 			<div class="link">
 				<a href="#" alt="home" style="padding-right: 6em">返回首页</a>
 				<a href="#" alt="detail" style="padding-left: 6em">查看详情</a>
@@ -36,11 +37,6 @@ defineProps({
 </template>
 <script>
 export default {
-	data() {
-		return {
-			popShow: false,
-		};
-	},
 };
 </script>
 <style scoped>
