@@ -14,7 +14,9 @@ defineProps({
 <template>
 	<div Entry>
 		<div EntryVal>
-			<div title><slot></slot></div>
+			<div title>
+				{{ intl(formData[property]) }}
+			</div>
 			<div class="container">
 				<div style="display: block; position: relative">
 					<input
@@ -118,10 +120,12 @@ defineProps({
 
 <script>
 import { intl } from "/util/env.js";
+import { formData } from "/apply/formData.json";
 export default {
 	emits: ["update", "update-alt"],
 	data() {
 		return {
+			formData,
 			searchStr: "",
 			searchResult: null,
 			institution: null,
@@ -134,7 +138,7 @@ export default {
 	methods: {
 		select(ID) {
 			this.institution = this.searchResult[ID];
-			this.$emit("update", ID);
+			this.$emit("update", Object.fromEntries([[ID, this.institution]]));
 		},
 		searchStrValid(val) {
 			return val.trim().replace(/[^\x00-\xff]/g, "**").length >= 2;
@@ -171,15 +175,15 @@ export default {
 				this.institution = null;
 				this.altStr = this.searchStr;
 			} else {
-				this.altStr = '';
+				this.altStr = "";
 				this.runSearch(this.searchStr);
 			}
 		},
 		institution(val) {
 			if (val == null) {
-				this.$emit('update', null);
+				this.$emit("update", null);
 			}
-		}
+		},
 	},
 };
 </script>

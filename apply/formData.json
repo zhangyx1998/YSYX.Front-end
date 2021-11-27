@@ -2,51 +2,69 @@
 	"formData": {
 		"name": {
 			"zh-CN": "姓名",
-			"en-US": "name"
+			"en-US": "Name"
 		},
 		"cell": {
 			"zh-CN": "电话",
-			"en-US": "cell"
+			"en-US": "Cell"
 		},
 		"mail": {
 			"zh-CN": "邮箱",
-			"en-US": "mail"
+			"en-US": "Mail"
 		},
 		"identity": {
 			"zh-CN": "身份",
-			"en-US": "identity"
+			"en-US": "Identity"
 		},
 		"institution": {
-			"zh-CN": "学校或机构",
-			"en-US": "institution"
+			"zh-CN": "所属学校或机构",
+			"en-US": "Institution"
 		},
 		"direction": {
 			"zh-CN": "兴趣方向",
-			"en-US": "direction"
+			"en-US": "Direction"
+		},
+		"directions": {
+			"arch": {
+				"zh-CN": "体系结构设计",
+				"en-US": "System architecture design"
+			},
+			"rtl": {
+				"zh-CN": "RTL开发和验证",
+				"en-US": "RTL Development & Verification"
+			},
+			"soc": {
+				"zh-CN": "SoC集成和验证",
+				"en-US": "RTL Development & Verification"
+			},
+			"ic": {
+				"zh-CN": "SoC集成和验证",
+				"en-US": "RTL Development & Verification"
+			}
 		},
 		"faculty": {
-			"zh-CN": "教职工",
-			"en-US": "faculty"
+			"zh-CN": "所属学院",
+			"en-US": "Faculty"
 		},
-		"title": {
+		"Title": {
 			"zh-CN": "标题",
-			"en-US": "title"
+			"en-US": "Title"
 		},
 		"major": {
 			"zh-CN": "专业",
-			"en-US": "major"
+			"en-US": "Major"
 		},
 		"resume": {
-			"zh-CN": "简历",
-			"en-US": "resume"
+			"zh-CN": "简历(选填)",
+			"en-US": "Resume"
 		},
 		"remark": {
-			"zh-CN": "备注",
-			"en-US": "remark"
+			"zh-CN": "备注(选填)",
+			"en-US": "Remark"
 		},
 		"institutionAltName": {
 			"zh-CN": "可选机构名",
-			"en-US": "institutionAltName"
+			"en-US": "InstitutionAltName"
 		}
 	}
 }

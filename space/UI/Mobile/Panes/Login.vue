@@ -4,28 +4,28 @@ import Button from '/components/Button.vue'
 
 <template>
   <div Login>
-    <h2 en-US>Sign In</h2>
-    <h2 zh-CN>登录</h2>
-    <input ref="UserIDInput"
-           :placeholder="
+	<h2 en-US>Sign In</h2>
+	<h2 zh-CN>登录</h2>
+	<input ref="UserIDInput"
+		   :placeholder="
 				intl({
 					'en-US': 'ID, Cell or Email',
 					'zh-CN': 'ID / 电话 / 邮箱',
 				})
 			"
-           spellcheck="false"
-           @focus="login_ID_Valid = null"
-           @blur="login_ID_Valid = validate_ID()"
-           :class="[
+		   spellcheck="false"
+		   @focus="login_ID_Valid = null"
+		   @blur="login_ID_Valid = validate_ID()"
+		   :class="[
 				login_ID_Valid === null
 					? ''
 					: login_ID_Valid
 					? 'valid'
 					: 'invalid',
 			]"
-           @keydown.enter="this.$refs.PasswordInput.focus()" />
-    <input ref="PasswordInput"
-           :placeholder="
+		   @keydown.enter="this.$refs.PasswordInput.focus()" />
+	<input ref="PasswordInput"
+		   :placeholder="
 				intl(login_Successful === false
 					? {
 							'en-US': 'Invalid Credentials',
@@ -36,36 +36,36 @@ import Button from '/components/Button.vue'
 							'zh-CN': '密码',
 					  })
 			"
-           type="password"
-           @focus="login_Password_Valid = null"
-           @blur="login_Password_Valid = validate_Password()"
-           :class="[
+		   type="password"
+		   @focus="login_Password_Valid = null"
+		   @blur="login_Password_Valid = validate_Password()"
+		   :class="[
 				(login_Password_Valid || login_Successful) === null
 					? ''
 					: login_Password_Valid || login_Successful
 					? 'valid'
 					: 'invalid',
 			]"
-           @keydown.enter="login()" />
-    <div style="
+		   @keydown.enter="login()" />
+	<div style="
 				display: flex;
 				justify-content: end;
 				font-size: 1rem;
 				--button-margin: 0;
 				--button-padding: 0.5em 1.2em;
 			">
-      <Button type="link"
-              name="Apply" />
-      <span style="flex-grow: 1"></span>
-      <Button type="solid green"
-              :name="
+	  <Button type="link"
+			  name="Apply" />
+	  <span style="flex-grow: 1"></span>
+	  <Button type="solid green"
+			  :name="
 					intl({
 						'en-US': 'Login',
 						'zh-CN': '登录',
 					})
 				"
-              @click="login()" />
-    </div>
+			  @click="login()" />
+	</div>
   </div>
 </template>
 
@@ -76,57 +76,57 @@ import { intl } from '/util/env.js'
 export default {
   emits: ['show-pane', 'back'],
   data() {
-    return {
-      _popup_: {
-        ID: 0,
-        show: false,
-      },
-      pend: false,
-      login_ID: '',
-      login_Password: '',
-      login_ID_Valid: null,
-      login_Password_Valid: null,
-      login_Successful: null,
-    }
+	return {
+	  _popup_: {
+		ID: 0,
+		show: false,
+	  },
+	  pend: false,
+	  login_ID: '',
+	  login_Password: '',
+	  login_ID_Valid: null,
+	  login_Password_Valid: null,
+	  login_Successful: null,
+	}
   },
   methods: {
-    intl,
-    login() {
-      this.pend = true
-      if (this.validate_ID() && this.validate_Password())
-        Session.login(
-          this.$refs.UserIDInput.value,
-          this.$refs.PasswordInput.value
-        ).then(({ login }) => {
-          this.pend = false
-          // Always clear password
-          this.login_Password = ''
-          if (!login) {
-            this.login_Successful = false
-          }
-        })
-      else {
-        alert('Invalid credentials')
-      }
-    },
-    validate_ID() {
-      const val = this.$refs.UserIDInput.value
-      if (typeof val === 'string' && val.trim().length >= 5) {
-        return true
-      } else {
-        if (val.trim().length) return false
-        else return null
-      }
-    },
-    validate_Password() {
-      const val = this.$refs.PasswordInput.value
-      if (typeof val === 'string' && val.length >= 5) {
-        return true
-      } else {
-        if (val.length) return false
-        else return null
-      }
-    },
+	intl,
+	login() {
+	  this.pend = true
+	  if (this.validate_ID() && this.validate_Password())
+		Session.login(
+		  this.$refs.UserIDInput.value,
+		  this.$refs.PasswordInput.value
+		).then(({ login }) => {
+		  this.pend = false
+		  // Always clear password
+		  this.login_Password = ''
+		  if (!login) {
+			this.login_Successful = false
+		  }
+		})
+	  else {
+		alert('Invalid credentials')
+	  }
+	},
+	validate_ID() {
+	  const val = this.$refs.UserIDInput.value
+	  if (typeof val === 'string' && val.trim().length >= 5) {
+		return true
+	  } else {
+		if (val.trim().length) return false
+		else return null
+	  }
+	},
+	validate_Password() {
+	  const val = this.$refs.PasswordInput.value
+	  if (typeof val === 'string' && val.length >= 5) {
+		return true
+	  } else {
+		if (val.length) return false
+		else return null
+	  }
+	},
   },
 }
 </script>

@@ -3,6 +3,7 @@
 import MobileTitleBar from "/components/MobileTitleBar.vue";
 import NaviBar from "./NaviBar.vue";
 import Progress from "./Progress.vue";
+import popup from "./Common/popup.vue";
 // Form Components
 import Step_0 from "./Steps/0.Blank.vue";
 import Step_1 from "./Steps/1.BasicInfo.vue";
@@ -55,10 +56,10 @@ import Step_4 from "./Steps/4.Confirm.vue";
 					:step="step"
 					:class="contentScrolled ? 'shadow' : ''"
 					:steps="[
-						{ 'zh-CN': '基本信息','en-US': 'Basic information' },	
-						{ 'zh-CN': '身份选择' ,'en-US': 'Identity selection'},
-						{ 'zh-CN': '详细信息' ,'en-US':'Detailed information'},
-						{ 'zh-CN': '确认并提交','en-US':'Confirm submission' },
+						{ 'zh-CN': '基本信息', 'en-US': 'Basic Info' },
+						{ 'zh-CN': '身份选择', 'en-US': 'Identity' },
+						{ 'zh-CN': '详细信息', 'en-US': 'Detail Info' },
+						{ 'zh-CN': '确认并提交', 'en-US': 'Confirm' },
 					]"
 					@update-height="(height) => (this.contentTop = height)"
 				/>
@@ -67,8 +68,9 @@ import Step_4 from "./Steps/4.Confirm.vue";
 						<component
 							:is="el"
 							@update="update"
-							:identity="this.formData.identity"
+							:identity="formData.identity"
 							:formData="formData"
+							:displayFormData="displayFormData"
 							:renderData="renderData"
 							@scroll="
 								(e) =>
@@ -90,13 +92,16 @@ import Step_4 from "./Steps/4.Confirm.vue";
 				@forward="step++"
 				@back="step--"
 				@submit="submit"
+				:submitData="submitData"
 			/>
+			<popup ref="pop" :submitData="submitData" v-if="submitData"></popup>
 		</div>
 	</span>
 </template>
 
 <script>
 import { intl, env } from "/util/env.js";
+import { formData as _formData } from "../formData.json";
 
 export default {
 	components: { NaviBar, Progress },
@@ -128,6 +133,7 @@ export default {
 				institutionAltName: "",
 			},
 			viewSpace: "0px",
+			submitData: null,
 		};
 	},
 	computed: {
@@ -147,7 +153,8 @@ export default {
 					this.renderData.cellValid &&
 					this.renderData.mailValid,
 				this.formData.identity,
-				this.formData.institution &&
+				(this.formData.institution ||
+					this.formData.institutionAltName) &&
 					(this.formData.identity === "student"
 						? this.formData.direction.length && this.formData.major
 						: this.formData.identity === "teacher"
@@ -155,6 +162,75 @@ export default {
 						: this.formData.major),
 				true,
 			][this.step];
+		},
+		filteredFormData() {
+			let {
+				name,
+				cell,
+				mail,
+				identity,
+				institution,
+				institutionAltName,
+				direction,
+				faculty,
+				title,
+				major,
+				resume,
+				remark,
+			} = this.formData;
+			if (identity === "student") {
+				return {
+					name,
+					cell,
+					mail,
+					identity,
+					institution,
+					institutionAltName,
+					direction,
+					major,
+					resume,
+					remark,
+				};
+			} else if (identity === "teacher") {
+				return {
+					name,
+					cell,
+					mail,
+					identity,
+					institution,
+					institutionAltName,
+					faculty,
+					title,
+					remark,
+				};
+			} else {
+				return {
+					name,
+					cell,
+					mail,
+					identity,
+					institution,
+					institutionAltName,
+					major,
+					resume,
+					remark,
+				};
+			}
+		},
+		displayFormData() {
+			const formData = Object.assign({}, this.filteredFormData);
+			if ("institution" in formData) {
+				formData.institution = formData.institution
+					? Object.values(formData.institution)
+					: formData.institutionAltName;
+			}
+			if ("direction" in formData) {
+				formData.direction = formData.direction.map((dir) => {
+					console.log(dir, _formData.directions[dir]);
+					return _formData.directions[dir];
+				});
+			}
+			return formData;
 		},
 	},
 	methods: {
@@ -166,18 +242,27 @@ export default {
 			this.$forceUpdate();
 		},
 		async submit() {
-			let data = Object.assign({}, this.formData);
-			if (!!this.formData.resume) {
+			let data = Object.assign({}, this.filteredFormData);
+			if (!!data.resume) {
 				data.resume = await new Promise((resolve, reject) => {
 					var reader = new FileReader();
-					reader.readAsBinaryString(this.formData.resume);
+					reader.readAsBinaryString(data.resume);
 					reader.onload = function (e) {
 						var urlData = this.result;
 						resolve(btoa(urlData));
 					};
 				});
 			}
-			console.log(data);
+			console.log(JSON.stringify(data, null, 4));
+			if (!!data.institution) {
+				data.institution = Object.keys(data.institution)[0];
+			}
+			fetch("http://api.ysyx.org:8100/apply/submit", {
+				method: "POST",
+				body: JSON.stringify(data),
+			})
+				.then((res) => res.json())
+				.then((data) => (this.submitData = data));
 		},
 		updateViewSpace() {
 			console.log(

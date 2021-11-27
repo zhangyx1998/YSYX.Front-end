@@ -1,4 +1,5 @@
 <script setup>
+import DirectTextareaEntry from "../Common/DirectTextareaEntry.vue"
 import DirectInputEntry from "../Common/DirectInputEntry.vue";
 import RadioCard from "../Common/RadioCard.vue";
 import Checkbox from "../../../components/Checkbox.vue";
@@ -20,25 +21,13 @@ defineProps({
 				@update-alt="
 					(val) => this.$emit('update', 'institutionAltName', val)
 				"
-				>{{
-					intl({
-						"en-US": "Institution",
-						"zh-CN": "所属学校或机构",
-					})
-				}}</SearchEntry
-			>
+				/>
 			<DirectInputEntry
 				v-if="identity === 'ta' || identity === 'student'"
 				:validate="(val) => !!val"
-				property="Major"
+				property="major"
 				@update="(val) => this.$emit('update', 'major', val)"
-				>{{
-					intl({
-						"en-US": "Major",
-						"zh-CN": "专业",
-					})
-				}}</DirectInputEntry
-			>
+				/>
 			<div Entry style="display: block" v-if="identity === 'student'">
 				<div title>
 					{{
@@ -50,13 +39,13 @@ defineProps({
 				</div>
 				<Checkbox
 					@click="
-						direction.indexOf('architectureDesign') > -1
+						direction.indexOf('arch') > -1
 							? (direction = direction.filter(
-									(item) => item !== 'architectureDesign'
+									(item) => item !== 'arch'
 							  ))
-							: direction.push('architectureDesign')
+							: direction.push('arch')
 					"
-					:selected="direction.indexOf('architectureDesign') > -1"
+					:selected="direction.indexOf('arch') > -1"
 					>{{
 						intl({
 							"en-US": "System architecture design",
@@ -118,49 +107,21 @@ defineProps({
 				:validate="(val) => !!val"
 				property="faculty"
 				@update="(val) => this.$emit('update', 'faculty', val)"
-			>
-				<span>{{
-					intl({
-						"en-US": "Faculty",
-						"zh-CN": "所属学院",
-					})
-				}}</span>
-			</DirectInputEntry>
+			/>
+				
 			<DirectInputEntry
 				v-if="identity === 'teacher'"
 				:validate="(val) => !!val"
 				property="Title"
 				@update="(val) => this.$emit('update', 'title', val)"
-			>
-				<span>{{
-					intl({
-						"en-US": "Title",
-						"zh-CN": "职称",
-					})
-				}}</span>
-			</DirectInputEntry>
-
-			<DirectInputEntry
-				:validate="(val) => true"
-				property="Remark"
-				@update="(val) => this.$emit('update', 'remark', val)"
-			>
-				<span>{{
-					intl({
-						"en-US": "Remark (Optional)",
-						"zh-CN": "备注 (可选)",
-					})
-				}}</span>
-			</DirectInputEntry>
+			/>
 			<Resume @update="(val) => this.$emit('update', 'resume', val)"
-			v-if="identity === 'student' || identity === 'ta'">
-				<span>{{
-					intl({
-						"en-US": "Resume (Optional)",
-						"zh-CN": "简历 (可选)",
-					})
-				}}</span>
-			</Resume>
+			v-if="identity === 'student' || identity === 'ta'" />
+			<DirectTextareaEntry
+				:validate="(val) => true"
+				property="remark"
+				@update="(val) => this.$emit('update', 'remark', val)"
+			/>
 		</div>
 	</div>
 </template>

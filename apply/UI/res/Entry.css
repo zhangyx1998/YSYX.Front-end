@@ -1,14 +1,15 @@
 input,
+textarea,
 [input] {
 	/* Layout */
 	width: 100%;
-    font-size: 14px;
-    box-sizing: border-box;
-    padding: 11px 12px;
+	font-size: 14px;
+	box-sizing: border-box;
+	padding: 11px 12px;
 	/* Appearance */
 	outline: none;
-    border: 1px solid var(--gray-border);
-    border-radius: 6px;
+	border: 1px solid var(--gray-border);
+	border-radius: 6px;
 	background-color: var(--white-brighter) !important;
 }
 
@@ -16,4 +17,8 @@ input,
 	padding: 0.4em 0;
 	margin-bottom: 8px !important;
 	font-size: 0.8em;
+}
+
+textarea{
+	min-height: 3em;
 }

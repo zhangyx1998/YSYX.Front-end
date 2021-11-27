@@ -17,7 +17,7 @@ import Button from "/components/Button.vue";
 					--button-margin: 0;
 				"
 			>
-				<!-- <span styl      e="margin-right: 0.6em">
+				<!-- <span style="margin-right: 0.6em">
 					<h4 zh-CN>语言</h4>
 					<h4 en-US>Language</h4>
 				</span> -->
