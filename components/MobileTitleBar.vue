@@ -9,7 +9,7 @@ defineProps({
 
 <template>
 	<div TitleBar ref="TitleBar">
-		<div navi style="justify-content: flex-start">
+		<div side-space style="justify-content: flex-start">
 			<slot name="left"></slot>
 		</div>
 		<div title>
@@ -24,7 +24,7 @@ defineProps({
 				>{{ title.trim() }}<slot></slot></span
 			>
 		</transition>
-		<div navi style="justify-content: flex-end">
+		<div side-space style="justify-content: flex-end">
 			<slot name="right"></slot>
 		</div>
 	</div>
@@ -66,7 +66,7 @@ h1 {
 	color: var(--accent);
 }
 
-[navi] {
+[side-space] {
 	padding: var(--padding-small);
 	height: 100%;
 	display: flex;
