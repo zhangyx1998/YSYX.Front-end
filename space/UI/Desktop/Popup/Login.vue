@@ -34,21 +34,12 @@ import Button from "/components/Button.vue";
 					intl(
 						login_Successful === false
 							? {
-<<<<<<< HEAD
 									'en-US': 'Invalid Credentials',
 									'zh-CN': '无效的用户名或密码',
 							  }
 							: {
 									'en-US': 'Password',
 									'zh-CN': '密码',
-=======
-								  'en-US': 'Invalid Credentials',
-								  'zh-CN': '无效的用户名或密码',
-							  }
-							: {
-								  'en-US': 'Password',
-								  'zh-CN': '密码',
->>>>>>> feature-apply
 							  }
 					)
 				"
