@@ -24,11 +24,12 @@ import Responsive from "/components/Responsive.vue";
 }
 
 .name-container {
+	color: var(--gray-dark);
 	font-size: 1.1em;
 }
 .des-container {
 	font-size: 0.8em;
-	color: var(--accent-dark);
+	color: var(--gray-dark);
 	margin: var(--padding-small) 0;
 }
 </style>

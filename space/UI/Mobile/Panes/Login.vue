@@ -29,15 +29,17 @@ import Button from "/components/Button.vue";
 		<input
 			ref="PasswordInput"
 			:placeholder="
-				intl(login_Successful === false
-					? {
-							'en-US': 'Invalid Credentials',
-							'zh-CN': '无效的用户名或密码',
-					  }
-					: {
-							'en-US': 'Password',
-							'zh-CN': '密码',
-					  })
+				intl(
+					login_Successful === false
+						? {
+								'en-US': 'Invalid Credentials',
+								'zh-CN': '无效的用户名或密码',
+						  }
+						: {
+								'en-US': 'Password',
+								'zh-CN': '密码',
+						  }
+				)
 			"
 			type="password"
 			@focus="login_Password_Valid = null"
@@ -152,7 +154,7 @@ export default {
 	justify-content: center;
 	flex-grow: 1;
 	font-size: 1.6em;
-	/* Appearence */
+	/* Appearance */
 	padding: var(--padding-large);
 	padding-bottom: calc(var(--padding-large) + var(--mobile-titlebar-height));
 }
