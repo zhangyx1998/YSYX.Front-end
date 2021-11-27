@@ -103,5 +103,5 @@ env.on('update', () => {
 })
 
 window.addEventListener('resize', () => env.call('update'));
-
 window.env = env;
+env.call('update');
